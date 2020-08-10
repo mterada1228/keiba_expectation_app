@@ -1,0 +1,2 @@
+class Hose < ApplicationRecord
+end
