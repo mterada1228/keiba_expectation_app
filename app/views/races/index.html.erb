@@ -1,0 +1,21 @@
+<div class="container">
+    <h2>レース一覧</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">レースID</th>
+                <th scope="col">開催日</th>
+                <th scope="col">レース名</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @races.each do |race|  %>
+                <tr>
+                    <td><%= race.race_id %></td>
+                    <td><%= race.race_date %></td>
+                    <td><%= link_to race.race_name, race %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
