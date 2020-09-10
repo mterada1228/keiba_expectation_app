@@ -16,31 +16,43 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">レースID</th>
+                <th scope="col">枠番</th>
+                <th scope="col">馬番</th>
+                <th scope="col">オッズ</th>
+                <th scope="col">人気</th>
+                <th scope="col">順位</th>
+                <th scope="col">騎手</th>
+                <th scope="col">斤量</th>
+                <th scope="col">タイム</th>
+                <th scope="col">着差</th>
+                <th scope="col">通過順</th>
+                <th scope="col">後半3F</th>
+                <th scope="col">馬体重</th>
+                <th scope="col">増減</th>
+                <th scope="col">賞金</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
+            <% @hose.hoseRaceResults.each do |result| %>
+                <tr>
+                    <td><%= result.race_id %></td>
+                    <td><%= result.gate_num %></td>
+                    <td><%= result.hose_num %></td>
+                    <td><%= result.odds %></td>
+                    <td><%= result.popularity %></td>
+                    <td><%= result.rank %></td>
+                    <td><%= result.jockey %></td>
+                    <td><%= result.burden_weight %></td>
+                    <td><%= result.time %></td>
+                    <td><%= result.time_diff %></td>
+                    <td><%= result.passing_order %></td>
+                    <td><%= result.last_3f %></td>
+                    <td><%= result.hose_weight %></td>
+                    <td><%= result.hose_weight_diff %></td>
+                    <td><%= result.get_prize %></td>
+                </tr>
+            <% end %>
         </tbody>
     </table>
 </div>

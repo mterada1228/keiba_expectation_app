@@ -1,0 +1,19 @@
+<div class="container">
+    <h2>競走馬一覧</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">競走馬ID</th>
+                <th scope="col">馬名</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @hoses.each do |hose|  %>
+                <tr>
+                    <td><%= hose.id %></td>
+                    <td><%= link_to hose.name, hose %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

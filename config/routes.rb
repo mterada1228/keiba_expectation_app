@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  resources :hoses
+  root to: 'hoses#index'
+  resources :hoses, only:[:index, :show]
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_11_124504) do
+ActiveRecord::Schema.define(version: 2020_09_09_233600) do
 
   create_table "hose_race_results", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "hose_id"
@@ -35,6 +35,49 @@ ActiveRecord::Schema.define(version: 2020_08_11_124504) do
 
   create_table "hoses", primary_key: "hose_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "race_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "cource_id"
+    t.string "cource_length"
+    t.date "date"
+    t.string "cource_type"
+    t.string "cource_condition"
+    t.string "entire_rap"
+    t.float "ave_1F"
+    t.float "first_half_ave_3F"
+    t.float "last_half_ave_3"
+    t.float "RPCI"
+    t.string "prize"
+    t.string "hose_all_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "races", primary_key: "race_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "race_date"
+    t.string "race_cource"
+    t.string "round"
+    t.string "race_name"
+    t.string "grade"
+    t.string "start_time"
+    t.string "cource_type"
+    t.string "distance"
+    t.string "turn"
+    t.string "side"
+    t.string "days"
+    t.string "regulation1"
+    t.string "regulation2"
+    t.string "regulation3"
+    t.string "regulation4"
+    t.string "prize1"
+    t.string "prize2"
+    t.string "prize3"
+    t.string "prize4"
+    t.string "prize5"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
