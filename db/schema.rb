@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2020_09_11_002522) do
 
-  create_table "hose_race_results", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "hose_race_results", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "hose_id"
     t.string "race_id"
     t.string "gate_num"
@@ -33,13 +33,13 @@ ActiveRecord::Schema.define(version: 2020_09_11_002522) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "hoses", primary_key: "hose_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "hoses", primary_key: "hose_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_hoses", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "race_hoses", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "race_id"
     t.string "hose_id"
     t.string "gate_num"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_002522) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "race_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "cource_id"
     t.string "cource_length"
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_002522) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "races", primary_key: "race_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "races", primary_key: "race_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "race_date"
     t.string "race_cource"
     t.string "round"
