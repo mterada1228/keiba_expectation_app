@@ -26,5 +26,4 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  url: postgres://ieyrutiplidged:efb177262cbd2360942202d0b9d2c91dbff9c2a346dd6ae464f4753cf5d857eb@ec2-54-158-222-248.compute-1.amazonaws.com:5432/d9c9qim5bhf600
