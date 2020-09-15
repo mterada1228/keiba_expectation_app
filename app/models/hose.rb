@@ -1,4 +1,4 @@
 class Hose < ApplicationRecord
     has_many :hoseRaceResults
-    has_many :race_hose
+    has_many :raceHoses
 end
