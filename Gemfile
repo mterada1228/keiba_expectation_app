@@ -60,3 +60,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # DBのデータをseedsに変換
 gem 'seed_dump'
+
+# グラフツール
+gem "chartkick"
