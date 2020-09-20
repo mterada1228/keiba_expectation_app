@@ -4,7 +4,7 @@
             <%= @horse.name %>
         </div>
         <div class="scatter">
-            <%= scatter_chart @ploted_data, xtitle: 'RPCI', ytitle: 'ave1F',
+            <%= scatter_chart @data_to_be_plotted, xtitle: 'RPCI', ytitle: 'ave1F',
              legend: false, min: 10, max: 14 %>
         </div>
     </div>
