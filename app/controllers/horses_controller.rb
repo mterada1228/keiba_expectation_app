@@ -10,19 +10,19 @@ class HorsesController < ApplicationController
 
   private
 
-  def createPlotedData(hose_race_results)
+  def createPlotedData(horse_race_results)
     ploted_data = []
-    racesWin(hose_race_results).each do |hose_race_result|
-      race_result = hose_race_result.race_result
+    racesWin(horse_race_results).each do |horse_race_result|
+      race_result = horse_race_result.race_result
       ploted_data.push({name: race_result.name, 
                         data: [[race_result.RPCI, race_result.ave_1F]],
-                        color: "#b00"
+                        color: "#ffff00"
       })
     end
     ploted_data
   end
 
-  def racesWin(hose_race_results)
-    #TODO 優勝データのみ抽出する
+  def racesWin(horse_race_results)
+    horse_race_results.select { |horse_race_result| horse_race_result.rank == '1' }
   end
 end
