@@ -8,10 +8,10 @@
             </tr>
         </thead>
         <tbody>
-            <% @hoses.each do |hose|  %>
+            <% @horses.each do |horse|  %>
                 <tr>
-                    <td><%= hose.id %></td>
-                    <td><%= link_to hose.name, hose %></td>
+                    <td><%= horse.id %></td>
+                    <td><%= link_to horse.name, horse %></td>
                 </tr>
             <% end %>
         </tbody>

@@ -11,7 +11,7 @@
         <tbody>
             <% @races.each do |race|  %>
                 <tr>
-                    <td><%= race.race_id %></td>
+                    <td><%= race.id %></td>
                     <td><%= race.race_date %></td>
                     <td><%= link_to race.race_name, race %></td>
                 </tr>

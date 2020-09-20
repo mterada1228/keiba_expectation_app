@@ -5,8 +5,8 @@ class RacesController < ApplicationController
 
   def show
     @race = Race.find(params[:id])
-    @race_hoses = @race.raceHoses.sort do
-      |a,b| a[:hose_num].to_i <=> b[:hose_num].to_i
+    @race_horses = @race.race_horses.sort do
+      |a,b| a[:horse_number].to_i <=> b[:horse_number].to_i
     end 
   end
 end
