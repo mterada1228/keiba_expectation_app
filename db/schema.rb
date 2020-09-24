@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2020_09_24_030442) do
 
-  create_table "horse_race_results", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "horse_race_results", id: false, force: :cascade do |t|
     t.string "horse_id"
     t.string "race_result_id"
     t.string "gate_num"
@@ -33,7 +33,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_030442) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "horses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "horses", id: false, force: :cascade do |t|
+    t.integer "id", null: false
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -48,7 +49,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_030442) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "race_results", force: :cascade do |t|
     t.string "name"
     t.string "cource_id"
     t.string "cource_length"
@@ -66,7 +67,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_030442) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "races", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "races", id: false, force: :cascade do |t|
+    t.integer "id", null: false
     t.string "race_date"
     t.string "race_cource"
     t.string "round"
