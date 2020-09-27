@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Races', type: :request do
-  let(:race) { FactoryGirl.create(:race) } 
+  let(:race) { FactoryGirl.create(:race) }
 
   describe 'Get#index' do
     it 'リクエストに正常に応答できること' do
@@ -12,7 +12,7 @@ RSpec.describe 'Races', type: :request do
 
   describe 'Get#show' do
     it 'リクエストに正常に応答できること' do
-      get races_path(race)
+      get race_path(race)
       expect(response).to be_successful
     end
   end
