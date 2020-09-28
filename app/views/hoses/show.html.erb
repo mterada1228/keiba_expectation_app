@@ -1,7 +1,7 @@
 <div class="container">
     <div class="card text-center">
         <div class="card-header">
-            <%= @horse.name %>
+            <%= @hose.name %>
         </div>
         <div class="card-body">
             <h5 class="card-title">Special title treatment</h5>
@@ -33,11 +33,11 @@
             </tr>
         </thead>
         <tbody>
-            <% @horse.horse_race_results.each do |result| %>
+            <% @hose.hoseRaceResults.each do |result| %>
                 <tr>
                     <td><%= result.race_result.name %></td>
                     <td><%= result.gate_num %></td>
-                    <td><%= result.horse_number %></td>
+                    <td><%= result.hose_num %></td>
                     <td><%= result.odds %></td>
                     <td><%= result.popularity %></td>
                     <td><%= result.rank %></td>
@@ -47,8 +47,8 @@
                     <td><%= result.time_diff %></td>
                     <td><%= result.passing_order %></td>
                     <td><%= result.last_3f %></td>
-                    <td><%= result.horse_weight %></td>
-                    <td><%= result.difference_in_horse_weight %></td>
+                    <td><%= result.hose_weight %></td>
+                    <td><%= result.hose_weight_diff %></td>
                     <td><%= result.get_prize %></td>
                 </tr>
             <% end %>

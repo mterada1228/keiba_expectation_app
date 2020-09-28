@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe HorseRaceResult, type: :model do
+RSpec.describe HoseRaceResult, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
