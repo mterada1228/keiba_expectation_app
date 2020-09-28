@@ -3,13 +3,28 @@
     <div class="card-header">
       <%= @race.race_name %>
     </div>
-    <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-    <div class="card-footer text-muted">
-      2 days ago
+    <div class="card-body race-description">
+      <p class="card-text"><%= race_description_row1(@race) %></p>
+      <p class="card-text"><%= race_description_row2(@race) %></p>
+      <p class="card-text">賞金 : <%= race_description_row3(@race) %></p>
     </div>
   </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">枠番</th>
+        <th scope="col">馬番</th>
+        <th scope="col">馬名</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @race_horses.each do |race_horse| %>
+        <tr>
+          <td><%= race_horse.gate_num %></td>
+          <td><%= race_horse.horse_number %></td>
+          <td><%= link_to race_horse.horse.name, race_horse.horse %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
