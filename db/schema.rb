@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_030442) do
+ActiveRecord::Schema.define(version: 2020_09_28_000817) do
 
   create_table "horse_race_results", id: false, force: :cascade do |t|
     t.string "horse_id"
@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_030442) do
   end
 
   create_table "race_horses", force: :cascade do |t|
-    t.string "race_id"
-    t.string "horse_id"
+    t.integer "race_id"
+    t.bigint "horse_id"
     t.string "gate_num"
     t.string "horse_number"
     t.datetime "created_at", precision: 6, null: false
