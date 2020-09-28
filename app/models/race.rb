@@ -1,4 +1,8 @@
+#
+# Race Model
+#
 class Race < ApplicationRecord
   has_many :race_horses
-end
 
+  self.primary_key = :id
+end

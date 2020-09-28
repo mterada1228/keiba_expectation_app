@@ -7,9 +7,9 @@ module RacesHelper
   def race_description_row2(race)
     row2 = []
     row2 << race[:cource_type]
-    row2 << race[:distance] + 'm'
+    row2 << "#{race[:distance]}m"
     row2.concat(race.slice(:turn, :side, :regulation1, :regulation2, :regulation3, :regulation4).values)
-    row2.reject(&:empty?).join(' ')
+    row2.reject(&:blank?).join(' ')
   end
 
   def race_description_row3(race)
