@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2020_09_28_000817) do
-
   create_table "horse_race_results", id: false, force: :cascade do |t|
     t.string "horse_id"
     t.string "race_result_id"
