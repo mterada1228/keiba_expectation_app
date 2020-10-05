@@ -1,3 +1,6 @@
+#
+# Horses Controller
+#
 class HorsesController < ApplicationController
   def index
     @horses = Horse.all
@@ -5,6 +8,7 @@ class HorsesController < ApplicationController
 
   def show
     @horse = Horse.find(params[:id])
-    @data_to_be_plotted = @horse.plot_data
+    generate_graph_point_service = GenerateGraphPointsService.new(@horse)
+    @graph_points = generate_graph_point_service.generate_graph_points
   end
 end
