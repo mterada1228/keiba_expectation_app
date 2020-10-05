@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_28_000817) do
-  create_table "horse_race_results", id: false, force: :cascade do |t|
-    t.string "horse_id"
-    t.string "race_result_id"
+ActiveRecord::Schema.define(version: 2020_10_05_024008) do
+
+  create_table "horse_race_results", primary_key: ["horse_id", "race_result_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "horse_id", null: false
+    t.string "race_result_id", null: false
     t.string "gate_num"
     t.string "horse_number"
     t.string "odds"
@@ -32,23 +33,22 @@ ActiveRecord::Schema.define(version: 2020_09_28_000817) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "horses", id: false, force: :cascade do |t|
-    t.integer "id", null: false
+  create_table "horses", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_horses", force: :cascade do |t|
-    t.integer "race_id"
-    t.bigint "horse_id"
+  create_table "race_horses", primary_key: ["race_id", "horse_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "race_id", null: false
+    t.bigint "horse_id", null: false
     t.string "gate_num"
     t.string "horse_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_results", force: :cascade do |t|
+  create_table "race_results", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "cource_id"
     t.string "cource_length"
@@ -66,8 +66,7 @@ ActiveRecord::Schema.define(version: 2020_09_28_000817) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "races", id: false, force: :cascade do |t|
-    t.integer "id", null: false
+  create_table "races", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "race_date"
     t.string "race_cource"
     t.string "round"

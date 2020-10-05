@@ -14,9 +14,11 @@ RSpec.describe Race, type: :model do
     it '馬番の昇順でソートされていること' do
       race_horses = race.race_horses_sorted_by_horse_number
 
-      expect(race_horses[0]).to eq(race_horse3)
-      expect(race_horses[1]).to eq(race_horse1)
-      expect(race_horses[2]).to eq(race_horse2)
+      aggregate_failures do
+        expect(race_horses[0].horse_number).to eq('1')
+        expect(race_horses[1].horse_number).to eq('3')
+        expect(race_horses[2].horse_number).to eq('5')
+      end
     end
   end
 end
