@@ -7,8 +7,9 @@ class HorsesController < ApplicationController
   end
 
   def show
-    @horse = Horse.find(params[:id])
-    generate_graph_point_service = GenerateGraphPointsService.new(@horse)
-    @graph_points = generate_graph_point_service.generate_graph_points
+    @horse = Horse.preload([:horse_race_results,
+                            { horse_race_results: :race_result }
+                           ]).find(params[:id])
+    @graph_points = GenerateGraphPointsService.new(@horse).call
   end
 end
