@@ -11,9 +11,9 @@ class GenerateGraphPointsService
     @horse = horse
   end
 
-  def generate_graph_points
+  def call
     horse_race_results.map do |horse_race_result|
-      graph_points(horse_race_result)
+      generate_graph_point(horse_race_result)
     end
   end
 
@@ -25,7 +25,7 @@ class GenerateGraphPointsService
     horse.horse_race_results
   end
 
-  def graph_points(horse_race_result)
+  def generate_graph_point(horse_race_result)
     if horse_race_result.rank == '1'
       color = WINNED_RACES_COLOR
     elsif horse_race_result.time_diff.to_f <= 0.2
