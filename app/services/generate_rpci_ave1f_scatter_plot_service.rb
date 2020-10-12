@@ -2,10 +2,10 @@
 # create graph plot of horse model
 #
 class GenerateRpciAve1fScatterPlotService
-  WINNED_RACES_COLOR = '#FFFF00' # yellow
-  RACES_LOST_BY_0_POINT_2_SECONDS_COLOR = '#008000' # green
-  RACES_LOST_BY_1_SECOND_COLOR = '#0000FF' # blue
-  RACES_LOST_BY_MORE_THAN_1_SECOND = '#A9A9A9' # gray
+  WON_RACE_COLOR = '#FFFF00' # yellow
+  RACE_LOST_BY_0_POINT_2_SECONDS_COLOR = '#008000' # green
+  RACE_LOST_BY_1_SECOND_COLOR = '#0000FF' # blue
+  RACE_LOST_BY_MORE_THAN_1_SECOND_COLOR = '#A9A9A9' # gray
 
   def initialize(horse)
     @horse = horse
@@ -13,7 +13,7 @@ class GenerateRpciAve1fScatterPlotService
 
   def call
     horse_race_results.map do |horse_race_result|
-      generate_graph_point(horse_race_result)
+      generate_scatter_plot(horse_race_result)
     end
   end
 
@@ -39,13 +39,13 @@ class GenerateRpciAve1fScatterPlotService
 
   def scatter_plot_color(horse_race_result)
     if horse_race_result.rank == '1'
-      WON_RACES_COLOR
+      WON_RACE_COLOR
     elsif horse_race_result.time_diff.to_f <= 0.2
-      RACES_LOST_BY_0_POINT_2_SECONDS_COLOR
+      RACE_LOST_BY_0_POINT_2_SECONDS_COLOR
     elsif horse_race_result.time_diff.to_f <= 1.0
-      RACES_LOST_BY_1_SECOND_COLOR
+      RACE_LOST_BY_1_SECOND_COLOR
     else
-      RACES_LOST_BY_MORE_THAN_1_SECOND
+      RACE_LOST_BY_MORE_THAN_1_SECOND_COLOR
     end
   end
 end
