@@ -1,7 +1,7 @@
 #
 # create graph plot of horse model
 #
-class GenerateGraphPointsService
+class GenerateRpciAve1fScatterPlotService
   WINNED_RACES_COLOR = '#FFFF00' # yellow
   RACES_LOST_BY_0_POINT_2_SECONDS_COLOR = '#008000' # green
   RACES_LOST_BY_1_SECOND_COLOR = '#0000FF' # blue
@@ -25,7 +25,7 @@ class GenerateGraphPointsService
     horse.horse_race_results
   end
 
-  def generate_graph_point(horse_race_result)
+  def generate_scatter_plot(horse_race_result)
     if horse_race_result.rank == '1'
       color = WINNED_RACES_COLOR
     elsif horse_race_result.time_diff.to_f <= 0.2
@@ -36,10 +36,10 @@ class GenerateGraphPointsService
       color = RACES_LOST_BY_MORE_THAN_1_SECOND
     end
 
-    graph_point(horse_race_result, color)
+    scatter_plot(horse_race_result, color)
   end
 
-  def graph_point(horse_race_result, color)
+  def scatter_plot(horse_race_result, color)
     race_result = horse_race_result.race_result
 
     { name: race_result.name,

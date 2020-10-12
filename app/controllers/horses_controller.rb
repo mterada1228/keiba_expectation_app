@@ -7,7 +7,8 @@ class HorsesController < ApplicationController
   end
 
   def show
-    @horse = Horse.preload([:horse_race_results, { horse_race_results: :race_result }]).find(params[:id])
-    @graph_points = GenerateGraphPointsService.new(@horse).call
+    binding.pry
+    @horse = Horse.includes(:race_results).find(params[:id])
+    @graph_points = GenerateRpciAve1fScatterPlotService.new(@horse).call
   end
 end
