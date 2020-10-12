@@ -26,17 +26,7 @@ class GenerateRpciAve1fScatterPlotService
   end
 
   def generate_scatter_plot(horse_race_result)
-    if horse_race_result.rank == '1'
-      color = WINNED_RACES_COLOR
-    elsif horse_race_result.time_diff.to_f <= 0.2
-      color = RACES_LOST_BY_0_POINT_2_SECONDS_COLOR
-    elsif horse_race_result.time_diff.to_f <= 1.0
-      color = RACES_LOST_BY_1_SECOND_COLOR
-    else
-      color = RACES_LOST_BY_MORE_THAN_1_SECOND
-    end
-
-    scatter_plot(horse_race_result, color)
+    scatter_plot(horse_race_result, scatter_plot_color(horse_race_result))
   end
 
   def scatter_plot(horse_race_result, color)
@@ -45,5 +35,17 @@ class GenerateRpciAve1fScatterPlotService
     { name: race_result.name,
       data: [[race_result.RPCI, race_result.ave_1F]],
       color: color }
+  end
+
+  def scatter_plot_color(horse_race_result)
+    if horse_race_result.rank == '1'
+      WON_RACES_COLOR
+    elsif horse_race_result.time_diff.to_f <= 0.2
+      RACES_LOST_BY_0_POINT_2_SECONDS_COLOR
+    elsif horse_race_result.time_diff.to_f <= 1.0
+      RACES_LOST_BY_1_SECOND_COLOR
+    else
+      RACES_LOST_BY_MORE_THAN_1_SECOND
+    end
   end
 end
