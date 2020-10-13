@@ -15,6 +15,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th scope="col">日付</th>
                 <th scope="col">レース</th>
                 <th scope="col">枠番</th>
                 <th scope="col">馬番</th>
@@ -35,6 +36,7 @@
         <tbody>
             <% @horse.horse_race_results.each do |result| %>
                 <tr>
+                    <td><%= result.race_result.date %></td>
                     <td><%= result.race_result.name %></td>
                     <td><%= result.gate_num %></td>
                     <td><%= result.horse_number %></td>
