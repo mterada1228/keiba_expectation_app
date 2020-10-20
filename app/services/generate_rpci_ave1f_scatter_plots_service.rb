@@ -1,7 +1,7 @@
 #
 # create graph plot of horse model
 #
-class GenerateRpciAve1fScatterPlotService
+class GenerateRpciAve1fScatterPlotsService
   WON_RACE_COLOR = '#FFFF00' # yellow
   RACE_LOST_BY_0_POINT_2_SECONDS_COLOR = '#008000' # green
   RACE_LOST_BY_1_SECOND_COLOR = '#0000FF' # blue

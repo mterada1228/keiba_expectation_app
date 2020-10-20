@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :horse do
-    id { Faker::Number.number(digits: 10) }
+    sequence(:id) { |n| n }
+    name { Faker::Name.name }
   end
 end

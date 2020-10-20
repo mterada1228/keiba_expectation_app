@@ -19,7 +19,7 @@
     </thead>
     <tbody>
       <% @race_horses.each do |race_horse| %>
-        <tr>
+        <tr class="race_horse">
           <td><%= race_horse.gate_num %></td>
           <td><%= race_horse.horse_number %></td>
           <td><%= link_to race_horse.horse.name, race_horse.horse %></td>
