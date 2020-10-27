@@ -1,6 +1,6 @@
 class CreateHoseRaceResults < ActiveRecord::Migration[6.0]
   def change
-    create_table :hose_race_results, id: false, primary_key: [:hose_id, :race_id] do |t|
+    create_table :hose_race_results, :id => false, :primary_key => [:hose_id, :race_id] do |t|
       t.string :hose_id
       t.string :race_id
       t.string :gate_num         

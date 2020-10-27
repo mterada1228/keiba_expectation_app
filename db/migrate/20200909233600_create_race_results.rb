@@ -1,6 +1,6 @@
 class CreateRaceResults < ActiveRecord::Migration[6.0]
   def change
-    create_table :race_results, primary_key: :id do |t|
+    create_table :race_results, :primary_key => :id do |t|
       t.string :name
       t.string :cource_id
       t.string :cource_length

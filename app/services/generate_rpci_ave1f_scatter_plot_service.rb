@@ -32,9 +32,9 @@ class GenerateRpciAve1fScatterPlotService
   def scatter_plot(horse_race_result, color)
     race_result = horse_race_result.race_result
 
-    { name: race_result.name,
-      data: [[race_result.RPCI, race_result.ave_1F]],
-      color: color }
+    { :name => race_result.name,
+      :data => [[race_result.RPCI, race_result.ave_1F]],
+      :color => color }
   end
 
   def scatter_plot_color(horse_race_result)
