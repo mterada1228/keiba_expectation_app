@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-describe Race, type: :model do
+describe Race do
   pending "add some examples to (or delete) #{__FILE__}"
 end

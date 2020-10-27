@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-describe Horse, type: :model do
+describe Horse do
   # TODO Horseモデルのリレーションが取得可能であることのテストを追加する
 end

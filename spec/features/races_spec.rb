@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Races', type: :feature do
+feature 'Races' do
   feature 'index' do
     let!(:races) { create_list(:race, 5) }
 
@@ -26,10 +26,10 @@ feature 'Races', type: :feature do
        race.round].reject(&:blank?).join(' ')
     end
     let(:race_condition) do
-      [race.cource_type,
+      [I18n.t("enums.race.cource_type.#{race[:cource_type]}"),
        "#{race.distance}m",
-       race.turn,
-       race.side,
+       I18n.t("enums.race.turn.#{race[:turn]}"),
+       I18n.t("enums.race.side.#{race[:side]}"),
        race.regulation1,
        race.regulation2,
        race.regulation3,

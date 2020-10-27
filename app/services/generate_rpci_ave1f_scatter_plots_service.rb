@@ -2,10 +2,10 @@
 # create graph plot of horse model
 #
 class GenerateRpciAve1fScatterPlotsService
-  WON_RACE_COLOR = '#FFFF00' # yellow
-  RACE_LOST_BY_0_POINT_2_SECONDS_COLOR = '#008000' # green
-  RACE_LOST_BY_1_SECOND_COLOR = '#0000FF' # blue
-  RACE_LOST_BY_MORE_THAN_1_SECOND_COLOR = '#A9A9A9' # gray
+  WON_RACE_COLOR = '#FFFF00'.freeze # yellow
+  RACE_LOST_BY_0_POINT_2_SECONDS_COLOR = '#008000'.freeze # green
+  RACE_LOST_BY_1_SECOND_COLOR = '#0000FF'.freeze # blue
+  RACE_LOST_BY_MORE_THAN_1_SECOND_COLOR = '#A9A9A9'.freeze # gray
 
   def initialize(horse)
     @horse = horse
@@ -32,9 +32,9 @@ class GenerateRpciAve1fScatterPlotsService
   def scatter_plot(horse_race_result, color)
     race_result = horse_race_result.race_result
 
-    { :name => race_result.name,
-      :data => [[race_result.RPCI, race_result.ave_1F]],
-      :color => color }
+    { name: race_result.name,
+      data: [[race_result.RPCI, race_result.ave_1F]],
+      color: color }
   end
 
   def scatter_plot_color(horse_race_result)

@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20_200_918_000_737) do
+ActiveRecord::Schema.define(version: 20_201_027_083_029) do
 
-  create_table "horse_race_results", :id => false, :force => :cascade do |t|
+  create_table "horse_race_results", id: false, force: :cascade do |t|
     t.string "horse_id"
     t.string "race_result_id"
     t.string "gate_num"
@@ -29,27 +29,27 @@ ActiveRecord::Schema.define(:version => 20_200_918_000_737) do
     t.string "horse_weight"
     t.string "difference_in_horse_weight"
     t.string "get_prize"
-    t.datetime "created_at", :precision => 6, :null => false
-    t.datetime "updated_at", :precision => 6, :null => false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "horses", :id => false, :force => :cascade do |t|
-    t.integer "id", :null => false
+  create_table "horses", id: false, force: :cascade do |t|
+    t.integer "id", null: false
     t.string "name"
-    t.datetime "created_at", :precision => 6, :null => false
-    t.datetime "updated_at", :precision => 6, :null => false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_horses", :id => false, :force => :cascade do |t|
+  create_table "race_horses", id: false, force: :cascade do |t|
     t.string "race_id"
     t.string "horse_id"
     t.string "gate_num"
     t.string "horse_number"
-    t.datetime "created_at", :precision => 6, :null => false
-    t.datetime "updated_at", :precision => 6, :null => false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_results", :force => :cascade do |t|
+  create_table "race_results", force: :cascade do |t|
     t.string "name"
     t.string "cource_id"
     t.string "cource_length"
@@ -63,22 +63,22 @@ ActiveRecord::Schema.define(:version => 20_200_918_000_737) do
     t.float "RPCI"
     t.string "prize"
     t.string "horse_all_number"
-    t.datetime "created_at", :precision => 6, :null => false
-    t.datetime "updated_at", :precision => 6, :null => false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "races", :id => false, :force => :cascade do |t|
-    t.integer "id", :null => false
+  create_table "races", id: false, force: :cascade do |t|
+    t.integer "id", null: false
     t.string "race_date"
     t.string "race_cource"
     t.string "round"
     t.string "race_name"
     t.string "grade"
     t.string "start_time"
-    t.string "cource_type"
+    t.integer "cource_type"
     t.string "distance"
-    t.string "turn"
-    t.string "side"
+    t.integer "turn"
+    t.integer "side"
     t.string "days"
     t.string "regulation1"
     t.string "regulation2"
@@ -89,8 +89,8 @@ ActiveRecord::Schema.define(:version => 20_200_918_000_737) do
     t.string "prize3"
     t.string "prize4"
     t.string "prize5"
-    t.datetime "created_at", :precision => 6, :null => false
-    t.datetime "updated_at", :precision => 6, :null => false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end

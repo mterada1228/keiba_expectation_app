@@ -1,0 +1,17 @@
+ja:
+  enums:
+    race:
+      cource_type:
+        no_definition_of_cource_type: ''
+        turf: 芝   
+        dirt: ダ
+        hundle_race: 障
+      turn:
+        no_definition_of_turn: ''
+        right: 右
+        left: 左
+        straight: 直線
+      side:
+        no_definition_of_side: ''
+        inner_cource: 内
+        external_cource: 外
