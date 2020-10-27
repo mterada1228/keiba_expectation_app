@@ -1,26 +1,28 @@
 require 'rails_helper'
 
-RSpec.describe GenerateRpciAve1fScatterPlotService do
+describe GenerateRpciAve1fScatterPlotsService do
   let(:horse) { create(:horse) }
-  let(:race_result) do
-    create(:race_result, name: 'レース', RPCI: 50, ave_1F: 14)
-  end
+  let(:race_result) { create(:race_result) }
   let(:instance) { described_class.new(horse) }
 
   describe 'call' do
     subject(:scatter_plots) { instance.call }
 
-    it '競走馬に関連する全てのレース結果のプロットが得られる' do
-      create_list(:horse_race_result,
-                  5,
-                  horse: horse,
-                  race_result: race_result)
+    describe '複数のデータが想定通り取得できるかどうか' do
+      before do
+        create_list(:horse_race_result,
+                    5,
+                    horse: horse,
+                    race_result: race_result)
+      end
 
-      expect(scatter_plots.count).to eq(5)
+      it '競走馬に関連する全てのレース結果のプロットが得られる' do
+        expect(scatter_plots.count).to eq(5)
+      end
     end
 
     describe 'それぞれのプロットについてのテスト' do
-      let!(:horse_race_result) do
+      before do
         create(:horse_race_result, trait, horse: horse, race_result: race_result)
       end
 
@@ -29,8 +31,8 @@ RSpec.describe GenerateRpciAve1fScatterPlotService do
 
         it '黄色のプロットが作成される' do
           expect(scatter_plots[0])
-            .to eq(name: 'レース',
-                   data: [[50.0, 14.0]],
+            .to eq(name: race_result.name,
+                   data: [[race_result.RPCI, race_result.ave_1F]],
                    color: described_class::WON_RACE_COLOR)
         end
       end
@@ -40,8 +42,8 @@ RSpec.describe GenerateRpciAve1fScatterPlotService do
 
         it '緑色のプロットが作成される' do
           expect(scatter_plots[0])
-            .to eq(name: 'レース',
-                   data: [[50.0, 14.0]],
+            .to eq(name: race_result.name,
+                   data: [[race_result.RPCI, race_result.ave_1F]],
                    color: described_class::RACE_LOST_BY_0_POINT_2_SECONDS_COLOR)
         end
       end
@@ -51,8 +53,8 @@ RSpec.describe GenerateRpciAve1fScatterPlotService do
 
         it '青色のプロットが作成される' do
           expect(scatter_plots[0])
-            .to eq(name: 'レース',
-                   data: [[50.0, 14.0]],
+            .to eq(name: race_result.name,
+                   data: [[race_result.RPCI, race_result.ave_1F]],
                    color: described_class::RACE_LOST_BY_1_SECOND_COLOR)
         end
       end
@@ -62,8 +64,8 @@ RSpec.describe GenerateRpciAve1fScatterPlotService do
 
         it '灰色のプロットが作成される' do
           expect(scatter_plots[0])
-            .to eq(name: 'レース',
-                   data: [[50.0, 14.0]],
+            .to eq(name: race_result.name,
+                   data: [[race_result.RPCI, race_result.ave_1F]],
                    color: described_class::RACE_LOST_BY_MORE_THAN_1_SECOND_COLOR)
         end
       end

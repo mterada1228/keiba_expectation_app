@@ -8,6 +8,6 @@ class HorsesController < ApplicationController
 
   def show
     @horse = Horse.includes(:race_results).find(params[:id])
-    @graph_points = GenerateRpciAve1fScatterPlotService.new(@horse).call
+    @graph_points = GenerateRpciAve1fScatterPlotsService.new(@horse).call
   end
 end
