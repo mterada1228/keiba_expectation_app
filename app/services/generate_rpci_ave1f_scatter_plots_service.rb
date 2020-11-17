@@ -38,7 +38,7 @@ class GenerateRpciAve1fScatterPlotsService
   end
 
   def scatter_plot_color(horse_race_result)
-    if horse_race_result.rank == '1'
+    if horse_race_result.order_of_arrival == '1'
       WON_RACE_COLOR
     elsif horse_race_result.time_diff.to_f <= 0.2
       RACE_LOST_BY_0_POINT_2_SECONDS_COLOR

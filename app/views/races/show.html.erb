@@ -1,7 +1,7 @@
 <div class="container">
   <div class="card text-center">
     <div class="card-header">
-      <%= @race.race_name %>
+      <%= @race.name %>
     </div>
     <div class="card-body race-description">
       <p class="card-text"><%= race_schedule(@race) %></p>
@@ -20,7 +20,7 @@
     <tbody>
       <% @race_horses.each do |race_horse| %>
         <tr class="race_horse">
-          <td><%= race_horse.gate_num %></td>
+          <td><%= race_horse.gate_number %></td>
           <td><%= race_horse.horse_number %></td>
           <td><%= link_to race_horse.horse.name, race_horse.horse %></td>
         </tr>

@@ -32,11 +32,11 @@
             <% @horse.horse_race_results.each do |result| %>
                 <tr>
                     <td><%= result.race_result.name %></td>
-                    <td><%= result.gate_num %></td>
+                    <td><%= result.gate_number %></td>
                     <td><%= result.horse_number %></td>
                     <td><%= result.odds %></td>
                     <td><%= result.popularity %></td>
-                    <td><%= result.rank %></td>
+                    <td><%= result.order_of_arrival %></td>
                     <td><%= result.jockey %></td>
                     <td><%= result.burden_weight %></td>
                     <td><%= result.time %></td>

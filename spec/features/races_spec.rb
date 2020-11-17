@@ -11,24 +11,24 @@ feature 'Races' do
       expect(page).to have_selector('tr.race', count: races.count)
       # 必要な項目が画面上に表示されていること
       expect(page).to have_text(races.first.id)
-      expect(page).to have_text(races.first.race_date.to_s(:stamp))
-      expect(page).to have_text(races.first.race_name)
+      expect(page).to have_text(races.first.start.to_s(:stamp))
+      expect(page).to have_text(races.first.name)
     end
   end
 
   feature 'show' do
     let(:race) { create(:race, :with_race_horses) }
     let(:race_schedule) do
-      [race.race_date.to_s(:stamp),
-       race.days,
-       race.race_course,
+      [race.start.to_s(:stamp),
+       race.day_number,
+       race.course,
        race.round].reject(&:blank?).join(' ')
     end
     let(:race_condition) do
-      [I18n.t("enums.race.course_type.#{race[:course_type]}"),
+      [I18n.t("enums.race.course_type.#{race.course_type}"),
        "#{race.distance}m",
-       I18n.t("enums.race.turn.#{race[:turn]}"),
-       I18n.t("enums.race.side.#{race[:side]}"),
+       I18n.t("enums.race.turn.#{race.turn}"),
+       I18n.t("enums.race.side.#{race.side}"),
        race.regulation1,
        race.regulation2,
        race.regulation3,
@@ -52,7 +52,7 @@ feature 'Races' do
       expect(page).to have_text(race_schedule)
       expect(page).to have_text(race_condition)
       expect(page).to have_text(race_prizes)
-      expect(page).to have_text(race.race_horses.first.gate_num)
+      expect(page).to have_text(race.race_horses.first.gate_number)
       expect(page).to have_text(race.race_horses.first.horse_number)
       expect(page).to have_text(race.horses.first.name)
     end

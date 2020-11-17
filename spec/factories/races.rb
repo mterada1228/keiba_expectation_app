@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :race do
     sequence(:id)
-    race_date { Faker::Time.backward }
-    sequence(:days)
-    race_name { Faker::Name.name }
+    start { Faker::Time.backward }
+    sequence(:day_number)
+    name { Faker::Name.name }
     sequence(:round)
-    race_course { %w[東京 中山 京都][Faker::Number.within(range: 0..2)] }
+    course { %w[東京 中山 京都][Faker::Number.within(range: 0..2)] }
     course_type { Race.course_types.keys.sample }
     distance { Faker::Number.number }
     turn { Race.turns.keys.sample }

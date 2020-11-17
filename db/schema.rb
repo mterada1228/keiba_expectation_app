@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_05_235728) do
+ActiveRecord::Schema.define(version: 2020_11_17_064005) do
 
   create_table "horse_race_results", id: false, force: :cascade do |t|
     t.integer "horse_id"
     t.string "race_result_id"
-    t.integer "gate_num"
+    t.integer "gate_number"
     t.integer "horse_number"
     t.float "odds"
     t.integer "popularity"
-    t.string "rank"
+    t.string "order_of_arrival", null: false
     t.string "jockey"
-    t.float "burden_weight"
+    t.float "burden_weight", null: false
     t.string "time"
     t.float "time_diff"
     t.string "passing_order"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2020_11_05_235728) do
 
   create_table "horses", id: false, force: :cascade do |t|
     t.integer "id", null: false
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -43,42 +43,42 @@ ActiveRecord::Schema.define(version: 2020_11_05_235728) do
   create_table "race_horses", id: false, force: :cascade do |t|
     t.string "race_id"
     t.string "horse_id"
-    t.integer "gate_num"
+    t.integer "gate_number"
     t.integer "horse_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_results", force: :cascade do |t|
-    t.string "name"
-    t.integer "course_id"
-    t.integer "course_length"
-    t.date "date"
-    t.string "course_type"
-    t.string "course_condition"
+  create_table "race_results", id: :string, force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "course_id", null: false
+    t.integer "course_length", null: false
+    t.date "date", null: false
+    t.integer "course_type", null: false
+    t.integer "course_condition", null: false
     t.string "entire_rap"
     t.float "ave_1F"
     t.float "first_half_ave_3F"
-    t.float "last_half_ave_3"
+    t.float "last_half_ave_3F"
     t.float "RPCI"
     t.float "prize"
-    t.integer "horse_all_number"
+    t.integer "horse_all_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "races", id: false, force: :cascade do |t|
     t.integer "id", null: false
-    t.datetime "race_date"
-    t.string "race_course"
-    t.integer "round"
-    t.string "race_name"
+    t.datetime "start", null: false
+    t.string "course", null: false
+    t.integer "round", null: false
+    t.string "name", null: false
     t.string "grade"
-    t.integer "course_type", default: 0
-    t.integer "distance"
-    t.integer "turn", default: 0
-    t.integer "side", default: 0
-    t.integer "days"
+    t.integer "course_type", null: false
+    t.integer "distance", null: false
+    t.integer "turn", null: false
+    t.integer "side"
+    t.integer "day_number"
     t.string "regulation1"
     t.string "regulation2"
     t.string "regulation3"
