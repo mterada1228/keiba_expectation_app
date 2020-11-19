@@ -1,12 +1,12 @@
 <div class="container">
   <div class="card text-center">
     <div class="card-header">
-      <%= @race.race_name %>
+      <%= @race.name %>
     </div>
     <div class="card-body race-description">
-      <p class="card-text"><%= race_description_row1(@race) %></p>
-      <p class="card-text"><%= race_description_row2(@race) %></p>
-      <p class="card-text">賞金 : <%= race_description_row3(@race) %></p>
+      <p class="card-text"><%= race_schedule(@race) %></p>
+      <p class="card-text"><%= race_condition(@race) %></p>
+      <p class="card-text">賞金 : <%= race_prizes(@race) %></p>
     </div>
   </div>
   <table class="table">
@@ -19,8 +19,8 @@
     </thead>
     <tbody>
       <% @race_horses.each do |race_horse| %>
-        <tr>
-          <td><%= race_horse.gate_num %></td>
+        <tr class="race_horse">
+          <td><%= race_horse.gate_number %></td>
           <td><%= race_horse.horse_number %></td>
           <td><%= link_to race_horse.horse.name, race_horse.horse %></td>
         </tr>

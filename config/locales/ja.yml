@@ -1,0 +1,24 @@
+ja:
+  enums:
+    race:
+      course_type:
+        turf: 芝   
+        dirt: ダ
+        hundle_race: 障
+      turn:
+        right: 右
+        left: 左
+        straight: 直線
+      side:
+        inner_course: 内
+        external_course: 外
+    race_result:
+      course_type:
+        turf: 芝   
+        dirt: ダ
+        hundle_race: 障
+      course_condition:
+        firm: 良
+        good: 稍重
+        yielding: 重
+        soft: 不良

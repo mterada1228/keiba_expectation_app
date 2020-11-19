@@ -10,83 +10,84 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_18_000737) do
+ActiveRecord::Schema.define(version: 2020_11_17_064005) do
 
-  create_table "horse_race_results", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "horse_id"
+  create_table "horse_race_results", id: false, force: :cascade do |t|
+    t.integer "horse_id"
     t.string "race_result_id"
-    t.string "gate_num"
-    t.string "horse_number"
-    t.string "odds"
-    t.string "popularity"
-    t.string "rank"
+    t.integer "gate_number"
+    t.integer "horse_number"
+    t.float "odds"
+    t.integer "popularity"
+    t.string "order_of_arrival", null: false
     t.string "jockey"
-    t.string "burden_weight"
+    t.float "burden_weight", null: false
     t.string "time"
-    t.string "time_diff"
+    t.float "time_diff"
     t.string "passing_order"
-    t.string "last_3f"
-    t.string "horse_weight"
-    t.string "difference_in_horse_weight"
-    t.string "get_prize"
+    t.float "last_3f"
+    t.integer "horse_weight"
+    t.integer "difference_in_horse_weight"
+    t.float "get_prize"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "horses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name"
+  create_table "horses", id: false, force: :cascade do |t|
+    t.integer "id", null: false
+    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_horses", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "race_horses", id: false, force: :cascade do |t|
     t.string "race_id"
     t.string "horse_id"
-    t.string "gate_num"
-    t.string "horse_number"
+    t.integer "gate_number"
+    t.integer "horse_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name"
-    t.string "cource_id"
-    t.string "cource_length"
-    t.date "date"
-    t.string "cource_type"
-    t.string "cource_condition"
+  create_table "race_results", id: :string, force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "course_id", null: false
+    t.integer "course_length", null: false
+    t.date "date", null: false
+    t.integer "course_type", null: false
+    t.integer "course_condition", null: false
     t.string "entire_rap"
     t.float "ave_1F"
     t.float "first_half_ave_3F"
-    t.float "last_half_ave_3"
+    t.float "last_half_ave_3F"
     t.float "RPCI"
-    t.string "prize"
-    t.string "horse_all_number"
+    t.float "prize"
+    t.integer "horse_all_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "races", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "race_date"
-    t.string "race_cource"
-    t.string "round"
-    t.string "race_name"
+  create_table "races", id: false, force: :cascade do |t|
+    t.integer "id", null: false
+    t.datetime "start", null: false
+    t.string "course", null: false
+    t.integer "round", null: false
+    t.string "name", null: false
     t.string "grade"
-    t.string "start_time"
-    t.string "cource_type"
-    t.string "distance"
-    t.string "turn"
-    t.string "side"
-    t.string "days"
+    t.integer "course_type", null: false
+    t.integer "distance", null: false
+    t.integer "turn", null: false
+    t.integer "side"
+    t.integer "day_number"
     t.string "regulation1"
     t.string "regulation2"
     t.string "regulation3"
     t.string "regulation4"
-    t.string "prize1"
-    t.string "prize2"
-    t.string "prize3"
-    t.string "prize4"
-    t.string "prize5"
+    t.float "prize1"
+    t.float "prize2"
+    t.float "prize3"
+    t.float "prize4"
+    t.float "prize5"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
