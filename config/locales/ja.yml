@@ -22,3 +22,8 @@ ja:
         good: 稍重
         yielding: 重
         soft: 不良
+    horse_race_result:
+      reason_of_exclusion:
+        pull_up: 競走中止
+        scratch: 競走除外
+        withdrawn: 出走取消

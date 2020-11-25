@@ -12,7 +12,7 @@
       <% @races.each do |race|  %>
         <tr class="race">
           <td><%= race.id %></td>
-          <td><%= race.start.to_s(:stamp) %></td>
+          <td><%= race.start.to_s(:date_hour_min) %></td>
           <td><%= link_to race.name, race %></td>
         </tr>
       <% end %>
