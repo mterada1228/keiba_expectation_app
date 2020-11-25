@@ -75,3 +75,7 @@ gem "chartkick"
 
 # eunumの値をviewで日本語化する
 gem 'enum_help', '~> 0.0.17'
+
+# web scraping tools
+gem 'nokogiri', '~> 1.10', '>= 1.10.10'
+gem 'httparty', '~> 0.18.1'
