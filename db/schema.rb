@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_25_091358) do
+ActiveRecord::Schema.define(version: 2020_12_01_103458) do
 
   create_table "horse_race_results", primary_key: ["horse_id", "race_result_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "horse_id", null: false
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2020_11_25_091358) do
     t.float "get_prize"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "reason_of_exclusion", default: 0
+    t.integer "reason_of_exclusion"
   end
 
   create_table "horses", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
