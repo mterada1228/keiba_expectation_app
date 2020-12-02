@@ -5,15 +5,13 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
+  adapter: mysql2
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  encoding: utf8
 
 development:
-  adapter: mysql2
-  encoding: utf8
+  <<: *default
   database: keiba_expectation_app
-  pool: 5
   username: keiba_expectation_app
   password: VZCBuRnajKeck7n7WLU6GRcr
   host: localhost
@@ -23,7 +21,10 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: keiba_expectation_app_test
+  username: keiba_expectation_app_test
+  password: h4Dv3Acc
+  host: localhost
 
 production:
   url: postgres://ieyrutiplidged:efb177262cbd2360942202d0b9d2c91dbff9c2a346dd6ae464f4753cf5d857eb@ec2-54-158-222-248.compute-1.amazonaws.com:5432/d9c9qim5bhf600
