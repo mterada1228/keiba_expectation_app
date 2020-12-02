@@ -1,6 +1,8 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :race_horse do
-    association :race
-    association :horse
+    race
+    horse
+    sequence(:gate_number)
+    sequence(:horse_number)
   end
 end

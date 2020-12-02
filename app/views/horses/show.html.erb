@@ -3,13 +3,9 @@
         <div class="card-header">
             <%= @horse.name %>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-        <div class="card-footer text-muted">
-            2 days ago
+        <div class="scatter">
+            <%= scatter_chart @graph_points, xtitle: 'RPCI', ytitle: 'ave1F',
+             legend: false, min: 10, max: 14 %>
         </div>
     </div>
     <table class="table">
@@ -36,11 +32,11 @@
             <% @horse.horse_race_results.each do |result| %>
                 <tr>
                     <td><%= result.race_result.name %></td>
-                    <td><%= result.gate_num %></td>
+                    <td><%= result.gate_number %></td>
                     <td><%= result.horse_number %></td>
                     <td><%= result.odds %></td>
                     <td><%= result.popularity %></td>
-                    <td><%= result.rank %></td>
+                    <td><%= result.order_of_arrival %></td>
                     <td><%= result.jockey %></td>
                     <td><%= result.burden_weight %></td>
                     <td><%= result.time %></td>

@@ -40,12 +40,18 @@ group :development do
   gem 'spring', '~> 2.1.1'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'spring-commands-rspec', '~> 1.0.4'
+  # Rubocop
+  gem 'rubocop', '~> 0.87'
+  gem 'rubocop-performance', '~> 1.8'
+  gem 'rubocop-rails', '~> 2.8'
+  gem 'rubocop-rspec', '~> 1.44'
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver', '~> 3.142.7'
+  gem 'launchy', '~> 2.4.3'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers', '~> 4.4.1'
 end
@@ -59,10 +65,5 @@ gem 'seed_dump', '~> 3.3.1'
 # グラフツール
 gem "chartkick", '~> 3.4.0'
 
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
-# Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
+# eunumの値をviewで日本語化する
+gem 'enum_help', '~> 0.0.17'
