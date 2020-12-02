@@ -7,18 +7,18 @@ FactoryBot.define do
     sequence(:round)
     course { %w[東京 中山 京都][Faker::Number.within(range: 0..2)] }
     course_type { Race.course_types.keys.sample }
-    distance { Faker::Number.number }
+    sequence(:distance)
     turn { Race.turns.keys.sample }
     side { Race.sides.keys.sample }
     regulation1 { Faker::Name.name }
     regulation2 { Faker::Name.name }
     regulation3 { Faker::Name.name }
     regulation4 { Faker::Name.name }
-    prize1 { Faker::Number.number }
-    prize2 { Faker::Number.number }
-    prize3 { Faker::Number.number }
-    prize4 { Faker::Number.number }
-    prize5 { Faker::Number.number }
+    prize1 { Faker::Number.decimal(l_digits: 2) }
+    prize2 { Faker::Number.decimal(l_digits: 2) }
+    prize3 { Faker::Number.decimal(l_digits: 2) }
+    prize4 { Faker::Number.decimal(l_digits: 2) }
+    prize5 { Faker::Number.decimal(l_digits: 2) }
 
     trait :with_race_horses do
       6.times do

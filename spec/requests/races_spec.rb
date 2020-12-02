@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'Races', type: :request do
-  let(:race) { FactoryGirl.create(:race) }
+describe 'Races', type: :request do
+  let(:race) { create(:race) }
 
   describe 'Get#index' do
     it 'リクエストに正常に応答できること' do
