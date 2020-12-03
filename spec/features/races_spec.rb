@@ -11,7 +11,7 @@ feature 'Races' do
       expect(page).to have_selector('tr.race', count: races.count)
       # 必要な項目が画面上に表示されていること
       expect(page).to have_text(races.first.id)
-      expect(page).to have_text(races.first.start.to_s(:stamp))
+      expect(page).to have_text(races.first.start.to_s(:date_hour_min))
       expect(page).to have_text(races.first.name)
     end
   end
@@ -19,10 +19,10 @@ feature 'Races' do
   feature 'show' do
     let(:race) { create(:race, :with_race_horses) }
     let(:race_schedule) do
-      [race.start.to_s(:stamp),
-       race.day_number,
+      [race.start.to_s(:date_hour_min),
+       "#{race.day_number}日目",
        race.course,
-       race.round].reject(&:blank?).join(' ')
+       "#{race.round}R"].reject(&:blank?).join(' ')
     end
     let(:race_condition) do
       [I18n.t("enums.race.course_type.#{race.course_type}"),
