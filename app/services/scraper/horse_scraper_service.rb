@@ -1,6 +1,6 @@
 module Scraper
   # Horseモデルのスクレイピングを実施
-  # Usage: Scraper::HorseScraperService.new(<データ取得先URL>)
+  # Usage: Scraper::HorseScraperService.new(url: <データ取得先URL>).call
   # netkeiba の 競走馬データベースからデータを取得
   # （URL例）https://db.netkeiba.com/horse/2016104458/
   class HorseScraperService
@@ -21,9 +21,8 @@ module Scraper
     def parse(response)
       url = response.request.path.to_s
       doc = Nokogiri::HTML(response)
-
       {
-        id: /\d+$/.match(url)[0],
+        id: %r{horse/(\d+)}.match(url)[1],
         name: doc.css('div.horse_title > h1').children[0].text.gsub(/[[:space:]]/, '')
       }
     end
