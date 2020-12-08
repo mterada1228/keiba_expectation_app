@@ -8,7 +8,7 @@ development:
   <<: *default
   database: keiba_expectation_app
   username: keiba_expectation_app
-  password: VZCBuRnajKeck7n7WLU6GRcr
+  password: <%= Rails.application.credentials.db_development[:password] %>
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -18,8 +18,8 @@ test:
   <<: *default
   database: keiba_expectation_app_test
   username: keiba_expectation_app_test
-  password: h4Dv3Acc
+  password: <%= Rails.application.credentials.db_test[:password] %>
   host: localhost
 
 production:
-  url: postgres://ieyrutiplidged:efb177262cbd2360942202d0b9d2c91dbff9c2a346dd6ae464f4753cf5d857eb@ec2-54-158-222-248.compute-1.amazonaws.com:5432/d9c9qim5bhf600
+  url: <%= Rails.application.credentials.db_production[:url] %>

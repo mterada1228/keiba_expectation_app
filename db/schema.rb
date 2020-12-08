@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_103458) do
+ActiveRecord::Schema.define(version: 2020_12_08_012957) do
 
-  create_table "horse_race_results", primary_key: ["horse_id", "race_result_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "horse_race_results", primary_key: ["horse_id", "race_result_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "horse_id", null: false
     t.string "race_result_id", null: false
     t.integer "gate_number"
@@ -34,13 +34,13 @@ ActiveRecord::Schema.define(version: 2020_12_01_103458) do
     t.integer "reason_of_exclusion"
   end
 
-  create_table "horses", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "horses", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_horses", primary_key: ["race_id", "horse_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "race_horses", primary_key: ["race_id", "horse_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "race_id", null: false
     t.bigint "horse_id", null: false
     t.integer "gate_number"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_103458) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_results", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "race_results", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.integer "course_id", null: false
     t.integer "course_length", null: false
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_103458) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "races", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "races", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "start", null: false
     t.string "course", null: false
     t.integer "round", null: false
