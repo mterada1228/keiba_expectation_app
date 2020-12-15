@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe RacesHelper do
   describe 'race_condition' do
     context 'side が NULLの場合' do

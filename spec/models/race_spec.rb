@@ -1,4 +1,2 @@
-require 'rails_helper'
-
-describe Race, type: :model do
+describe Race do
 end

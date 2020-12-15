@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Horses', type: :request do
+describe 'Horses' do
   let(:horse) { create(:horse) }
 
   describe 'Get#index' do

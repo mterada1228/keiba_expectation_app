@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe GenerateRpciAve1fScatterPlotsService do
   let(:horse) { create(:horse) }
   let(:race_result) { create(:race_result) }

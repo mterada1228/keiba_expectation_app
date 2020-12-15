@@ -11,6 +11,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th scope="col">日程</th>
                 <th scope="col">レース</th>
                 <th scope="col">枠番</th>
                 <th scope="col">馬番</th>
@@ -29,8 +30,9 @@
             </tr>
         </thead>
         <tbody>
-            <% @horse.horse_race_results.each do |result| %>
-                <tr>
+            <% @horse_race_results.each do |result| %>
+                <tr class="horse_race_result">
+                    <td><%= result.race_result.date.to_s :date %></td>
                     <td><%= result.race_result.name %></td>
                     <td><%= result.gate_number %></td>
                     <td><%= result.horse_number %></td>
@@ -39,7 +41,7 @@
                     <td><%= result.order_of_arrival %></td>
                     <td><%= result.jockey %></td>
                     <td><%= result.burden_weight %></td>
-                    <td><%= result.time %></td>
+                    <td><%= result.time.try { result.time.to_s(:min_second_millisecond) } %></td>
                     <td><%= result.time_diff %></td>
                     <td><%= result.passing_order %></td>
                     <td><%= result.last_3f %></td>
