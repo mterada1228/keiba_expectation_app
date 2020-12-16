@@ -12,15 +12,15 @@ module Scraper
     end
 
     def call
-      html = HTTParty.get(url)
-      create(parse(html))
+      response = HTTParty.get(url)
+      create(parse(response))
     end
 
     private
 
-    def parse(html)
-      url = html.request.path.to_s
-      doc = Nokogiri::HTML(html)
+    def parse(response)
+      url = response.request.path.to_s
+      doc = Nokogiri::HTML(response)
 
       {
         id: /\d+$/.match(url)[0],
