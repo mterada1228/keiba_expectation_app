@@ -41,7 +41,7 @@
                     <td><%= result.order_of_arrival %></td>
                     <td><%= result.jockey %></td>
                     <td><%= result.burden_weight %></td>
-                    <td><%= result.time.try { result.time.to_s(:min_second_millisecond) } %></td>
+                    <td><%= result.time.try { |time| time.to_s(:min_second_millisecond) } %></td>
                     <td><%= result.time_diff %></td>
                     <td><%= result.passing_order %></td>
                     <td><%= result.last_3f %></td>

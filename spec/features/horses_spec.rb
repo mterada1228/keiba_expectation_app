@@ -16,7 +16,6 @@ feature 'Horses' do
 
   feature 'show' do
     let(:horse) { create(:horse) }
-    let(:race_result) { create(:horse_race_result, horse: horse) }
 
     before do
       create_list(:horse_race_result, 3, horse: horse)
@@ -45,7 +44,7 @@ feature 'Horses' do
           result.order_of_arrival,
           result.jockey,
           result.burden_weight,
-          result.time.try { result.time.to_s(:min_second_millisecond) },
+          result.time.try { |time| time.to_s(:min_second_millisecond) },
           result.time_diff,
           result.passing_order,
           result.last_3f,
