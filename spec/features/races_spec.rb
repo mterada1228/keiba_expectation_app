@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 feature 'Races' do
   feature 'index' do
     let!(:races) { create_list(:race, 5) }

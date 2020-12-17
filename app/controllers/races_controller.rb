@@ -1,3 +1,6 @@
+#
+# Races controller
+#
 class RacesController < ApplicationController
   def index
     @races = Race.all
@@ -5,8 +8,6 @@ class RacesController < ApplicationController
 
   def show
     @race = Race.find(params[:id])
-    @race_horses = @race.race_horses.sort do |a,b| 
-      a.horse_number <=> b.horse_number
-    end 
+    @race_horses = @race.race_horses.order('horse_number')
   end
 end
