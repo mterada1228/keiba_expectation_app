@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe GenerateRpciAve1fScatterPlotsService do
   let(:horse) { create(:horse) }
   let(:race_result) { create(:race_result) }
@@ -10,10 +8,7 @@ describe GenerateRpciAve1fScatterPlotsService do
 
     describe '複数のデータが想定通り取得できるかどうか' do
       before do
-        create_list(:horse_race_result,
-                    5,
-                    horse: horse,
-                    race_result: race_result)
+        create_list(:horse_race_result, 5, horse: horse)
       end
 
       it '競走馬に関連する全てのレース結果のプロットが得られる' do

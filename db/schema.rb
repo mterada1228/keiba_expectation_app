@@ -19,10 +19,10 @@ ActiveRecord::Schema.define(version: 2020_12_17_052118) do
     t.integer "horse_number"
     t.float "odds"
     t.integer "popularity"
-    t.string "order_of_arrival", null: false
+    t.integer "order_of_arrival"
     t.string "jockey"
     t.float "burden_weight", null: false
-    t.string "time"
+    t.time "time", precision: 3
     t.float "time_diff"
     t.string "passing_order"
     t.float "last_3f"
