@@ -23,13 +23,15 @@ module Scraper
       doc = Nokogiri::HTML(response)
       {
         id: %r{horse/(\d+)}.match(url)[1],
-        name: doc.css('div.horse_title > h1').children[0].text.gsub(/[[:space:]]/, '')
+        name: doc
+          .css('#db_main_box > div.db_head.fc > div.db_head_name.fc > div.horse_title > h1')
+          .text.gsub(/[[:space:]]/, '')
       }
     end
 
-    def create(attribute)
-      horse = Horse.find_or_initialize_by(id: attribute[:id])
-      horse.update_attributes!(attribute)
+    def create(attributes)
+      horse = Horse.find_or_initialize_by(id: attributes[:id])
+      horse.update_attributes!(attributes)
     end
   end
 end

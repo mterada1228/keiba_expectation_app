@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_17_052118) do
+ActiveRecord::Schema.define(version: 2020_12_17_050441) do
 
   create_table "horse_race_results", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "horse_id"
-    t.string "race_result_id"
+    t.bigint "horse_id", null: false
+    t.string "race_result_id", null: false
     t.integer "gate_number"
     t.integer "horse_number"
     t.float "odds"
@@ -36,15 +36,15 @@ ActiveRecord::Schema.define(version: 2020_12_17_052118) do
     t.index ["race_result_id"], name: "fk_rails_a076ec7130"
   end
 
-  create_table "horses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "horses", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_horses", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "race_id"
-    t.string "horse_id"
+  create_table "race_horses", primary_key: ["race_id", "horse_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "race_id", null: false
+    t.bigint "horse_id", null: false
     t.integer "gate_number"
     t.integer "horse_number"
     t.datetime "created_at", precision: 6, null: false
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2020_12_17_052118) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "races", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "races", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "start", null: false
     t.string "course", null: false
     t.integer "round", null: false
