@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_17_050441) do
+ActiveRecord::Schema.define(version: 2020_12_24_052214) do
 
   create_table "horse_race_results", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "horse_id", null: false
@@ -51,6 +51,23 @@ ActiveRecord::Schema.define(version: 2020_12_17_050441) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "race_prizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "race_id"
+    t.integer "order_of_arrival"
+    t.integer "prize"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["race_id"], name: "index_race_prizes_on_race_id"
+  end
+
+  create_table "race_regulations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "race_id"
+    t.integer "regulation"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["race_id"], name: "index_race_regulations_on_race_id"
+  end
+
   create_table "race_results", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.integer "course_id", null: false
@@ -71,28 +88,21 @@ ActiveRecord::Schema.define(version: 2020_12_17_050441) do
 
   create_table "races", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "start", null: false
-    t.string "course", null: false
+    t.integer "course", null: false
     t.integer "round", null: false
     t.string "name", null: false
-    t.string "grade"
+    t.integer "grade"
     t.integer "course_type", null: false
     t.integer "distance", null: false
     t.integer "turn", null: false
     t.integer "side"
     t.integer "day_number"
-    t.string "regulation1"
-    t.string "regulation2"
-    t.string "regulation3"
-    t.string "regulation4"
-    t.float "prize1"
-    t.float "prize2"
-    t.float "prize3"
-    t.float "prize4"
-    t.float "prize5"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "horse_race_results", "horses"
   add_foreign_key "horse_race_results", "race_results"
+  add_foreign_key "race_prizes", "races"
+  add_foreign_key "race_regulations", "races"
 end
