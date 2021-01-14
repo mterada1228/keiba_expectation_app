@@ -28,14 +28,7 @@ module Scraper
     private
 
     OPERATOR = {
-      id: ->(elements) { %r{/race/(\d+)/\z}.match(elements[:url])[1] },
-      name: ->(elements) { elements[:name].text },
-      course_id: ->(elements) { %r{/race/(\d+)/\z}.match(elements[:url])[1].slice(4..5) },
-      course_length: ->(elements) { /\d+/.match(elements[:race_info].text.split('/')[0])[0] },
-      date: ->(elements) { elements[:date].text.split[0].gsub(/[年, 月, 日]/, '/') },
-      course_type: lambda do |elements|
-        RaceResult::COURSE_TYPE_TRANSLATIONS[elements[:race_info].text.split('/')[0].slice(0).to_s]
-      end,
+      race_id: ->(elements) { %r{/race/(\w+)/\z}.match(elements[:url])[1] },
       course_condition: lambda do |elements|
         RaceResult::
         COURSE_CONDITION_TRANSLATIONS[/: (\S+)/.match(elements[:race_info].text.split('/')[2])[1]]
@@ -55,7 +48,6 @@ module Scraper
 
         entire_rap(elements).slice(0..2).sum / entire_rap(elements).reverse.slice(0..2).sum * 50
       end,
-      prize: ->(elements) { elements[:prize].text.delete(',') },
       horse_all_number: ->(elements) { elements[:horses_list].size - 1 }
     }.freeze
 
@@ -67,7 +59,7 @@ module Scraper
         entire_rap = elements[:rap_time_info].text.split('-').map(&:to_f)
         return entire_rap if (course_length.to_i % 200).zero?
 
-        entire_rap[0] = entire_rap[0] * 200 / course_length.to_i % 200
+        entire_rap[0] = entire_rap[0] * 200 / (course_length.to_i % 200)
         entire_rap
       end
     end
@@ -86,10 +78,7 @@ module Scraper
     def elements
       {
         url: url,
-        name: driver.find_element(:css, '#main > div > div > div > diary_snap > div > div > dl > dd > h1'),
-        date: driver.find_element(:css, '#main > div > div > div > diary_snap > div > div > p'),
         race_info: driver.find_element(:css, '#main > div > div > div > diary_snap > div > div > dl > dd > p > diary_snap_cut > span'),
-        prize: driver.find_element(:css, '#contents_liquid > table > tbody > tr:nth-child(2) > td:nth-child(21)'),
         rap_time_info: begin
           driver.find_element(:css, '#contents > div.result_info.box_left > table:nth-child(4) > tbody > tr:nth-child(1) > td')
         rescue Selenium::WebDriver::Error::NoSuchElementError
@@ -101,8 +90,20 @@ module Scraper
     # rubocop:enable Layout/LineLength
 
     def create(attributes)
+      # 参照元クラス Race のデータ取得
+      race_id = %r{/race/(\w+)/\z}.match(url)[1]
+      race_scrape(race_id) unless RaceResult.exists?(race_id)
+
       race_result = RaceResult.find_or_initialize_by(id: attributes[:id])
       race_result.update_attributes!(attributes)
+    end
+
+    def race_scrape(race_id)
+      race_url = "https://race.netkeiba.com/race/shutuba.html?race_id=#{race_id}"
+      # 海外競馬の場合
+      return Scraper::RaceAbroadScraperService.new(url: race_url).call if race_id.slice(4) == 'C'
+
+      Scraper::RaceScraperService.new(url: race_url).call
     end
   end
 end

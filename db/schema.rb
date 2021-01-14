@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_24_052214) do
+ActiveRecord::Schema.define(version: 2021_01_13_092023) do
 
   create_table "horse_race_results", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "horse_id", null: false
-    t.string "race_result_id", null: false
+    t.string "race_id"
     t.integer "gate_number"
     t.integer "horse_number"
     t.float "odds"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2020_12_24_052214) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["horse_id"], name: "fk_rails_330d59a0fb"
-    t.index ["race_result_id"], name: "fk_rails_a076ec7130"
+    t.index ["race_id"], name: "index_horse_race_results_on_race_id"
   end
 
   create_table "horses", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2020_12_24_052214) do
   end
 
   create_table "race_prizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "race_id"
+    t.string "race_id"
     t.integer "order_of_arrival"
     t.integer "prize"
     t.datetime "created_at", precision: 6, null: false
@@ -61,32 +61,28 @@ ActiveRecord::Schema.define(version: 2020_12_24_052214) do
   end
 
   create_table "race_regulations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "race_id"
+    t.string "race_id"
     t.integer "regulation"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["race_id"], name: "index_race_regulations_on_race_id"
   end
 
-  create_table "race_results", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "course_id", null: false
-    t.integer "course_length", null: false
-    t.date "date", null: false
-    t.integer "course_type", null: false
+  create_table "race_results", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "race_id"
     t.integer "course_condition", null: false
     t.string "entire_rap"
     t.float "ave_1F"
     t.float "first_half_ave_3F"
     t.float "last_half_ave_3F"
     t.float "RPCI"
-    t.float "prize"
     t.integer "horse_all_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["race_id"], name: "index_race_results_on_race_id"
   end
 
-  create_table "races", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "races", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "start", null: false
     t.integer "course", null: false
     t.integer "round", null: false
@@ -102,7 +98,4 @@ ActiveRecord::Schema.define(version: 2020_12_24_052214) do
   end
 
   add_foreign_key "horse_race_results", "horses"
-  add_foreign_key "horse_race_results", "race_results"
-  add_foreign_key "race_prizes", "races"
-  add_foreign_key "race_regulations", "races"
 end

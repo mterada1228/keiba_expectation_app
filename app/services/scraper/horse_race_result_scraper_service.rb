@@ -20,7 +20,7 @@ module Scraper
 
     OPERATOR = {
       horse_id: ->(elements) { %r{horse/(\d+)}.match(elements[:url])[1] },
-      race_result_id: lambda do |elements|
+      race_id: lambda do |elements|
         %r{race/(.+)/\z}.match(elements[:race_result_link].first.attributes['href'].value)[1]
       end,
       gate_number: lambda do |elements|
@@ -59,7 +59,7 @@ module Scraper
         /(\d+)\((.+)\)/.match(elements[:horse_weight].text)[2]
       end,
       get_prize: lambda do |elements|
-        elements[:get_prize].text.present? ? elements[:get_prize].text : nil
+        elements[:get_prize].text.present? ? elements[:get_prize].text.delete(',') : nil
       end,
       reason_of_exclusion: lambda do |elements|
         case elements[:order_of_arrival].text
@@ -111,11 +111,8 @@ module Scraper
 
     def create(attributes_list)
       attributes_list.map do |attributes|
-        # 参照元クラス RaceResult のデータ取得
-        unless RaceResult.exists?(attributes[:race_result_id])
-          race_result_url = "https://db.netkeiba.com/race/#{attributes[:race_result_id]}/"
-          Scraper::RaceResultScraperService.new(url: race_result_url).call
-        end
+        # 参照元クラス Race のデータ取得
+        race_scrape(attributes[:race_id]) unless RaceResult.exists?(attributes[:race_id])
 
         # 参照元クラス Horse のデータ取得
         unless Horse.exists?(attributes[:horse_id])
@@ -126,9 +123,17 @@ module Scraper
         # HorseRaceResultのデータ保存
         horse_race_result = HorseRaceResult
                             .find_or_initialize_by(horse_id: attributes[:horse_id],
-                                                   race_result_id: attributes[:race_result_id])
+                                                   race_id: attributes[:race_id])
         horse_race_result.update_attributes!(attributes)
       end
+    end
+
+    def race_scrape(race_id)
+      race_url = "https://race.netkeiba.com/race/shutuba.html?race_id=#{race_id}"
+      # 海外競馬の場合
+      return Scraper::RaceAbroadScraperService.new(url: race_url).call if race_id.slice(4) == 'C'
+
+      Scraper::RaceScraperService.new(url: race_url).call
     end
   end
 end

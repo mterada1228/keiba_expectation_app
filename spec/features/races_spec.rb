@@ -16,28 +16,9 @@ feature 'Races' do
 
   feature 'show' do
     let(:race) { create(:race, :with_race_horses) }
-    let(:race_schedule) do
-      [race.start.to_s(:date_hour_min),
-       "#{race.day_number}日目",
-       race.course,
-       "#{race.round}R"].reject(&:blank?).join(' ')
-    end
-    let(:race_condition) do
-      [I18n.t("enums.race.course_type.#{race.course_type}"),
-       "#{race.distance}m",
-       I18n.t("enums.race.turn.#{race.turn}"),
-       I18n.t("enums.race.side.#{race.side}"),
-       race.regulation1,
-       race.regulation2,
-       race.regulation3,
-       race.regulation4].reject(&:blank?).join(' ')
-    end
-    let(:race_prizes) do
-      ["#{race.prize1}万",
-       "#{race.prize2}万",
-       "#{race.prize3}万",
-       "#{race.prize4}万",
-       "#{race.prize5}万"].join(' ')
+    before do
+      create_list(:race_prize, 5, race: race)
+      create_list(:race_regulation, 5, race: race)
     end
 
     scenario 'レースページを表示する' do
@@ -46,7 +27,21 @@ feature 'Races' do
       # レースに出走する競走馬が全て表示されていること
       expect(page)
         .to have_selector('tr.race_horse', count: race.race_horses.count)
+
       # 必要な項目が画面上に表示されていること
+      race_schedule = [race.start.to_s(:date_hour_min),
+                       "#{race.day_number}日目",
+                       I18n.t("enums.race.course.#{race.course}"),
+                       "#{race.round}R"].reject(&:blank?).join(' ')
+      race_condition = [I18n.t("enums.race.course_type.#{race.course_type}"),
+                        "#{race.distance}m",
+                        I18n.t("enums.race.turn.#{race.turn}"),
+                        I18n.t("enums.race.side.#{race.side}")
+                       ].concat(race.race_regulations.map do |regulation|
+                         I18n.t("enums.race_regulation.#{regulation.regulation}")
+                       end).reject(&:blank?).join(' ')
+      race_prizes = race.race_prizes.map { |prize| "#{prize.prize}万" }.join(' ')
+
       expect(page).to have_text(race_schedule)
       expect(page).to have_text(race_condition)
       expect(page).to have_text(race_prizes)

@@ -5,20 +5,11 @@ FactoryBot.define do
     sequence(:day_number)
     name { Faker::Name.name }
     sequence(:round)
-    course { %w[東京 中山 京都][Faker::Number.within(range: 0..2)] }
-    course_type { Race.course_types.keys.sample }
+    course { Race.courses.values.sample }
+    course_type { Race.course_types.values.sample }
     sequence(:distance)
-    turn { Race.turns.keys.sample }
-    side { Race.sides.keys.sample }
-    regulation1 { Faker::Name.name }
-    regulation2 { Faker::Name.name }
-    regulation3 { Faker::Name.name }
-    regulation4 { Faker::Name.name }
-    prize1 { Faker::Number.decimal(l_digits: 2) }
-    prize2 { Faker::Number.decimal(l_digits: 2) }
-    prize3 { Faker::Number.decimal(l_digits: 2) }
-    prize4 { Faker::Number.decimal(l_digits: 2) }
-    prize5 { Faker::Number.decimal(l_digits: 2) }
+    turn { Race.turns.values.sample }
+    side { Race.sides.values .sample }
 
     trait :with_race_horses do
       6.times do

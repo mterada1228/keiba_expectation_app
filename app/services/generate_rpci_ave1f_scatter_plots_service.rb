@@ -12,7 +12,7 @@ class GenerateRpciAve1fScatterPlotsService
   end
 
   def call
-    horse_race_results.map do |horse_race_result|
+    horse.horse_race_results.map do |horse_race_result|
       generate_scatter_plot(horse_race_result)
     end
   end
@@ -21,19 +21,13 @@ class GenerateRpciAve1fScatterPlotsService
 
   attr_reader :horse
 
-  def horse_race_results
-    horse.horse_race_results
-  end
-
   def generate_scatter_plot(horse_race_result)
     scatter_plot(horse_race_result, scatter_plot_color(horse_race_result))
   end
 
   def scatter_plot(horse_race_result, color)
-    race_result = horse_race_result.race_result
-
-    { name: race_result.name,
-      data: [[race_result.RPCI, race_result.ave_1F]],
+    { name: horse_race_result.race.name,
+      data: [[horse_race_result.race.race_result.RPCI, horse_race_result.race.race_result.ave_1F]],
       color: color }
   end
 

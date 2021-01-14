@@ -10,8 +10,8 @@ class HorsesController < ApplicationController
     @horse = Horse.find(params[:id])
     @horse_race_results = @horse
                           .horse_race_results
-                          .includes(:race_result)
-                          .order('race_results.date DESC')
+                          .includes(:race)
+                          .order('races.start DESC')
     @graph_points = GenerateRpciAve1fScatterPlotsService.new(@horse).call
   end
 end

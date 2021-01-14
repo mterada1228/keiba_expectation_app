@@ -1,10 +1,11 @@
 module Scraper
   # Raceモデルのスクレイピングを実施
-  # Usage: Scraper::RaceScraperService.new(url: <データ取得先URL>).call
+  # 海外競馬の場合はこちらを利用する
+  # Usage: Scraper::RaceAbroadScraperService.new(url: <データ取得先URL>).call
   # netkeiba の 競走馬データベースからデータを取得
-  # （URL例）https://race.netkeiba.com/race/shutuba.html?race_id=202006010911
+  # （URL例）https://race.netkeiba.com/race/shutuba.html?race_id=2019C8100604
 
-  class RaceScraperService
+  class RaceAbroadScraperService
     attr_reader :url, :doc
 
     def initialize(url:)
@@ -33,7 +34,9 @@ module Scraper
     OPERATOR = {
       id: ->(elements) { /race_id=(\w+)/.match(elements[:url])[1] },
       start: lambda do |elements|
-        "#{elements[:start_date]} #{/\d.:\d./.match(elements[:race_info].text.split('/')[0])[0]}"
+        id = /race_id=(\w+)/.match(elements[:url])[1]
+        start_date = "#{id.slice(0..3)}#{id.slice(6..9)}"
+        "#{start_date} #{/\d.:\d./.match(elements[:race_info].text.split('/')[2])[0]}"
       end,
       course: lambda do |elements|
         Race::COURSE_TRANSLATIONS[/race_id=(\w+)/.match(elements[:url])[1].slice(4..5)]
@@ -45,18 +48,12 @@ module Scraper
       end,
       course_type: lambda do |elements|
         Race::COURSE_TYPE_TRANSLATIONS[
-          /[芝 ダ 障]./.match(elements[:race_info].text.split('/')[1])[0].strip]
+          /[芝 ダ 障]./.match(elements[:race_info].text.split('/')[0])[0].strip]
       end,
-      distance: ->(elements) { /\d+/.match(elements[:race_info].text.split('/')[1])[0] },
+      distance: ->(elements) { /\d+/.match(elements[:race_info].text.split('/')[0])[0] },
       turn: lambda do |elements|
-        Race::TURN_TRANSLATIONS[/\((.)/.match(elements[:race_info].text.split('/')[1])[1]]
-      end,
-      side: lambda do |elements|
-        return nil if / (.)\)/.match(elements[:race_info].text.split('/')[1]).nil?
-
-        Race::SIDE_TRANSLATIONS[/ (.)\)/.match(elements[:race_info].text.split('/')[1])[1]]
-      end,
-      day_number: ->(elements) { elements[:day_number].text.gsub('日目', '') }
+        Race::TURN_TRANSLATIONS[/\((.)/.match(elements[:race_info].text.split('/')[0])[1]]
+      end
     }.freeze
 
     def parse(response)
@@ -72,13 +69,10 @@ module Scraper
     def elements
       {
         url: url,
-        start_date: doc.css('#RaceList_DateList > dd.Active > a'),
         race_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01'),
         round: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item01 > span'),
         name: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName'),
-        grade: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName > span'),
-        day_number: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData02 > span:nth-child(3)'),
-        regulations_and_prizes: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData02')
+        grade: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName > span')
       }
     end
     # rubocop:enable Metrics/LineLength
@@ -87,10 +81,6 @@ module Scraper
       # HorseRaceResultのデータ保存
       race = Race.find_or_initialize_by(id: attributes[:id])
       race.update_attributes!(attributes)
-      # RaceRegulationのデータ保存
-      RaceRegulationScraperService.new(elements: elements).call
-      # RacePrizeのデータ保存
-      RacePrizeScraperService.new(elements: elements).call
     end
   end
 end

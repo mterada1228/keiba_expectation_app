@@ -12,6 +12,7 @@ ja:
         kyouto: 京都
         hanshin: 阪神
         kokura: 小倉
+        longchamp: ロンシャン
       grade:
         g1: G1
         g2: G2
@@ -54,21 +55,6 @@ ja:
       handicap: ハンデ
       age: 馬齢
     race_result:
-      course_id:
-        sapporo: 札幌
-        hakodate: 函館
-        fukushima: 福島
-        niigata: 新潟
-        tokyo: 東京
-        nakayama: 中山
-        cyuukyou: 中京
-        kyouto: 京都
-        hanshin: 阪神
-        kokura: 小倉
-      course_type:
-        turf: 芝   
-        dirt: ダ
-        hundle_race: 障
       course_condition:
         firm: 良
         good: 稍重
