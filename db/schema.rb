@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_13_092023) do
+ActiveRecord::Schema.define(version: 2021_01_21_042512) do
 
-  create_table "horse_race_results", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "horse_race_results", primary_key: ["horse_id", "race_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "horse_id", null: false
-    t.string "race_id"
+    t.string "race_id", null: false
     t.integer "gate_number"
     t.integer "horse_number"
     t.float "odds"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2021_01_13_092023) do
     t.integer "reason_of_exclusion"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["horse_id"], name: "fk_rails_330d59a0fb"
+    t.index ["horse_id"], name: "index_horse_race_results_on_horse_id"
     t.index ["race_id"], name: "index_horse_race_results_on_race_id"
   end
 

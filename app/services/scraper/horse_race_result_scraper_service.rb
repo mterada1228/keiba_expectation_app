@@ -80,8 +80,9 @@ module Scraper
 
       race_results.map do |race_result|
         attributes = {}
-        OPERATOR.each_key do |column_name|
-          attributes[column_name] = OPERATOR[column_name].call elements race_result
+        elements = elements(race_result)
+        OPERATOR.each do |column, operation|
+          attributes[column] = operation.call elements
         end
         attributes
       end

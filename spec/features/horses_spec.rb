@@ -16,10 +16,12 @@ feature 'Horses' do
 
   feature 'show' do
     let(:horse) { create(:horse) }
-    let(:race) { create(:race) }
+    let(:races) { create_list(:race, 3) }
     before do
-      create_list(:race_result, 3, race: race)
-      create_list(:horse_race_result, 3, horse: horse, race: race)
+      races.each do |race|
+        create(:race_result, race: race)
+        create(:horse_race_result, horse: horse, race: race)
+      end
     end
 
     scenario 'レースページを表示する' do

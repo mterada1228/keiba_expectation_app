@@ -70,7 +70,7 @@ module Scraper
 
     # rubocop:disable Metrics/LineLength
     def elements
-      {
+      @elements ||= {
         url: url,
         start_date: doc.css('#RaceList_DateList > dd.Active > a'),
         race_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01'),

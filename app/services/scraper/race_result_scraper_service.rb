@@ -76,7 +76,7 @@ module Scraper
 
     # rubocop:disable Layout/LineLength
     def elements
-      {
+      @elements |= {
         url: url,
         race_info: driver.find_element(:css, '#main > div > div > div > diary_snap > div > div > dl > dd > p > diary_snap_cut > span'),
         rap_time_info: begin

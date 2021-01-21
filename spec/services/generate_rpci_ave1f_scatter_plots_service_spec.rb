@@ -1,15 +1,17 @@
 describe GenerateRpciAve1fScatterPlotsService do
   let(:horse) { create(:horse) }
-  let(:race) { create(:race) }
   let(:instance) { described_class.new(horse) }
-  let!(:race_result) { create(:race_result, race: race) }
 
   describe 'call' do
     subject(:scatter_plots) { instance.call }
 
     describe '複数のデータが想定通り取得できるかどうか' do
+      let(:races) { create_list(:race, 5) }
       before do
-        create_list(:horse_race_result, 5, horse: horse, race: race)
+        races.each do |race|
+          create(:race_result, race: race)
+          create(:horse_race_result, horse: horse, race: race)
+        end
       end
 
       it '競走馬に関連する全てのレース結果のプロットが得られる' do
@@ -18,6 +20,8 @@ describe GenerateRpciAve1fScatterPlotsService do
     end
 
     describe 'それぞれのプロットについてのテスト' do
+      let(:race) { create(:race) }
+      let!(:race_result) { create(:race_result, race: race) }
       before do
         create(:horse_race_result, trait, horse: horse, race: race)
       end
