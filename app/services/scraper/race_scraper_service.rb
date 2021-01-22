@@ -5,7 +5,7 @@ module Scraper
   # （URL例）https://race.netkeiba.com/race/shutuba.html?race_id=202006010911
 
   class RaceScraperService
-    attr_reader :url, :doc
+    attr_reader :url
 
     def initialize(url:)
       @url = url
@@ -60,17 +60,22 @@ module Scraper
     }.freeze
 
     def parse(response)
-      @doc = Nokogiri::HTML(response)
+      doc = Nokogiri::HTML(response)
+      elements = elements(doc)
       attributes = {}
       OPERATOR.each_key do |column_name|
         attributes[column_name] = OPERATOR[column_name].call elements
       end
+      # RaceRegulationのデータ作成
+      RaceRegulationScraperService.new(elements: elements).call
+      # RacePrizeのデータ作成
+      RacePrizeScraperService.new(elements: elements).call
       attributes
     end
 
     # rubocop:disable Metrics/LineLength
-    def elements
-      @elements ||= {
+    def elements(doc)
+      {
         url: url,
         start_date: doc.css('#RaceList_DateList > dd.Active > a'),
         race_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01'),
@@ -84,13 +89,8 @@ module Scraper
     # rubocop:enable Metrics/LineLength
 
     def create(attributes)
-      # HorseRaceResultのデータ保存
       race = Race.find_or_initialize_by(id: attributes[:id])
       race.update_attributes!(attributes)
-      # RaceRegulationのデータ保存
-      RaceRegulationScraperService.new(elements: elements).call
-      # RacePrizeのデータ保存
-      RacePrizeScraperService.new(elements: elements).call
     end
   end
 end

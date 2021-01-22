@@ -66,8 +66,8 @@ module Scraper
 
     def parse
       driver.get(url)
-
       attributes = {}
+      elements = elements()
       OPERATOR.each_key do |column_name|
         attributes[column_name] = OPERATOR[column_name].call elements
       end
@@ -76,7 +76,7 @@ module Scraper
 
     # rubocop:disable Layout/LineLength
     def elements
-      @elements |= {
+      {
         url: url,
         race_info: driver.find_element(:css, '#main > div > div > div > diary_snap > div > div > dl > dd > p > diary_snap_cut > span'),
         rap_time_info: begin
@@ -94,7 +94,7 @@ module Scraper
       race_id = %r{/race/(\w+)/\z}.match(url)[1]
       race_scrape(race_id) unless RaceResult.exists?(race_id)
 
-      race_result = RaceResult.find_or_initialize_by(id: attributes[:id])
+      race_result = RaceResult.find_or_initialize_by(race_id: attributes[:race_id])
       race_result.update_attributes!(attributes)
     end
 

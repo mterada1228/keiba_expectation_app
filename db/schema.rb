@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_21_042512) do
+ActiveRecord::Schema.define(version: 2021_01_22_023739) do
 
   create_table "horse_race_results", primary_key: ["horse_id", "race_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "horse_id", null: false
@@ -68,8 +68,7 @@ ActiveRecord::Schema.define(version: 2021_01_21_042512) do
     t.index ["race_id"], name: "index_race_regulations_on_race_id"
   end
 
-  create_table "race_results", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "race_id"
+  create_table "race_results", primary_key: "race_id", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "course_condition", null: false
     t.string "entire_rap"
     t.float "ave_1F"

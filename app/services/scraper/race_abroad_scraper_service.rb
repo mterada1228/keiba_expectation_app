@@ -6,7 +6,7 @@ module Scraper
   # （URL例）https://race.netkeiba.com/race/shutuba.html?race_id=2019C8100604
 
   class RaceAbroadScraperService
-    attr_reader :url, :doc
+    attr_reader :url
 
     def initialize(url:)
       @url = url
@@ -57,7 +57,8 @@ module Scraper
     }.freeze
 
     def parse(response)
-      @doc = Nokogiri::HTML(response)
+      doc = Nokogiri::HTML(response)
+      elements = elements(doc)
       attributes = {}
       OPERATOR.each_key do |column_name|
         attributes[column_name] = OPERATOR[column_name].call elements
@@ -66,8 +67,8 @@ module Scraper
     end
 
     # rubocop:disable Metrics/LineLength
-    def elements
-      @elements ||= {
+    def elements(doc)
+      {
         url: url,
         race_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01'),
         round: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item01 > span'),
