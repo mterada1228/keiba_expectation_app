@@ -2,11 +2,10 @@
 # Race Model
 #
 class Race < ApplicationRecord
-  has_many :race_horses
-  has_many :horses, through: :race_horses
+  has_many :horse_races
+  has_many :horses, through: :horse_races
   has_many :race_regulations
   has_many :race_prizes
-  has_many :horse_race_results
   has_one :race_result
 
   # TODO 海外, 地方の競馬場が必要になった時にここに追加する

@@ -20,7 +20,7 @@ feature 'Horses' do
     before do
       races.each do |race|
         create(:race_result, race: race)
-        create(:horse_race_result, horse: horse, race: race)
+        create(:horse_race, horse: horse, race: race)
       end
     end
 
@@ -28,15 +28,15 @@ feature 'Horses' do
       visit horse_path(horse)
 
       # 全てのレース結果が画面に表示されていること
-      expect(page).to have_selector('tr.horse_race_result',
-                                    count: horse.horse_race_results.count)
+      expect(page).to have_selector('tr.horse_race',
+                                    count: horse.horse_races.count)
       # グラフエリア
       expect(page).to have_text(horse.name)
       # レース結果エリア
       expect(page.all('th').map(&:text))
         .to match(%w(日程 レース 枠番 馬番 オッズ 人気 順位 騎手 斤量 タイム 着差 通過順 後半3F 馬体重 増減 賞金))
-      result = HorseRaceResult.includes(:race).order('races.start DESC').first
-      expect(page.all('.horse_race_result')[0].all('td').map(&:text))
+      result = HorseRace.includes(:race).order('races.start DESC').first
+      expect(page.all('.horse_race')[0].all('td').map(&:text))
         .to match([
           result.race.start.to_s(:date),
           result.race.name,

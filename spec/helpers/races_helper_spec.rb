@@ -7,11 +7,11 @@ describe RacesHelper do
       end
 
       it 'course_type, turn, side は表示されない' do
-        race_condition = [I18n.t("enums.race.course_type.#{race.course_type}"),
+        race_condition = [t("enums.race.course_type.#{race.course_type}"),
                           "#{race.distance}m",
-                          I18n.t("enums.race.turn.#{race.turn}")
+                          t("enums.race.turn.#{race.turn}")
                          ].concat(race.race_regulations.map do |regulation|
-                           I18n.t("enums.race_regulation.#{regulation.regulation}")
+                           t("enums.race_regulation.#{regulation.regulation}")
                          end).reject(&:blank?).join(' ')
         expect(helper.race_condition(race)).to eq(race_condition)
       end

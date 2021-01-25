@@ -11,11 +11,11 @@ FactoryBot.define do
     turn { Race.turns.values.sample }
     side { Race.sides.values .sample }
 
-    trait :with_race_horses do
+    trait :with_horse_races do
       6.times do
         after(:create) do |race|
           horse = create(:horse)
-          create(:race_horse, horse: horse, race: race)
+          create(:horse_race, horse: horse, race: race)
         end
       end
     end

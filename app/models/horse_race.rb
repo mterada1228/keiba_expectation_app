@@ -1,7 +1,7 @@
 #
-# HorseRaceResult Model
+# HorseRace Model
 #
-class HorseRaceResult < ApplicationRecord
+class HorseRace < ApplicationRecord
   self.primary_keys = :horse_id, :race_id
   belongs_to :horse
   belongs_to :race

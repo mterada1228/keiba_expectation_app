@@ -73,3 +73,6 @@ gem 'nokogiri', '~> 1.10', '>= 1.10.10'
 gem 'httparty', '~> 0.18.1'
 gem 'selenium-webdriver', '~> 3.142', '>= 3.142.7'
 gem 'webdrivers', '~> 4.4', '>= 4.4.1'
+
+# translate english to japanese
+gem 'rails-i18n'

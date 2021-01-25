@@ -18,11 +18,11 @@
       </tr>
     </thead>
     <tbody>
-      <% @race_horses.each do |race_horse| %>
-        <tr class="race_horse">
-          <td><%= race_horse.gate_number %></td>
-          <td><%= race_horse.horse_number %></td>
-          <td><%= link_to race_horse.horse.name, race_horse.horse %></td>
+      <% @horse_races.each do |horse_race| %>
+        <tr class="horse_race">
+          <td><%= horse_race.gate_number %></td>
+          <td><%= horse_race.horse_number %></td>
+          <td><%= link_to horse_race.horse.name, horse_race.horse %></td>
         </tr>
       <% end %>
     </tbody>

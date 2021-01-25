@@ -10,7 +10,7 @@ describe GenerateRpciAve1fScatterPlotsService do
       before do
         races.each do |race|
           create(:race_result, race: race)
-          create(:horse_race_result, horse: horse, race: race)
+          create(:horse_race, horse: horse, race: race)
         end
       end
 
@@ -23,7 +23,7 @@ describe GenerateRpciAve1fScatterPlotsService do
       let(:race) { create(:race) }
       let!(:race_result) { create(:race_result, race: race) }
       before do
-        create(:horse_race_result, trait, horse: horse, race: race)
+        create(:horse_race, trait, horse: horse, race: race)
       end
 
       context '勝ったレースの場合' do

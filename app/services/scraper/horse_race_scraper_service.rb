@@ -1,9 +1,9 @@
 module Scraper
-  # HorseRaceResultモデルのスクレイピングを実施
-  # Usage: Scraper::HorseRaceResultScraperService.new(url: <データ取得先URL>).call
+  # HorseRaceモデルのスクレイピングを実施
+  # Usage: Scraper::HorseRaceScraperService.new(url: <データ取得先URL>).call
   # netkeiba の 競走馬データベースからデータを取得
   # （URL例）https://db.netkeiba.com/horse/2016104458/
-  class HorseRaceResultScraperService # rubocop:disable Metrics/ClassLength
+  class HorseRaceScraperService # rubocop:disable Metrics/ClassLength
     attr_reader :url
 
     def initialize(url:)
@@ -64,11 +64,11 @@ module Scraper
       reason_of_exclusion: lambda do |elements|
         case elements[:order_of_arrival].text
         when '中'
-          HorseRaceResult.reason_of_exclusions[:pull_up]
+          HorseRace.reason_of_exclusions[:pull_up]
         when '除'
-          HorseRaceResult.reason_of_exclusions[:scratch]
+          HorseRace.reason_of_exclusions[:scratch]
         when '取'
-          HorseRaceResult.reason_of_exclusions[:withdrawn]
+          HorseRace.reason_of_exclusions[:withdrawn]
         end
       end
     }.freeze
@@ -121,11 +121,10 @@ module Scraper
           Scraper::HorseScraperService.new(url: horse_url).call
         end
 
-        # HorseRaceResultのデータ保存
-        horse_race_result = HorseRaceResult
-                            .find_or_initialize_by(horse_id: attributes[:horse_id],
-                                                   race_id: attributes[:race_id])
-        horse_race_result.update_attributes!(attributes)
+        # HorseRaceのデータ保存
+        horse_race = HorseRace.find_or_initialize_by(horse_id: attributes[:horse_id],
+                                                     race_id: attributes[:race_id])
+        horse_race.update_attributes!(attributes)
       end
     end
 

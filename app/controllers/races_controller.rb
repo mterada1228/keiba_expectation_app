@@ -8,6 +8,6 @@ class RacesController < ApplicationController
 
   def show
     @race = Race.find(params[:id])
-    @race_horses = @race.race_horses.order('horse_number')
+    @horse_races = @race.horse_races.order('horse_number')
   end
 end
