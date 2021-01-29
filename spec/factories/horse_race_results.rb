@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :horse_race_result do
     horse
-    race_result
+    race
     sequence(:order_of_arrival)
     burden_weight { Faker::Number.decimal }
 

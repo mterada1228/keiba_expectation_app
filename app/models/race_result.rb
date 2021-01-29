@@ -1,6 +1,13 @@
 class RaceResult < ApplicationRecord
-  has_many :horse_race_results
+  belongs_to :race
 
-  enum course_type: { turf: 0, dirt: 1, hundle_race: 2 }
   enum course_condition: { firm: 0, good: 1, yielding: 2, soft: 3 }
+
+
+  COURSE_CONDITION_TRANSLATIONS = {
+    '良' => RaceResult.course_conditions[:firm],
+    '稍重' => RaceResult.course_conditions[:good],
+    '重' => RaceResult.course_conditions[:yielding],
+    '不良' => RaceResult.course_conditions[:soft]
+  }.freeze
 end

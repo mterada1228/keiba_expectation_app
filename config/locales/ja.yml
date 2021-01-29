@@ -1,6 +1,27 @@
 ja:
   enums:
     race:
+      course:
+        sapporo: 札幌
+        hakodate: 函館
+        fukushima: 福島
+        niigata: 新潟
+        tokyo: 東京
+        nakayama: 中山
+        cyuukyou: 中京
+        kyouto: 京都
+        hanshin: 阪神
+        kokura: 小倉
+        longchamp: ロンシャン
+      grade:
+        g1: G1
+        g2: G2
+        g3: G3
+        listed: L
+        op: OP
+        three_wins: 3勝
+        two_wins: 2勝
+        one_win: 1勝
       course_type:
         turf: 芝   
         dirt: ダ
@@ -12,11 +33,28 @@ ja:
       side:
         inner_course: 内
         external_course: 外
+    race_regulation:
+      handle_race_3_age_and_up: 障害3歳以上
+      thoroughbred_3_age_and_up: サラ系３歳以上
+      thoroughbred_3_age: サラ系３歳
+      thoroughbred_2_age: サラ系２歳
+      op: オープン
+      three_wins: ３勝クラス
+      two_wins: ２勝クラス
+      one_win: １勝クラス
+      not_win: 未勝利
+      new_horse: 新馬
+      international_race: 国際
+      special_race: 特別競走
+      designated_exchange_race: 指定交流競走
+      mixed_stags_and_mares: 牡・牝混合
+      mares: 牝馬限定
+      apprentice_jockey: 見習騎手
+      special_weight: 別定
+      weight_for_age: 定,
+      handicap: ハンデ
+      age: 馬齢
     race_result:
-      course_type:
-        turf: 芝   
-        dirt: ダ
-        hundle_race: 障
       course_condition:
         firm: 良
         good: 稍重

@@ -10,6 +10,9 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
 gem 'mysql2', '~> 0.5.3', group: [:development, :test]
 gem 'pg', '~> 1.2.3', group: :production
 
+# allow ActiveRecord to use composite primary key
+gem 'composite_primary_keys', '~> 12.0', '>= 12.0.6'
+
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
@@ -50,10 +53,7 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.15'
-  gem 'selenium-webdriver', '~> 3.142.7'
   gem 'launchy', '~> 2.4.3'
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers', '~> 4.4.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -67,3 +67,9 @@ gem "chartkick", '~> 3.4.0'
 
 # eunumの値をviewで日本語化する
 gem 'enum_help', '~> 0.0.17'
+
+# web scraping tools
+gem 'nokogiri', '~> 1.10', '>= 1.10.10'
+gem 'httparty', '~> 0.18.1'
+gem 'selenium-webdriver', '~> 3.142', '>= 3.142.7'
+gem 'webdrivers', '~> 4.4', '>= 4.4.1'

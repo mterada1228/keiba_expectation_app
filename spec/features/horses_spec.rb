@@ -16,9 +16,12 @@ feature 'Horses' do
 
   feature 'show' do
     let(:horse) { create(:horse) }
-
+    let(:races) { create_list(:race, 3) }
     before do
-      create_list(:horse_race_result, 3, horse: horse)
+      races.each do |race|
+        create(:race_result, race: race)
+        create(:horse_race_result, horse: horse, race: race)
+      end
     end
 
     scenario 'レースページを表示する' do
@@ -31,12 +34,12 @@ feature 'Horses' do
       expect(page).to have_text(horse.name)
       # レース結果エリア
       expect(page.all('th').map(&:text))
-        .to match(%w[日程 レース 枠番 馬番 オッズ 人気 順位 騎手 斤量 タイム 着差 通過順 後半3F 馬体重 増減 賞金])
-      result = HorseRaceResult.includes(:race_result).order('race_results.date DESC').first
+        .to match(%w(日程 レース 枠番 馬番 オッズ 人気 順位 騎手 斤量 タイム 着差 通過順 後半3F 馬体重 増減 賞金))
+      result = HorseRaceResult.includes(:race).order('races.start DESC').first
       expect(page.all('.horse_race_result')[0].all('td').map(&:text))
         .to match([
-          result.race_result.date.to_s(:date),
-          result.race_result.name,
+          result.race.start.to_s(:date),
+          result.race.name,
           result.gate_number,
           result.horse_number,
           result.odds,

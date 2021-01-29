@@ -32,8 +32,8 @@
         <tbody>
             <% @horse_race_results.each do |result| %>
                 <tr class="horse_race_result">
-                    <td><%= result.race_result.date.to_s :date %></td>
-                    <td><%= result.race_result.name %></td>
+                    <td><%= result.race.start.to_s :date %></td>
+                    <td><%= result.race.name %></td>
                     <td><%= result.gate_number %></td>
                     <td><%= result.horse_number %></td>
                     <td><%= result.odds %></td>
