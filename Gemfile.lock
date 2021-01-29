@@ -298,7 +298,7 @@ DEPENDENCIES
   pry-rails (~> 0.3.9)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.2)
-  rails-i18n
+  rails-i18n (~> 6.0)
   rspec-rails (~> 3.6.0)
   rubocop (~> 0.87)
   rubocop-performance (~> 1.8)
