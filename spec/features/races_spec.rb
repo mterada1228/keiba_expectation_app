@@ -15,7 +15,7 @@ feature 'Races' do
   end
 
   feature 'show' do
-    let(:race) { create(:race, :with_race_horses) }
+    let(:race) { create(:race, :with_horse_races) }
     before do
       create_list(:race_prize, 5, race: race)
       create_list(:race_regulation, 5, race: race)
@@ -26,7 +26,7 @@ feature 'Races' do
 
       # レースに出走する競走馬が全て表示されていること
       expect(page)
-        .to have_selector('tr.race_horse', count: race.race_horses.count)
+        .to have_selector('tr.horse_race', count: race.horse_races.count)
 
       # 必要な項目が画面上に表示されていること
       race_schedule = [race.start.to_s(:date_hour_min),
@@ -45,8 +45,8 @@ feature 'Races' do
       expect(page).to have_text(race_schedule)
       expect(page).to have_text(race_condition)
       expect(page).to have_text(race_prizes)
-      expect(page).to have_text(race.race_horses.first.gate_number)
-      expect(page).to have_text(race.race_horses.first.horse_number)
+      expect(page).to have_text(race.horse_races.first.gate_number)
+      expect(page).to have_text(race.horse_races.first.horse_number)
       expect(page).to have_text(race.horses.first.name)
     end
   end

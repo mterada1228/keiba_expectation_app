@@ -79,7 +79,7 @@ module Scraper
     # rubocop:enable Metrics/LineLength
 
     def create(attributes)
-      # HorseRaceResultのデータ保存
+      # HorseRaceのデータ保存
       race = Race.find_or_initialize_by(id: attributes[:id])
       race.update_attributes!(attributes)
     end

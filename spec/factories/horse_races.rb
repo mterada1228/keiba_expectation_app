@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :horse_race_result do
+  factory :horse_race do
     horse
     race
     sequence(:order_of_arrival)

@@ -14,7 +14,7 @@ module Scraper
 
     def call
       response = HTTParty.get(url)
-      create(parse(response))
+      parse_and_create(response)
     end
 
     private
@@ -59,18 +59,18 @@ module Scraper
       day_number: ->(elements) { elements[:day_number].text.gsub('日目', '') }
     }.freeze
 
-    def parse(response)
+    def parse_and_create(response)
       doc = Nokogiri::HTML(response)
       elements = elements(doc)
       attributes = {}
       OPERATOR.each_key do |column_name|
         attributes[column_name] = OPERATOR[column_name].call elements
       end
+      create(attributes)
       # RaceRegulationのデータ作成
       RaceRegulationScraperService.new(elements: elements).call
       # RacePrizeのデータ作成
       RacePrizeScraperService.new(elements: elements).call
-      attributes
     end
 
     # rubocop:disable Metrics/LineLength
