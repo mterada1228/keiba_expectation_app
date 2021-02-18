@@ -30,5 +30,8 @@ module KeibaExpectationApp
       helper_specs: false,
       routing_specs: false
     end
+
+    # use sidekiq for job executor
+    config.active_job.queue_adapter = :sidekiq
   end
 end

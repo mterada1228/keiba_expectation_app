@@ -76,3 +76,7 @@ gem 'webdrivers', '~> 4.4', '>= 4.4.1'
 
 # translate english to japanese
 gem 'rails-i18n', '~> 6.0'
+
+# sidekiq
+gem 'sidekiq', '~> 6.1', '>= 6.1.3'
+gem 'sidekiq-scheduler', '~> 3.0', '>= 3.0.1'

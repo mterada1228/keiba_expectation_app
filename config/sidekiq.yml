@@ -1,0 +1,3 @@
+:schedule:
+  ScrapeDataFromNetkeibaJob:
+    every: 1m
