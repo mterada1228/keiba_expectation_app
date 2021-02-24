@@ -33,7 +33,9 @@ module Scraper
     OPERATOR = {
       id: ->(elements) { /race_id=(\w+)/.match(elements[:url])[1] },
       start: lambda do |elements|
-        "#{elements[:start_date]} #{/\d.:\d./.match(elements[:race_info].text.split('/')[0])[0]}"
+        return elements[:start_date].text if elements[:start_time].nil?
+
+        "#{elements[:start_date].text} #{elements[:start_time][0]}"
       end,
       course: lambda do |elements|
         Race::COURSE_TRANSLATIONS[/race_id=(\w+)/.match(elements[:url])[1].slice(4..5)]
@@ -44,17 +46,14 @@ module Scraper
         elements[:grade].present? ? GRADE[elements[:grade].first['class'].split[1]] : nil
       end,
       course_type: lambda do |elements|
-        Race::COURSE_TYPE_TRANSLATIONS[
-          /[芝 ダ 障]./.match(elements[:race_info].text.split('/')[1])[0].strip]
+        Race::COURSE_TYPE_TRANSLATIONS[/[芝 ダ 障]./.match(elements[:course_info].text)[0].strip]
       end,
-      distance: ->(elements) { /\d+/.match(elements[:race_info].text.split('/')[1])[0] },
-      turn: lambda do |elements|
-        Race::TURN_TRANSLATIONS[/\((.)/.match(elements[:race_info].text.split('/')[1])[1]]
-      end,
+      distance: ->(elements) { /\d+/.match(elements[:course_info].text)[0] },
+      turn: ->(elements) { Race::TURN_TRANSLATIONS[elements[:turn][1]] },
       side: lambda do |elements|
-        return nil if / (.)\)/.match(elements[:race_info].text.split('/')[1]).nil?
+        return nil if elements[:side].nil?
 
-        Race::SIDE_TRANSLATIONS[/ (.)\)/.match(elements[:race_info].text.split('/')[1])[1]]
+        Race::SIDE_TRANSLATIONS[elements[:side][1]]
       end,
       day_number: ->(elements) { elements[:day_number].text.gsub('日目', '') }
     }.freeze
@@ -78,7 +77,10 @@ module Scraper
       {
         url: url,
         start_date: doc.css('#RaceList_DateList > dd.Active > a'),
-        race_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01'),
+        start_time: /\d.:\d./.match(doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01').text),
+        course_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01 > span:nth-child(1)'),
+        turn: /\((.)/.match(doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01').text),
+        side: / (.)\)/.match(doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01').text),
         round: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item01 > span'),
         name: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName'),
         grade: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName > span'),

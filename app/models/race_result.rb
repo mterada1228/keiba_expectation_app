@@ -6,8 +6,10 @@ class RaceResult < ApplicationRecord
 
   COURSE_CONDITION_TRANSLATIONS = {
     '良' => RaceResult.course_conditions[:firm],
+    '稍' => RaceResult.course_conditions[:good],
     '稍重' => RaceResult.course_conditions[:good],
     '重' => RaceResult.course_conditions[:yielding],
+    '不' => RaceResult.course_conditions[:soft],
     '不良' => RaceResult.course_conditions[:soft]
   }.freeze
 end

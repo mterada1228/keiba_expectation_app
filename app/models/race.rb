@@ -41,7 +41,7 @@ class Race < ApplicationRecord
 
   TURN_TRANSLATIONS = {
     '右' => Race.turns[:right],
-    '左' => Race.turns[:right],
+    '左' => Race.turns[:left],
     '直線' => Race.turns[:straight]
   }.freeze
 

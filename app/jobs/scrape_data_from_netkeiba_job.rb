@@ -1,8 +1,7 @@
 class ScrapeDataFromNetkeibaJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
-    # Do something later
-    p "Hello Active Job."
+  def perform
+    Scraper::TopPageScraperService.new.call
   end
 end

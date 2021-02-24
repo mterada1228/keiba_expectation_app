@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_012554) do
+ActiveRecord::Schema.define(version: 2021_02_24_080403) do
 
   create_table "horse_races", primary_key: ["horse_id", "race_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "horse_id", null: false
@@ -38,15 +38,6 @@ ActiveRecord::Schema.define(version: 2021_01_25_012554) do
 
   create_table "horses", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "race_horses", primary_key: ["race_id", "horse_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "race_id", null: false
-    t.bigint "horse_id", null: false
-    t.integer "gate_number"
-    t.integer "horse_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -89,7 +80,7 @@ ActiveRecord::Schema.define(version: 2021_01_25_012554) do
     t.integer "grade"
     t.integer "course_type", null: false
     t.integer "distance", null: false
-    t.integer "turn", null: false
+    t.integer "turn"
     t.integer "side"
     t.integer "day_number"
     t.datetime "created_at", precision: 6, null: false
