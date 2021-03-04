@@ -4,15 +4,20 @@ module Scraper
   # netkeiba の レースデータベースからデータを取得
   # （URL例）https://db.netkeiba.com/race/202044110310/
   class RaceResultScraperService
-    attr_reader :url, :driver
-
     TIMEOUT = 60
 
     def initialize(url:)
       @url = url
       setup
-      ActiveRecord::Base.logger = Logger.new($stdout)
     end
+
+    def call
+      Rails.logger.info("#{self.class}.#{__method__} start")
+      create(parse)
+      Rails.logger.info("#{self.class}.#{__method__} end")
+    end
+
+    private
 
     def setup
       options = Selenium::WebDriver::Chrome::Options.new
@@ -20,12 +25,6 @@ module Scraper
       @driver = Selenium::WebDriver.for :chrome, options: options
       @driver.manage.timeouts.implicit_wait = TIMEOUT
     end
-
-    def call
-      create(parse)
-    end
-
-    private
 
     OPERATOR = {
       race_id: ->(elements) { %r{/race/(\w+)/\z}.match(elements[:url])[1] },
@@ -44,7 +43,7 @@ module Scraper
         entire_rap(elements) ? entire_rap(elements).reverse.slice(0..2).sum : nil
       end,
       RPCI: lambda do |elements|
-        return nil unless entire_rap(elements)
+        return unless entire_rap(elements)
 
         entire_rap(elements).slice(0..2).sum / entire_rap(elements).reverse.slice(0..2).sum * 50
       end,
@@ -53,7 +52,7 @@ module Scraper
 
     class << self
       def entire_rap(elements)
-        return nil unless elements[:rap_time_info]
+        return unless elements[:rap_time_info]
 
         course_length = /\d+/.match(elements[:race_info].text.split('/')[0])[0]
         entire_rap = elements[:rap_time_info].text.split('-').map(&:to_f)
@@ -65,37 +64,39 @@ module Scraper
     end
 
     def parse
-      driver.get(url)
+      @driver.get(@url)
       attributes = {}
       elements = elements()
-      OPERATOR.each_key do |column_name|
-        attributes[column_name] = OPERATOR[column_name].call elements
+      OPERATOR.each do |column, operation|
+        attributes[column] = operation.call elements
       end
       attributes
     end
 
-    # rubocop:disable Layout/LineLength
     def elements
       {
-        url: url,
-        race_info: driver.find_element(:css, '#main > div > div > div > diary_snap > div > div > dl > dd > p > diary_snap_cut > span'),
+        url: @url,
+        race_info: @driver.find_element(:css, '#main > div > div > div > diary_snap > div > ' \
+                                              'div > dl > dd > p > diary_snap_cut > span'),
         rap_time_info: begin
-          driver.find_element(:css, '#contents > div.result_info.box_left > table:nth-child(4) > tbody > tr:nth-child(1) > td')
+          @driver.find_element(:css, '#contents > div.result_info.box_left > ' \
+                                     'table:nth-child(4) > tbody > tr:nth-child(1) > td')
         rescue Selenium::WebDriver::Error::NoSuchElementError
           nil
         end,
-        horses_list: driver.find_element(css: '#contents_liquid > table > tbody').find_elements(:tag_name, 'tr')
+        horses_list: @driver.find_element(css: '#contents_liquid > table > tbody')
+                            .find_elements(:tag_name, 'tr')
       }
     end
-    # rubocop:enable Layout/LineLength
 
     def create(attributes)
       # 参照元クラス Race のデータ取得
-      race_id = %r{/race/(\w+)/\z}.match(url)[1]
+      race_id = %r{/race/(\w+)/\z}.match(@url)[1]
       race_scrape(race_id) unless RaceResult.exists?(race_id)
 
       race_result = RaceResult.find_or_initialize_by(race_id: attributes[:race_id])
       race_result.update_attributes!(attributes)
+      Rails.logger.info(attributes)
     end
 
     def race_scrape(race_id)

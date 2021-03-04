@@ -5,16 +5,15 @@ module Scraper
   # （URL例）https://race.netkeiba.com/race/shutuba.html?race_id=202006010911
 
   class RaceScraperService
-    attr_reader :url
-
     def initialize(url:)
       @url = url
-      ActiveRecord::Base.logger = Logger.new($stdout)
     end
 
     def call
-      response = HTTParty.get(url)
+      Rails.logger.info("#{self.class}.#{__method__} start")
+      response = HTTParty.get(@url)
       parse_and_create(response)
+      Rails.logger.info("#{self.class}.#{__method__} end")
     end
 
     private
@@ -28,7 +27,7 @@ module Scraper
       'Icon_GradeType16' => Race.grades[:three_wins],
       'Icon_GradeType17' => Race.grades[:two_wins],
       'Icon_GradeType18' => Race.grades[:one_win]
-    }
+    }.freeze
 
     OPERATOR = {
       id: ->(elements) { /race_id=(\w+)/.match(elements[:url])[1] },
@@ -51,7 +50,7 @@ module Scraper
       distance: ->(elements) { /\d+/.match(elements[:course_info].text)[0] },
       turn: ->(elements) { Race::TURN_TRANSLATIONS[elements[:turn][1]] },
       side: lambda do |elements|
-        return nil if elements[:side].nil?
+        return if elements[:side].nil?
 
         Race::SIDE_TRANSLATIONS[elements[:side][1]]
       end,
@@ -62,33 +61,47 @@ module Scraper
       doc = Nokogiri::HTML(response)
       elements = elements(doc)
       attributes = {}
-      OPERATOR.each_key do |column_name|
-        attributes[column_name] = OPERATOR[column_name].call elements
+      OPERATOR.each do |column, operation|
+        attributes[column] = operation.call elements
       end
       create(attributes)
+      Rails.logger.info(attributes)
       # RaceRegulationのデータ作成
       RaceRegulationScraperService.new(elements: elements).call
       # RacePrizeのデータ作成
       RacePrizeScraperService.new(elements: elements).call
     end
 
-    # rubocop:disable Metrics/LineLength
-    def elements(doc)
+    def elements(doc) # rubocop:disable Metrics/MethodLength
       {
-        url: url,
+        url: @url,
         start_date: doc.css('#RaceList_DateList > dd.Active > a'),
-        start_time: /\d.:\d./.match(doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01').text),
-        course_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01 > span:nth-child(1)'),
-        turn: /\((.)/.match(doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01').text),
-        side: / (.)\)/.match(doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01').text),
-        round: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item01 > span'),
-        name: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName'),
-        grade: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName > span'),
-        day_number: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData02 > span:nth-child(3)'),
-        regulations_and_prizes: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData02')
+        start_time: /\d.:\d./.match(doc.css('#page > div.RaceColumn01 > div > ' \
+                                            'div.RaceMainColumn > div.RaceList_NameBox > ' \
+                                            'div.RaceList_Item02 > div.RaceData01').text),
+        course_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > ' \
+                             'div.RaceList_NameBox > div.RaceList_Item02 > ' \
+                             'div.RaceData01 > span:nth-child(1)'),
+        turn: /\((.)/.match(doc.css('#page > div.RaceColumn01 > div > ' \
+                                    'div.RaceMainColumn > div.RaceList_NameBox > ' \
+                                    'div.RaceList_Item02 > div.RaceData01').text),
+        side: / (.)\)/.match(doc.css('#page > div.RaceColumn01 > div > ' \
+                                     'div.RaceMainColumn > div.RaceList_NameBox > ' \
+                                     'div.RaceList_Item02 > div.RaceData01').text),
+        round: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > ' \
+                       'div.RaceList_NameBox > div.RaceList_Item01 > span'),
+        name: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > ' \
+                      'div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName'),
+        grade: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > ' \
+                       'div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName > span'),
+        day_number: doc.css('#page > div.RaceColumn01 > div > ' \
+                            'div.RaceMainColumn > div.RaceList_NameBox > ' \
+                            'div.RaceList_Item02 > div.RaceData02 > span:nth-child(3)'),
+        regulations_and_prizes: doc.css('#page > div.RaceColumn01 > div > ' \
+                                        'div.RaceMainColumn > div.RaceList_NameBox > ' \
+                                        'div.RaceList_Item02 > div.RaceData02')
       }
     end
-    # rubocop:enable Metrics/LineLength
 
     def create(attributes)
       race = Race.find_or_initialize_by(id: attributes[:id])

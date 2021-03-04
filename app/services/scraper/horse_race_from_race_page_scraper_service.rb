@@ -3,16 +3,21 @@ module Scraper
   # Usage: Scraper::HorseRaceFromRacePageScraperService.new(url: <データ取得先URL>).call
   # netkeiba の レースページからデータを取得
   # （URL例）https://race.netkeiba.com/race/shutuba.html?race_id=202105010809
-  class HorseRaceFromRacePageScraperService # rubocop:disable Metrics/ClassLength
-    attr_reader :url, :driver
-
+  class HorseRaceFromRacePageScraperService
     TIMEOUT = 60
 
     def initialize(url:)
       @url = url
       setup
-      ActiveRecord::Base.logger = Logger.new($stdout)
     end
+
+    def call
+      Rails.logger.info("#{self.class}.#{__method__} start")
+      create(parse)
+      Rails.logger.info("#{self.class}.#{__method__} end")
+    end
+
+    private
 
     def setup
       options = Selenium::WebDriver::Chrome::Options.new
@@ -21,58 +26,53 @@ module Scraper
       @driver.manage.timeouts.implicit_wait = TIMEOUT
     end
 
-    def call
-      create(parse)
-    end
-
-    private
-
     OPERATOR = {
       horse_id: ->(elements) { %r{horse/(\d+)}.match(elements[:horse_url].attribute('href'))[1] },
       race_id: ->(elements) { /race_id=(\d+)/.match(elements[:race_url])[1] },
       gate_number: lambda do |elements|
-        elements[:gate_number].text.present? ? elements[:gate_number].text : nil
+        elements[:gate_number].text.presence
       end,
       horse_number: lambda do |elements|
-        elements[:horse_number].text.present? ? elements[:horse_number].text : nil
+        elements[:horse_number].text.presence
       end,
       odds: ->(elements) { elements[:odds].text },
       popularity: ->(elements) { elements[:popularity].text },
       jockey: ->(elements) { elements[:jockey].text.gsub(/\n/, '') },
       burden_weight: ->(elements) { elements[:burden_weight].text },
       horse_weight: lambda do |elements|
-        return nil if elements[:horse_weight].text == '計不' || elements[:horse_weight].text.blank?
+        return if elements[:horse_weight].text == '計不' || elements[:horse_weight].text.blank?
 
         /(\d+)\((.+)\)/.match(elements[:horse_weight].text)[1]
       end,
       difference_in_horse_weight: lambda do |elements|
-        return nil if elements[:horse_weight].text == '計不' || elements[:horse_weight].text.blank?
+        return if elements[:horse_weight].text == '計不' || elements[:horse_weight].text.blank?
 
         /(\d+)\((.+)\)/.match(elements[:horse_weight].text)[2]
-      end,
+      end
     }.freeze
 
     def parse
-      driver.get(url)
+      @driver.get(@url)
 
       horse_races =
-        driver.find_elements(:css,
-                             '#page > div.RaceColumn02 > div.RaceTableArea > table > tbody > tr')
+        @driver.find_elements(
+          :css,
+          '#page > div.racecolumn02 > div.racetablearea > table > tbody > tr'
+        )
       horse_races.map do |horse_race|
         attributes = {}
         elements = elements(horse_race)
-        OPERATOR.each_key do |column_name|
-          attributes[column_name] = OPERATOR[column_name].call elements
+        OPERATOR.each do |column, operation|
+          attributes[column] = operation.call elements
         end
         attributes
       end
     end
 
-    # rubocop:disable Metrics/MethodLength
     def elements(horse_race)
       {
         horse_url: horse_race.find_element(:css, 'td.HorseInfo > div > div > span > a'),
-        race_url: url,
+        race_url: @url,
         gate_number: horse_race.find_element(:css, 'td.Waku.Txt_C'),
         horse_number: horse_race.find_element(:css, 'td.Umaban.Txt_C'),
         odds: horse_race.find_element(:css, 'td.Popular'),
@@ -82,7 +82,6 @@ module Scraper
         horse_weight: horse_race.find_element(:css, 'td.Weight')
       }
     end
-    # rubocop:enable Metrics/MethodLength
 
     def create(attributes_list)
       attributes_list.map do |attributes|
@@ -96,6 +95,7 @@ module Scraper
         horse_race = HorseRace.find_or_initialize_by(horse_id: attributes[:horse_id],
                                                      race_id: attributes[:race_id])
         horse_race.update_attributes!(attributes)
+        Rails.logger.info(attributes)
       end
     end
 

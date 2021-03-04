@@ -12,7 +12,7 @@ class Race < ApplicationRecord
   enum course: {
     sapporo:  1, hakodate: 2, fukushima: 3, niigata: 4, tokyo: 5,
     nakayama: 6, cyuukyou: 7, kyouto: 8, hanshin: 9, kokura: 10,
-    longchamp: 38
+    longchamp: 38, ooi: 44
   }
   enum grade: { g1: 0, g2: 1, g3: 2, listed: 3, op: 4, three_wins: 5, two_wins: 6, one_win: 7 }
   enum course_type: { turf: 0, dirt: 1, hundle_race: 2 }
@@ -30,7 +30,8 @@ class Race < ApplicationRecord
     '08' => Race.courses[:kyouto],
     '09' => Race.courses[:hanshin],
     '10' => Race.courses[:kokura],
-    'C8' => Race.courses[:longchamp]
+    'C8' => Race.courses[:longchamp],
+    '44' => Race.courses[:ooi]
   }
 
   COURSE_TYPE_TRANSLATIONS = {

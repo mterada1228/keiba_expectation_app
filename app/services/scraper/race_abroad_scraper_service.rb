@@ -6,16 +6,15 @@ module Scraper
   # （URL例）https://race.netkeiba.com/race/shutuba.html?race_id=2019C8100604
 
   class RaceAbroadScraperService
-    attr_reader :url
-
     def initialize(url:)
       @url = url
-      ActiveRecord::Base.logger = Logger.new($stdout)
     end
 
     def call
-      response = HTTParty.get(url)
+      Rails.logger.info("#{self.class}.#{__method__} start")
+      response = HTTParty.get(@url)
       create(parse(response))
+      Rails.logger.info("#{self.class}.#{__method__} end")
     end
 
     private
@@ -29,7 +28,7 @@ module Scraper
       'Icon_GradeType16' => Race.grades[:three_wins],
       'Icon_GradeType17' => Race.grades[:two_wins],
       'Icon_GradeType18' => Race.grades[:one_win]
-    }
+    }.freeze
 
     OPERATOR = {
       id: ->(elements) { /race_id=(\w+)/.match(elements[:url])[1] },
@@ -60,28 +59,31 @@ module Scraper
       doc = Nokogiri::HTML(response)
       elements = elements(doc)
       attributes = {}
-      OPERATOR.each_key do |column_name|
-        attributes[column_name] = OPERATOR[column_name].call elements
+      OPERATOR.each do |column, operation|
+        attributes[column] = operation.call elements
       end
       attributes
     end
 
-    # rubocop:disable Metrics/LineLength
     def elements(doc)
       {
-        url: url,
-        race_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01'),
-        round: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item01 > span'),
-        name: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName'),
-        grade: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName > span')
+        url: @url,
+        race_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > ' \
+                           'div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01'),
+        round: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > ' \
+                       'div.RaceList_NameBox > div.RaceList_Item01 > span'),
+        name: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > ' \
+                      'div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName'),
+        grade: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > ' \
+                       'div.RaceList_NameBox > div.RaceList_Item02 > div.RaceName > span')
       }
     end
-    # rubocop:enable Metrics/LineLength
 
     def create(attributes)
       # HorseRaceのデータ保存
       race = Race.find_or_initialize_by(id: attributes[:id])
       race.update_attributes!(attributes)
+      Rails.logger.info(attributes)
     end
   end
 end

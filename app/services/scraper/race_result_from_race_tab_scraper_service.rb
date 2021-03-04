@@ -5,16 +5,15 @@ module Scraper
   # （URL例）https://race.netkeiba.com/race/result.html?race_id=202105010611
 
   class RaceResultFromRaceTabScraperService
-    attr_reader :url
-
     def initialize(url:)
       @url = url
-      ActiveRecord::Base.logger = Logger.new($stdout)
     end
 
     def call
-      response = HTTParty.get(url)
+      Rails.logger.info("#{self.class}.#{__method__} start")
+      response = HTTParty.get(@url)
       create(parse(response))
+      Rails.logger.info("#{self.class}.#{__method__} end")
     end
 
     private
@@ -36,7 +35,7 @@ module Scraper
         entire_rap(elements) ? entire_rap(elements).reverse.slice(0..2).sum : nil
       end,
       RPCI: lambda do |elements|
-        return nil unless entire_rap(elements)
+        return unless entire_rap(elements)
 
         entire_rap(elements).slice(0..2).sum / entire_rap(elements).reverse.slice(0..2).sum * 50
       end,
@@ -45,7 +44,7 @@ module Scraper
 
     class << self
       def entire_rap(elements)
-        return nil if elements[:rap_time_info].blank?
+        return if elements[:rap_time_info].blank?
 
         course_length = /\d+/.match(elements[:race_info].text.split('/')[1])[0]
         entire_rap = elements[:rap_time_info].map { |rap| rap.text.to_f }
@@ -60,30 +59,32 @@ module Scraper
       doc = Nokogiri::HTML(response)
       elements = elements(doc)
       attributes = {}
-      OPERATOR.each_key do |column_name|
-        attributes[column_name] = OPERATOR[column_name].call elements
+      OPERATOR.each do |column, operation|
+        attributes[column] = operation.call elements
       end
       attributes
     end
 
-    # rubocop:disable Layout/LineLength
     def elements(doc)
       {
-        url: url,
-        race_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01'),
-        rap_time_info: doc.css('#tab_ResultSelect_1_con > div.Result_Pay_Back.mb5 > div.ResultPayback.Block_Inline > div.Table_Scroll > table > tbody > tr:nth-child(3) > td'),
+        url: @url,
+        race_info: doc.css('#page > div.RaceColumn01 > div > div.RaceMainColumn > ' \
+                           'div.RaceList_NameBox > div.RaceList_Item02 > div.RaceData01'),
+        rap_time_info: doc.css('#tab_ResultSelect_1_con > div.Result_Pay_Back.mb5 > ' \
+                               'div.ResultPayback.Block_Inline > div.Table_Scroll > ' \
+                               'table > tbody > tr:nth-child(3) > td'),
         horses_list: doc.css('#All_Result_Table > tbody > tr')
       }
     end
-    # rubocop:enable Layout/LineLength
 
     def create(attributes)
       # 参照元クラス Race のデータ取得
-      race_id = /race_id=(\w+)/.match(url)[1]
+      race_id = /race_id=(\w+)/.match(@url)[1]
       race_scrape(race_id) unless RaceResult.exists?(race_id)
 
       race_result = RaceResult.find_or_initialize_by(race_id: attributes[:race_id])
       race_result.update_attributes!(attributes)
+      Rails.logger.info(attributes)
     end
 
     def race_scrape(race_id)
