@@ -2,18 +2,17 @@ module Scraper
   # HorseRaceモデルのスクレイピングを実施
   # Usage: Scraper::HorseRaceScraperService.new(url: <データ取得先URL>).call
   # netkeiba の 競走馬データベースからデータを取得
-  # （URL例）https://db.netkeiba.com/horse/2016104458/
+  # （URL例）https://db.netkeiba.com/horse/2018104963
   class HorseRaceScraperService # rubocop:disable Metrics/ClassLength
-    attr_reader :url
-
     def initialize(url:)
       @url = url
-      ActiveRecord::Base.logger = Logger.new($stdout)
     end
 
     def call
-      response = HTTParty.get(url)
+      Rails.logger.info("#{self.class}.#{__method__} start")
+      response = HTTParty.get(@url)
       create(parse(response))
+      Rails.logger.info("#{self.class}.#{__method__} end")
     end
 
     private
@@ -24,13 +23,13 @@ module Scraper
         %r{race/(.+)/\z}.match(elements[:race_result_link].first.attributes['href'].value)[1]
       end,
       gate_number: lambda do |elements|
-        elements[:gate_number].text.present? ? elements[:gate_number].text : nil
+        elements[:gate_number].text.presence
       end,
       horse_number: ->(elements) { elements[:horse_number].text },
       odds: ->(elements) { elements[:odds].text },
       popularity: ->(elements) { elements[:popularity].text },
       order_of_arrival: lambda do |elements|
-        return nil if /\A[除 中 取]+\z/.match elements[:order_of_arrival].text
+        return if /\A[除 中 取]+\z/.match elements[:order_of_arrival].text
 
         elements[:order_of_arrival].text
       end,
@@ -40,21 +39,21 @@ module Scraper
         elements[:time].text.present? ? "0:#{elements[:time].text}" : nil
       end,
       time_diff: lambda do |elements|
-        elements[:time_diff].text.present? ? elements[:time_diff].text : nil
+        elements[:time_diff].text.presence
       end,
       passing_order: lambda do |elements|
-        elements[:passing_order].text.present? ? elements[:passing_order].text : nil
+        elements[:passing_order].text.presence
       end,
       last_3f: lambda do |elements|
-        elements[:last_3f].text.present? ? elements[:last_3f].text : nil
+        elements[:last_3f].text.presence
       end,
       horse_weight: lambda do |elements|
-        return nil if elements[:horse_weight].text == '計不'
+        return if elements[:horse_weight].text == '計不'
 
         /(\d+)\((.+)\)/.match(elements[:horse_weight].text)[1]
       end,
       difference_in_horse_weight: lambda do |elements|
-        return nil if elements[:horse_weight].text == '計不'
+        return if elements[:horse_weight].text == '計不'
 
         /(\d+)\((.+)\)/.match(elements[:horse_weight].text)[2]
       end,
@@ -88,10 +87,9 @@ module Scraper
       end
     end
 
-    # rubocop:disable Metrics/MethodLength
-    def elements(race_result)
+    def elements(race_result) # rubocop:disable Metrics/MethodLength
       {
-        url: url,
+        url: @url,
         race_result_link: race_result.css('td:nth-child(5) > a'),
         gate_number: race_result.css('td:nth-child(8)'),
         horse_number: race_result.css('td:nth-child(9)'),
@@ -108,7 +106,6 @@ module Scraper
         get_prize: race_result.css('td:nth-child(28)')
       }
     end
-    # rubocop:enable Metrics/MethodLength
 
     def create(attributes_list)
       attributes_list.map do |attributes|

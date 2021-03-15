@@ -1,15 +1,13 @@
-
 module Scraper
   class RacePrizeScraperService
-    attr_reader :elements
-
     def initialize(elements:)
       @elements = elements
-      ActiveRecord::Base.logger = Logger.new($stdout)
     end
 
     def call
+      Rails.logger.info("#{self.class}.#{__method__} start")
       create
+      Rails.logger.info("#{self.class}.#{__method__} end")
     end
 
     private
@@ -20,11 +18,12 @@ module Scraper
                      .find_or_initialize_by(race_id: attributes[:race_id],
                                             order_of_arrival: attributes[:order_of_arrival])
         race_prize.update_attributes!(attributes)
+        Rails.logger.info(attributes)
       end
     end
 
     def race_prizes_list
-      race_id = /race_id=(\d+)/.match(elements[:url])[1]
+      race_id = /race_id=(\d+)/.match(@elements[:url])[1]
       prizes.map.with_index(1) do |prize, order_of_arrival|
         {
           race_id: race_id,
@@ -35,7 +34,7 @@ module Scraper
     end
 
     def prizes
-      /本賞金:(.*)万円/.match(elements[:regulations_and_prizes].text)[1].split(',')
+      /本賞金:(.*)万円/.match(@elements[:regulations_and_prizes].text)[1].split(',')
     end
   end
 end
