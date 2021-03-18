@@ -11,27 +11,9 @@ module Scraper
     def call
       Rails.logger.info("#{self.class}.#{__method__} start")
       response = HTTParty.get(@url)
-      create(parse(response))
+      horse = Scraper::Parser.parse_horse(response)
+      Scraper::Creator.create(horse)
       Rails.logger.info("#{self.class}.#{__method__} end")
-    end
-
-    private
-
-    def parse(response)
-      @url = response.request.path.to_s
-      doc = Nokogiri::HTML(response)
-      {
-        id: %r{horse/(\d+)}.match(@url)[1],
-        name: doc
-          .css('#db_main_box > div.db_head.fc > div.db_head_name.fc > div.horse_title > h1')
-          .text.gsub(/[[:space:]]/, '')
-      }
-    end
-
-    def create(attributes)
-      horse = Horse.find_or_initialize_by(id: attributes[:id])
-      horse.update_attributes!(attributes)
-      Rails.logger.info(attributes)
     end
   end
 end
