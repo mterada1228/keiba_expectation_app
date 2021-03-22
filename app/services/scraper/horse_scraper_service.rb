@@ -10,9 +10,8 @@ module Scraper
 
     def call
       Rails.logger.info("#{self.class}.#{__method__} start")
-      response = HTTParty.get(@url)
-      horse = Scraper::Parser.parse_horse(response)
-      Scraper::Creator.create(horse)
+      attributes = Scraper.new.scrape_horse(@url)
+      Upserter.new.create(Horse.new(attributes))
       Rails.logger.info("#{self.class}.#{__method__} end")
     end
   end
