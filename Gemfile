@@ -7,8 +7,7 @@ ruby '2.5.3'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
 
 # Use the database for Active Record
-gem 'mysql2', '~> 0.5.3', group: [:development, :test]
-gem 'pg', '~> 1.2.3', group: :production
+gem 'mysql2', '~> 0.5.3'
 
 # allow ActiveRecord to use composite primary key
 gem 'composite_primary_keys', '~> 12.0', '>= 12.0.6'
