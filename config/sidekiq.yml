@@ -1,4 +1,4 @@
 :schedule:
   ScrapeDataFromNetkeibaJob:
-    every: 1d
+    every: '1d'
     class: ScrapeDataFromNetkeibaJob
