@@ -10,8 +10,8 @@ module Scraper
 
     def call
       Rails.logger.info("#{self.class}.#{__method__} start")
-      attributes = Scraper.new.scrape_horse(@url)
-      Upserter.new.create(Horse.new(attributes))
+      attributes = HorseScraper.new(url: @url).call
+      HorseUpserter.new(attributes: attributes).call
       Rails.logger.info("#{self.class}.#{__method__} end")
     end
   end

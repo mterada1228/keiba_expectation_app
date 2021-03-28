@@ -1,7 +1,11 @@
 module Scraper
-  class Scraper
-    def scrape_horse(url)
-      response = HTTParty.get(url)
+  class HorseScraper
+    def initialize(url:)
+      @url = url
+    end
+
+    def call
+      response = HTTParty.get(@url)
       document = Nokogiri::HTML(response)
 
       item = {}
