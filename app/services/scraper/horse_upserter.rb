@@ -6,7 +6,7 @@ module Scraper
 
     def call
       horse = Horse.find_or_initialize_by(id: @attributes[:id])
-      horse.update(@attributes)
+      horse.update!(@attributes)
     end
   end
 end
