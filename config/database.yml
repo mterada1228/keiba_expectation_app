@@ -15,11 +15,14 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
   database: keiba_expectation_app_test
   username: keiba_expectation_app_test
   password: <%= Rails.application.credentials.db_test[:password] %>
   host: localhost
 
 production:
-  url: <%= Rails.application.credentials.db_production[:url] %>
+  <<: *default
+  database: heroku_e6f123c94737943
+  username: bec23c2237c9da
+  password: <%= Rails.application.credentials.db_production[:password] %>
+  host: us-cdbr-east-03.cleardb.com
