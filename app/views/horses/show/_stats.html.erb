@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row row-cols-auto">
+    <div class="col">
+      <div class="p-3 border bg-light">馬場別</div>
+      <ul>
+        <li>
+          良 <%= @facade.results_by_course_condition[:firm][:first] %> -
+          <%= @facade.results_by_course_condition[:firm][:second] %> -
+          <%= @facade.results_by_course_condition[:firm][:third] %> -
+          <%= @facade.results_by_course_condition[:firm][:unplaced] %>
+        </li>
+        <li>
+          稍重 <%= @facade.results_by_course_condition[:good][:first] %> -
+          <%= @facade.results_by_course_condition[:good][:second] %> -
+          <%= @facade.results_by_course_condition[:good][:third] %> -
+          <%= @facade.results_by_course_condition[:good][:unplaced] %>
+        </li>
+        <li>
+          重 <%= @facade.results_by_course_condition[:yielding][:first] %> -
+          <%= @facade.results_by_course_condition[:yielding][:second] %> -
+          <%= @facade.results_by_course_condition[:yielding][:third] %> -
+          <%= @facade.results_by_course_condition[:yielding][:unplaced] %>
+        </li>
+        <li>
+          不良 <%= @facade.results_by_course_condition[:soft][:first] %> -
+          <%= @facade.results_by_course_condition[:soft][:second] %> -
+          <%= @facade.results_by_course_condition[:soft][:third] %> -
+          <%= @facade.results_by_course_condition[:soft][:unplaced] %>
+        </li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="p-3 border bg-light">距離別</div>
+    </div>
+</div>

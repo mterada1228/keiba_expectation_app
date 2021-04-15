@@ -3,6 +3,7 @@ class RaceResult < ApplicationRecord
 
   enum course_condition: { firm: 0, good: 1, yielding: 2, soft: 3 }
 
+  scope :races_by_condition, ->(condition) { where(course_condition: condition) }
 
   COURSE_CONDITION_TRANSLATIONS = {
     '良' => RaceResult.course_conditions[:firm],

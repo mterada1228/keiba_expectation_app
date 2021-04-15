@@ -19,6 +19,12 @@ class Race < ApplicationRecord
   enum turn: { right: 0, left: 1, straight: 2 }
   enum side: { inner_course: 0, external_course: 1 }
 
+  scope :races_by_condition, ->(condition) { joins(:race_result).merge(RaceResult.races_by_condition(condition)) }
+  scope :first_place_races, -> { joins(:horse_races).merge(HorseRace.first_place_races) }
+  scope :second_place_races, -> { joins(:horse_races).merge(HorseRace.second_place_races) }
+  scope :third_place_races, -> { joins(:horse_races).merge(HorseRace.third_place_races) }
+  scope :unplaced_races, -> { joins(:horse_races).merge(HorseRace.unplaced_races) }
+
   COURSE_TRANSLATIONS = {
     '01' => Race.courses[:sapporo],
     '02' => Race.courses[:hakodate],

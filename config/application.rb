@@ -33,5 +33,8 @@ module KeibaExpectationApp
 
     # use sidekiq for job executor
     config.active_job.queue_adapter = :sidekiq
+
+    # Facades ディレクトリをロードする 
+    config.autoload_paths += Dir["#{config.root}/facades/**/"]
   end
 end
