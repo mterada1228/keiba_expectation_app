@@ -8,8 +8,8 @@ class HorseRace < ApplicationRecord
 
   enum reason_of_exclusion: { pull_up: 0, scratch: 1, withdrawn: 2 }
 
-  scope :first_place_races, -> { where(order_of_arrival: 1) }
-  scope :second_place_races, -> { where(order_of_arrival: 2) }
-  scope :third_place_races, -> { where(order_of_arrival: 3) }
-  scope :unplaced_races, -> { where(arel_table[:order_of_arrival].gt(4)) }
+  scope :first_place_horse_races, -> { where(order_of_arrival: 1) }
+  scope :second_place_horse_races, -> { where(order_of_arrival: 2) }
+  scope :third_place_horse_races, -> { where(order_of_arrival: 3) }
+  scope :unplaced_horse_races, -> { where(arel_table[:order_of_arrival].gt(4)) }
 end

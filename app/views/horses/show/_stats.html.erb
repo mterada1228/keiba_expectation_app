@@ -4,28 +4,28 @@
       <div class="p-3 border bg-light">馬場別</div>
       <ul>
         <li>
-          良 <%= @facade.results_by_course_condition[:firm][:first] %> -
-          <%= @facade.results_by_course_condition[:firm][:second] %> -
-          <%= @facade.results_by_course_condition[:firm][:third] %> -
-          <%= @facade.results_by_course_condition[:firm][:unplaced] %>
+          良 <%= @horse_evaluation.results_by_course_condition.firm.first_place %> -
+          <%= @horse_evaluation.results_by_course_condition.firm.second_place %> -
+          <%= @horse_evaluation.results_by_course_condition.firm.third_place %> -
+          <%= @horse_evaluation.results_by_course_condition.firm.unplaced %>
         </li>
         <li>
-          稍重 <%= @facade.results_by_course_condition[:good][:first] %> -
-          <%= @facade.results_by_course_condition[:good][:second] %> -
-          <%= @facade.results_by_course_condition[:good][:third] %> -
-          <%= @facade.results_by_course_condition[:good][:unplaced] %>
+          稍重 <%= @horse_evaluation.results_by_course_condition.good.first_place %> -
+          <%= @horse_evaluation.results_by_course_condition.good.second_place %> -
+          <%= @horse_evaluation.results_by_course_condition.good.third_place %> -
+          <%= @horse_evaluation.results_by_course_condition.good.unplaced %>
         </li>
         <li>
-          重 <%= @facade.results_by_course_condition[:yielding][:first] %> -
-          <%= @facade.results_by_course_condition[:yielding][:second] %> -
-          <%= @facade.results_by_course_condition[:yielding][:third] %> -
-          <%= @facade.results_by_course_condition[:yielding][:unplaced] %>
+          重 <%= @horse_evaluation.results_by_course_condition.yielding.first_place %> -
+          <%= @horse_evaluation.results_by_course_condition.yielding.second_place %> -
+          <%= @horse_evaluation.results_by_course_condition.yielding.third_place %> -
+          <%= @horse_evaluation.results_by_course_condition.yielding.unplaced %>
         </li>
         <li>
-          不良 <%= @facade.results_by_course_condition[:soft][:first] %> -
-          <%= @facade.results_by_course_condition[:soft][:second] %> -
-          <%= @facade.results_by_course_condition[:soft][:third] %> -
-          <%= @facade.results_by_course_condition[:soft][:unplaced] %>
+          不良 <%= @horse_evaluation.results_by_course_condition.soft.first_place %> -
+          <%= @horse_evaluation.results_by_course_condition.soft.second_place %> -
+          <%= @horse_evaluation.results_by_course_condition.soft.third_place %> -
+          <%= @horse_evaluation.results_by_course_condition.soft.unplaced %>
         </li>
       </ul>
     </div>

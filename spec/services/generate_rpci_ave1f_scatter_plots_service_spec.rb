@@ -9,7 +9,6 @@ describe GenerateRpciAve1fScatterPlotsService do
       let(:races) { create_list(:race, 5) }
       before do
         races.each do |race|
-          create(:race_result, race: race)
           create(:horse_race, horse: horse, race: race)
         end
       end
@@ -21,7 +20,6 @@ describe GenerateRpciAve1fScatterPlotsService do
 
     describe 'それぞれのプロットについてのテスト' do
       let(:race) { create(:race) }
-      let!(:race_result) { create(:race_result, race: race) }
       before do
         create(:horse_race, trait, horse: horse, race: race)
       end
@@ -32,7 +30,7 @@ describe GenerateRpciAve1fScatterPlotsService do
         it '黄色のプロットが作成される' do
           expect(scatter_plots[0])
             .to eq(name: race.name,
-                   data: [[race_result.RPCI, race_result.ave_1F]],
+                   data: [[race.RPCI, race.ave_1F]],
                    color: described_class::WON_RACE_COLOR)
         end
       end
@@ -43,7 +41,7 @@ describe GenerateRpciAve1fScatterPlotsService do
         it '緑色のプロットが作成される' do
           expect(scatter_plots[0])
             .to eq(name: race.name,
-                   data: [[race_result.RPCI, race_result.ave_1F]],
+                   data: [[race.RPCI, race.ave_1F]],
                    color: described_class::RACE_LOST_BY_0_POINT_2_SECONDS_COLOR)
         end
       end
@@ -54,7 +52,7 @@ describe GenerateRpciAve1fScatterPlotsService do
         it '青色のプロットが作成される' do
           expect(scatter_plots[0])
             .to eq(name: race.name,
-                   data: [[race_result.RPCI, race_result.ave_1F]],
+                   data: [[race.RPCI, race.ave_1F]],
                    color: described_class::RACE_LOST_BY_1_SECOND_COLOR)
         end
       end
@@ -65,7 +63,7 @@ describe GenerateRpciAve1fScatterPlotsService do
         it '灰色のプロットが作成される' do
           expect(scatter_plots[0])
             .to eq(name: race.name,
-                   data: [[race_result.RPCI, race_result.ave_1F]],
+                   data: [[race.RPCI, race.ave_1F]],
                    color: described_class::RACE_LOST_BY_MORE_THAN_1_SECOND_COLOR)
         end
       end

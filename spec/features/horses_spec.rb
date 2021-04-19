@@ -19,7 +19,6 @@ feature 'Horses' do
     let(:races) { create_list(:race, 3) }
     before do
       races.each do |race|
-        create(:race_result, race: race)
         create(:horse_race, horse: horse, race: race)
       end
     end

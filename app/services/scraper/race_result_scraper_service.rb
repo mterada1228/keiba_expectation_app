@@ -1,5 +1,5 @@
 module Scraper
-  # RaceResultモデルのスクレイピングを実施
+  # Raceモデルのスクレイピングを実施
   # Usage: Scraper::RaceResultScraperService.new(url: <データ取得先URL>).call
   # netkeiba の レースデータベースからデータを取得
   # （URL例）https://db.netkeiba.com/race/202044110310/
@@ -27,9 +27,9 @@ module Scraper
     end
 
     OPERATOR = {
-      race_id: ->(elements) { %r{/race/(\w+)/\z}.match(elements[:url])[1] },
+      id: ->(elements) { %r{/race/(\w+)/\z}.match(elements[:url])[1] },
       course_condition: lambda do |elements|
-        RaceResult::
+        Race::
         COURSE_CONDITION_TRANSLATIONS[/: (\S+)/.match(elements[:race_info].text.split('/')[2])[1]]
       end,
       entire_rap: ->(elements) { entire_rap(elements) },
@@ -91,18 +91,19 @@ module Scraper
 
     def create(attributes)
       # 参照元クラス Race のデータ取得
-      race_id = %r{/race/(\w+)/\z}.match(@url)[1]
-      race_scrape(race_id) unless RaceResult.exists?(race_id)
+      id = %r{/race/(\w+)/\z}.match(@url)[1]
+      race_scrape(id) unless Race.exists?(id)
 
-      race_result = RaceResult.find_or_initialize_by(race_id: attributes[:race_id])
+      race_result = Race.find_or_initialize_by(id: attributes[:id])
+      attributes[:has_result] = true
       race_result.update_attributes!(attributes)
       Rails.logger.info(attributes)
     end
 
-    def race_scrape(race_id)
-      race_url = "https://race.netkeiba.com/race/shutuba.html?race_id=#{race_id}"
+    def race_scrape(id)
+      race_url = "https://race.netkeiba.com/race/shutuba.html?race_id=#{id}"
       # 海外競馬の場合
-      return Scraper::RaceAbroadScraperService.new(url: race_url).call if race_id.slice(4) == 'C'
+      return Scraper::RaceAbroadScraperService.new(url: race_url).call if id.slice(4) == 'C'
 
       Scraper::RaceScraperService.new(url: race_url).call
     end

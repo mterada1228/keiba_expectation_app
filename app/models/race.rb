@@ -6,7 +6,6 @@ class Race < ApplicationRecord
   has_many :horses, through: :horse_races
   has_many :race_regulations
   has_many :race_prizes
-  has_one :race_result
 
   # TODO 海外, 地方の競馬場が必要になった時にここに追加する
   enum course: {
@@ -18,12 +17,19 @@ class Race < ApplicationRecord
   enum course_type: { turf: 0, dirt: 1, hundle_race: 2 }
   enum turn: { right: 0, left: 1, straight: 2 }
   enum side: { inner_course: 0, external_course: 1 }
+  enum course_condition: { firm: 0, good: 1, yielding: 2, soft: 3 }
 
-  scope :races_by_condition, ->(condition) { joins(:race_result).merge(RaceResult.races_by_condition(condition)) }
-  scope :first_place_races, -> { joins(:horse_races).merge(HorseRace.first_place_races) }
-  scope :second_place_races, -> { joins(:horse_races).merge(HorseRace.second_place_races) }
-  scope :third_place_races, -> { joins(:horse_races).merge(HorseRace.third_place_races) }
-  scope :unplaced_races, -> { joins(:horse_races).merge(HorseRace.unplaced_races) }
+  scope :races_by_condition, ->(condition) { where(course_condition: condition) }
+  scope :first_place_horse_races, lambda {
+    joins(:horse_races).merge(HorseRace.first_place_horse_races)
+  }
+  scope :second_place_horse_races, lambda {
+    joins(:horse_races).merge(HorseRace.second_place_horse_races)
+  }
+  scope :third_place_horse_races, lambda {
+    joins(:horse_races).merge(HorseRace.third_place_horse_races)
+  }
+  scope :unplaced_horse_races, -> { joins(:horse_races).merge(HorseRace.unplaced_horse_races) }
 
   COURSE_TRANSLATIONS = {
     '01' => Race.courses[:sapporo],
@@ -38,7 +44,7 @@ class Race < ApplicationRecord
     '10' => Race.courses[:kokura],
     'C8' => Race.courses[:longchamp],
     '44' => Race.courses[:ooi]
-  }
+  }.freeze
 
   COURSE_TYPE_TRANSLATIONS = {
     '芝' => Race.course_types[:turf],
@@ -55,5 +61,14 @@ class Race < ApplicationRecord
   SIDE_TRANSLATIONS = {
     '内' => Race.sides[:inner_course],
     '外' => Race.sides[:external_course]
+  }.freeze
+
+  COURSE_CONDITION_TRANSLATIONS = {
+    '良' => Race.course_conditions[:firm],
+    '稍' => Race.course_conditions[:good],
+    '稍重' => Race.course_conditions[:good],
+    '重' => Race.course_conditions[:yielding],
+    '不' => Race.course_conditions[:soft],
+    '不良' => Race.course_conditions[:soft]
   }.freeze
 end

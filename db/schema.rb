@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_24_080403) do
+ActiveRecord::Schema.define(version: 2021_04_17_083553) do
 
   create_table "horse_races", primary_key: ["horse_id", "race_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "horse_id", null: false
@@ -59,19 +59,6 @@ ActiveRecord::Schema.define(version: 2021_02_24_080403) do
     t.index ["race_id"], name: "index_race_regulations_on_race_id"
   end
 
-  create_table "race_results", primary_key: "race_id", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "course_condition", null: false
-    t.string "entire_rap"
-    t.float "ave_1F"
-    t.float "first_half_ave_3F"
-    t.float "last_half_ave_3F"
-    t.float "RPCI"
-    t.integer "horse_all_number", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["race_id"], name: "index_race_results_on_race_id"
-  end
-
   create_table "races", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "start", null: false
     t.integer "course", null: false
@@ -85,6 +72,14 @@ ActiveRecord::Schema.define(version: 2021_02_24_080403) do
     t.integer "day_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "has_result", default: false, null: false
+    t.integer "course_condition"
+    t.string "entire_rap"
+    t.float "ave_1F"
+    t.float "first_half_ave_3F"
+    t.float "last_half_ave_3F"
+    t.float "RPCI"
+    t.integer "horse_all_number"
   end
 
   add_foreign_key "horse_races", "horses"
