@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    environment:
+      TZ: Asia/Tokyo
+    env_file: development.env
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/keiba_expectation_app
+      - dbsocket:/var/run/mysqld
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    environment:
+      TZ: Asia/Tokyo
+    env_file: development.env
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+    ports:
+      - '3316:3306'
+    volumes:
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./db/sql:/docker-entrypoint-initdb.d
+      - mysql-db:/var/lib/mysql
+      - dbsocket:/var/run/mysqld
+# Volume Container
+## Host側は、var/lib/docker/volumes/<Volume 名(以下では mysql-db)> にデータを永続化
+volumes:
+  mysql-db:
+    driver: local
+  dbsocket:
