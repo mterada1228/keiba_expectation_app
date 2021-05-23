@@ -12,7 +12,7 @@ class GenerateRpciAve1fScatterPlotsService
   end
 
   def call
-    horse.horse_races.includes(:race).map do |horse_race|
+    horse.horse_races.map do |horse_race|
       generate_scatter_plot(horse_race)
     end
   end
