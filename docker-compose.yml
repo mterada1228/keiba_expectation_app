@@ -1,14 +1,27 @@
 version: "3.9"
 services:
+  nginx:
+    build: containers/nginx
+    environment:
+      TZ: Asia/Tokyo
+    volumes:
+      - nginxsocket:/keiba_expectation_app/tmp/sockets
+      - static-content:/keiba_expectation_app/public
+    ports: 
+      - "80:80"
+    depends_on: 
+      - web
   web:
     build: .
     environment:
       TZ: Asia/Tokyo
     env_file: development.env
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "yarn install --check-files && bundle exec puma -C config/puma.rb"
     volumes:
       - .:/keiba_expectation_app
       - dbsocket:/var/run/mysqld
+      - nginxsocket:/keiba_expectation_app/tmp/sockets
+      - static-content:/keiba_expectation_app/public
     ports:
       - "3000:3000"
     depends_on:
@@ -32,3 +45,5 @@ volumes:
   mysql-db:
     driver: local
   dbsocket:
+  nginxsocket:
+  static-content:

@@ -7,7 +7,7 @@ default: &default
 development:
   <<: *default
   database: <%= ENV.fetch('MYSQL_DATABASE') %>
-  username: <%= ENV.fetch('MYSQL_USERNAME') %>
+  username: <%= ENV.fetch('MYSQL_USER') %>
   password: <%= ENV.fetch('MYSQL_PASSWORD') %>
   host: db
 
