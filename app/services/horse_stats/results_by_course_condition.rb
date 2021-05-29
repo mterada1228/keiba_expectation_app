@@ -6,12 +6,14 @@ module HorseStats
       create_stats(horse_races)
     end
 
+    private
+
     def create_stats(horse_races)
       by_course_condition = horse_races.group_by { |horse_race| horse_race.race.course_condition }
-      @firm = HorsePodiums.new(by_course_condition['firm'])
-      @good = HorsePodiums.new(by_course_condition['good'])
-      @yielding = HorsePodiums.new(by_course_condition['yielding'])
-      @soft = HorsePodiums.new(by_course_condition['soft'])
+      @firm = HorsePodiums.new(by_course_condition.fetch('firm', []))
+      @good = HorsePodiums.new(by_course_condition.fetch('good', []))
+      @yielding = HorsePodiums.new(by_course_condition.fetch('yielding', []))
+      @soft = HorsePodiums.new(by_course_condition.fetch('soft', []))
     end
   end
 end

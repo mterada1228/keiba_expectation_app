@@ -1,6 +1,10 @@
 # 馬別統計データクラス
 module HorseStats
   class HorseEvaluation
-    attr_accessor :results_by_course_condition
+    attr_reader :results_by_course_condition
+
+    def initialize(results_by_course_condition:)
+      @results_by_course_condition = results_by_course_condition
+    end
   end
 end

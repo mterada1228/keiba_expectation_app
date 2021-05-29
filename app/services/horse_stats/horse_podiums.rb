@@ -1,4 +1,5 @@
 module HorseStats
+  # @param  [Array<HorseRace>]
   class HorsePodiums
     def initialize(horse_races)
       @horse_races = horse_races
@@ -23,7 +24,7 @@ module HorseStats
     private
 
     def by_place
-      @by_place ||= @horse_races ? @horse_races.group_by(&:order_of_arrival) : {}
+      @by_place ||= @horse_races.group_by(&:order_of_arrival)
     end
 
     def unplaced_horse_races(by_place)
