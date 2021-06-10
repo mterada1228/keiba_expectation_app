@@ -7,8 +7,10 @@ services:
     volumes:
       - nginxsocket:/keiba_expectation_app/tmp/sockets
       - static-content:/keiba_expectation_app/public
+      - ./containers/nginx/ssl:/etc/nginx/ssl
     ports: 
       - "80:80"
+      - "443:443"
     depends_on: 
       - web
   web:
