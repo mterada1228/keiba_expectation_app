@@ -110,7 +110,7 @@ module Scraper
     def create(attributes_list)
       attributes_list.map do |attributes|
         # 参照元クラス Race のデータ取得
-        race_scrape(attributes[:race_id]) unless RaceResult.exists?(attributes[:race_id])
+        race_scrape(attributes[:race_id]) unless Race.exists?(attributes[:race_id])
 
         # 参照元クラス Horse のデータ取得
         unless Horse.exists?(attributes[:horse_id])

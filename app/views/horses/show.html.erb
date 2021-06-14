@@ -3,9 +3,50 @@
         <div class="card-header">
             <%= @horse.name %>
         </div>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" 
+                   id="horses-show-scatter-tab"
+                   data-toggle="tab"
+                   href="#horses-show-scatter"
+                   role="tab" 
+                   aria-controls="horses-show-scatter"
+                   aria-selected="true">
+                   分布図
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   id="horses-show-stats-tab"
+                   data-toggle="tab"
+                   href="#horses-show-stats"
+                   role="tab"
+                   aria-controls="horses-show-stats"
+                   aria-selected="false">
+                   統計情報
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active"
+                 id="horses-show-scatter"
+                 role="tabpanel"
+                 aria-labelledby="horses-show-scatter-tab">
+                <%= scatter_chart @graph_points,
+                    xtitle: 'RPCI',
+                    ytitle: 'ave1F',
+                    legend: false,
+                    min: 10,
+                    max: 14 %>
+            </div>
+            <div class="tab-pane fade"
+                 id="horses-show-stats"
+                 role="tabpanel"
+                 aria-labelledby="horses-show-stats-tab">
+                 <%= render partial: 'horses/show/stats' %>
+            </div>
+        </div>
         <div class="scatter">
-            <%= scatter_chart @graph_points, xtitle: 'RPCI', ytitle: 'ave1F',
-             legend: false, min: 10, max: 14 %>
         </div>
     </div>
     <table class="table">

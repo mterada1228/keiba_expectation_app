@@ -34,6 +34,11 @@ ja:
       side:
         inner_course: 内
         external_course: 外
+      course_condition:
+        firm: 良
+        good: 稍重
+        yielding: 重
+        soft: 不良
     race_regulation:
       handle_race_3_age_and_up: 障害3歳以上
       thoroughbred_3_age_and_up: サラ系３歳以上
@@ -55,12 +60,6 @@ ja:
       weight_for_age: 定,
       handicap: ハンデ
       age: 馬齢
-    race_result:
-      course_condition:
-        firm: 良
-        good: 稍重
-        yielding: 重
-        soft: 不良
     horse_race:
       reason_of_exclusion:
         pull_up: 競走中止

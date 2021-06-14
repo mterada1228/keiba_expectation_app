@@ -27,7 +27,7 @@ class GenerateRpciAve1fScatterPlotsService
 
   def scatter_plot(horse_race, color)
     { name: horse_race.race.name,
-      data: [[horse_race.race.race_result.RPCI, horse_race.race.race_result.ave_1F]],
+      data: [[horse_race.race.RPCI, horse_race.race.ave_1F]],
       color: color }
   end
 
