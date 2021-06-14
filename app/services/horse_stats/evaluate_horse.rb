@@ -7,8 +7,8 @@ module HorseStats
 
     def call
       HorseEvaluation.new(
-        results_by_course_condition:
-          HorseStats::ResultsByCourseCondition.new(horse_races: @horse_races)
+        podiums_by_course_condition:
+          HorseStats::PodiumsByCourseCondition.new(horse_races: @horse_races)
       )
     end
   end

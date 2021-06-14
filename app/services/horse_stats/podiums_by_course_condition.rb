@@ -1,5 +1,5 @@
 module HorseStats
-  class ResultsByCourseCondition
+  class PodiumsByCourseCondition
     attr_reader :firm, :good, :yielding, :soft
 
     def initialize(horse_races:)
