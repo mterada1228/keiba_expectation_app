@@ -2,7 +2,7 @@
   <div class="row row-cols-auto">
     <div class="col">
       <div class="p-3 border bg-light">馬場別</div>
-      <ul>
+      <ul class="horse_stats">
         <li>
           良 <%= @horse_evaluation.podiums_by_course_condition.firm.first_place %> -
           <%= @horse_evaluation.podiums_by_course_condition.firm.second_place %> -
@@ -30,6 +30,13 @@
       </ul>
     </div>
     <div class="col">
-      <div class="p-3 border bg-light">距離別</div>
+      <div class="p-3 border bg-light">持ちタイム</div>
+        <ul class="horse_stats">
+          <% @horse_evaluation.best_times_by_course.best_times.each do |best_time| %>
+            <li>
+              <%= "#{I18n.t("enums.race.course_type.#{best_time.course_type}")} #{best_time.distance}m: #{best_time.time}" %>
+            </li>
+          <% end %>
+        </ul>
     </div>
 </div>
