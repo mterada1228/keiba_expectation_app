@@ -1,26 +1,24 @@
 module HorseStats
   class BestTimesByCourse
-    attr_reader :best_times
+    attr_reader :times
 
     def initialize(horse_races:)
-      @best_times = create_stats(horse_races)
+      @times = create_stats(horse_races)
     end
 
     def create_stats(horse_races)
-      race1 = Race.new(distance: 1000, course_type: :turf)
-      horse_race1 = HorseRace.new(time: '00:01:10.4', race: race1)
-      race2 = Race.new(distance: 2000, course_type: :turf)
-      horse_race2 = HorseRace.new(time: '00:02:10.5', race: race2)
-      race3 = Race.new(distance: 1600, course_type: :dirt)
-      horse_race3 = HorseRace.new(time: '00:01:50.6', race: race3)
-      race4 = Race.new(distance: 1800, course_type: :dirt)
-      horse_race4 = HorseRace.new(time: '00:02:00.7', race: race4)
-      [
-        BestTime.new(horse_race1),
-        BestTime.new(horse_race2),
-        BestTime.new(horse_race3),
-        BestTime.new(horse_race4)
-      ]
+      group_by_course(horse_races).values.map do |horse_races_by_course|
+        TimeByCourse.new(horse_races_by_course.min_by(&:time))
+      end
+    end
+
+    private
+
+    def group_by_course(horse_races)
+      grouped = horse_races.group_by do |horse_race|
+        [horse_race.course_type, horse_race.distance]
+      end
+      grouped.sort_by { |k, _| [Race.course_types[k[0]], k[1]] }.to_h
     end
   end
 end

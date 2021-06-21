@@ -32,9 +32,9 @@
     <div class="col">
       <div class="p-3 border bg-light">持ちタイム</div>
         <ul class="horse_stats">
-          <% @horse_evaluation.best_times_by_course.best_times.each do |best_time| %>
+          <% @horse_evaluation.best_times_by_course.times.each do |best_time| %>
             <li>
-              <%= "#{I18n.t("enums.race.course_type.#{best_time.course_type}")} #{best_time.distance}m: #{best_time.time}" %>
+              <%= "#{I18n.t("enums.race.course_type.#{best_time.course_type}")} #{best_time.distance}m: #{best_time.time.strftime('%-M:%S.%1L')}" %>
             </li>
           <% end %>
         </ul>
