@@ -15,7 +15,7 @@ describe HorseStats::BestTimesByCourse do
     end
 
     it '最も早いタイムのみが取得できる' do
-      expect(subject.times.first.time).to eq(horse_race_record_fastest_time.time)
+      expect(subject.times.map(&:time)).to eq([horse_race_record_fastest_time.time])
     end
   end
 

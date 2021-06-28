@@ -1,5 +1,5 @@
 module HorseStats
-  class TimeByCourse
+  class CourseTime
     def initialize(horse_race)
       @horse_race = horse_race
     end
