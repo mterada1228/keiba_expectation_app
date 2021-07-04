@@ -15,5 +15,9 @@ module HorseStats
     def time
       @horse_race.time
     end
+
+    def ==(other)
+      distance == other.distance && course_type == other.course_type && time == other.time
+    end
   end
 end
