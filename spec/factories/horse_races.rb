@@ -4,6 +4,7 @@ FactoryBot.define do
     race
     sequence(:order_of_arrival)
     burden_weight { Faker::Number.decimal }
+    time { Faker::Time.backward }
 
     trait :won_race do
       order_of_arrival { 1 }

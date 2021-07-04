@@ -6,6 +6,8 @@ class HorseRace < ApplicationRecord
   belongs_to :horse
   belongs_to :race
 
+  delegate :distance, :course_type, to: :race
+
   enum reason_of_exclusion: { pull_up: 0, scratch: 1, withdrawn: 2 }
 
   scope :first_place_horse_races, -> { where(order_of_arrival: 1) }
