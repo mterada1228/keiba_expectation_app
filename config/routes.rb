@@ -3,8 +3,7 @@ Rails.application.routes.draw do
   resources :horses, only: [:index, :show]
   resources :races, only: [:index, :show] do
     resources :horses, only: [:show] do
-      resources :positive_comments, only: [:index], controller: 'races/horses/positive_comments'
-      resources :negative_comments, only: [:index], controller: 'races/horses/negative_comments'
+      resources :comments, only: [:index], controller: 'races/horses/comments'
     end
   end
 

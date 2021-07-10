@@ -50,12 +50,14 @@ feature 'Races' do
       expect(page).to have_text(race.horses.first.name)
       expect(page)
         .to have_link('買い',
-                      href: race_horse_positive_comments_path(race_id: race.id,
-                                                              horse_id: race.horses.first.id))
+                      href: race_horse_comments_path(race_id: race.id,
+                                                     horse_id: race.horses.first.id,
+                                                     position: :positive))
       expect(page)
         .to have_link('不安',
-                      href: race_horse_negative_comments_path(race_id: race.id,
-                                                              horse_id: race.horses.first.id))
+                      href: race_horse_comments_path(race_id: race.id,
+                                                     horse_id: race.horses.first.id,
+                                                     position: :negative))
     end
   end
 end
