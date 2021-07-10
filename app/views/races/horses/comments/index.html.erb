@@ -1,8 +1,43 @@
-<h2>
-  <% if @position == 'positive' %>
-    買い
-  <% else %>
-    不安
-  <% end %>
-  コメント一覧
-</h2>
+<%= render partial: 'races/race_info' %>
+<div class="container">
+  <div class="comment-index-page-title">
+    <h2>
+      ウインエアフォルクの
+      <% if @position == 'positive' %>
+        買い
+      <% else %>
+        不安
+      <% end %>
+      コメント一覧
+    </h2>
+    <div class="container comment-input-">
+      <form>
+        <div class="form-group comment-header-area">
+          <input type="text" class="form-control" id="commentsControllerUserName" placeholder="ニックネームを入力...">
+        </div>
+        <div class="form-group comment-header-area">
+          <input type="text" class="form-control" id="commentsControllerTitle" placeholder="タイトルを入力...">
+        </div>
+        <div class="form-group comment-header-area">
+          <select class="custom-select">
+            <option selected>馬名を選択</option>
+            <option value="1">ウインエアフォルク</option>
+            <option value="2">アーモンドアイ</option>
+            <option value="3">ゴールドシップ</option>
+          </select>
+        </div>
+        <div class="form-group comment-header-area">
+          <select class="custom-select">
+            <option selected>買い or 不安</option>
+            <option value="0">買い</option>
+            <option value="1">不安</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" id="commentsControllerDescription" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">投稿する</button>
+      </form>
+    </div>
+  </div>
+</div>
