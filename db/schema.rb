@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_10_060250) do
+ActiveRecord::Schema.define(version: 2021_07_11_045848) do
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "horse_id", null: false
     t.string "race_id", null: false
-    t.string "title", null: false
     t.text "description", null: false
     t.string "user_name"
     t.integer "position", default: 0, null: false
