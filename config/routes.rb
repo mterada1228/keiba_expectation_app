@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :horses, only: [:index, :show]
   resources :races, only: [:index, :show] do
     resources :horses, only: [:show] do
-      resources :comments, only: [:index], controller: 'races/horses/comments'
+      resources :comments, only: [:index, :create], controller: 'races/horses/comments'
     end
   end
 
