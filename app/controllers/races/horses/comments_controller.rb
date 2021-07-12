@@ -9,11 +9,12 @@ module Races
       def create
         @comment = Comment.create(comment_params.merge(race_id: params[:race_id]))
         if @comment.save
-          flash[:notice] = 'コメントを投稿しました'
+          flash[:success] = 'コメントを投稿しました'
+          redirect_to race_horse_comments_path(race_id: params[:race_id], horse_id: params[:horse_id])
         else
           flash[:danger] = 'コメントの投稿に失敗しました。'
+          render 'index'
         end
-        redirect_to race_horse_comments_path(race_id: params[:race_id], horse_id: params[:horse_id])
       end
 
       private

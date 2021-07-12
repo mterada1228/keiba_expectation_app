@@ -11,7 +11,14 @@
       コメント一覧
     </h2>
     <% flash.each do |message_type, message| %>
-      <%= message %>
+      <div class="alert alert-<%= message_type %>">
+        <%= message %>
+        <ul>
+          <% @comment.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
     <div class="container comment-input-">
       <%= form_for @comment, url: { action: 'create' } do |f| %>
@@ -22,7 +29,7 @@
           <%= f.select :horse_id, [['ウインエアフォルク', 0], ['アーモンドアイ', 1], ['ゴールドシップ', 2]], {}, { class: 'custom-select' } %>
         </div>
         <div class="form-group comment-header-area">
-          <%= f.select :position, [['買い', 0], ['不安', 1]], {}, { class: 'custom-select' } %>
+          <%= f.select :position, [['買い', :positive], ['不安', :negative]], {}, { class: 'custom-select' } %>
         </div>
         <div class="form-group">
           <%= f.text_area :description, class: 'form-control' %>
