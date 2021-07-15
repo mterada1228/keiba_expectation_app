@@ -1,4 +1,4 @@
-class Comment < ActiveRecord::Migration[6.0]
+class CreateComment < ActiveRecord::Migration[6.0]
   def change
     create_table :comments do |t|
       t.bigint :horse_id, null: false
