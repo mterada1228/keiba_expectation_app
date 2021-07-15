@@ -65,3 +65,14 @@ ja:
         pull_up: 競走中止
         scratch: 競走除外
         withdrawn: 出走取消
+    comment:
+      position:
+        positive: 買い
+        negative: 不安
+  activerecord:
+    models:
+      comment:
+    attributes:
+      comment:
+        description: コメント
+        user_name: ニックネーム
