@@ -43,5 +43,5 @@ yarn-debug.log*
 # vscode workspace
 keiba_expectation.code-workspace
 
-# envfiles
+# env files
 development.env

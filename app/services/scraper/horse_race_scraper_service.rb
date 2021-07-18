@@ -115,7 +115,7 @@ module Scraper
         # 参照元クラス Horse のデータ取得
         unless Horse.exists?(attributes[:horse_id])
           horse_url = "https://db.netkeiba.com/horse/#{attributes[:horse_id]}/"
-          Scraper::HorseScraperService.new(url: horse_url).call
+          HorseScraperService.new(url: horse_url).call
         end
 
         # HorseRaceのデータ保存

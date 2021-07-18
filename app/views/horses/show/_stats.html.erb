@@ -2,34 +2,41 @@
   <div class="row row-cols-auto">
     <div class="col">
       <div class="p-3 border bg-light">馬場別</div>
-      <ul>
+      <ul class="horse_stats">
         <li>
-          良 <%= @horse_evaluation.results_by_course_condition.firm.first_place %> -
-          <%= @horse_evaluation.results_by_course_condition.firm.second_place %> -
-          <%= @horse_evaluation.results_by_course_condition.firm.third_place %> -
-          <%= @horse_evaluation.results_by_course_condition.firm.unplaced %>
+          良 <%= @horse_evaluation.podiums_by_course_condition.firm.first_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.firm.second_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.firm.third_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.firm.unplaced %>
         </li>
         <li>
-          稍重 <%= @horse_evaluation.results_by_course_condition.good.first_place %> -
-          <%= @horse_evaluation.results_by_course_condition.good.second_place %> -
-          <%= @horse_evaluation.results_by_course_condition.good.third_place %> -
-          <%= @horse_evaluation.results_by_course_condition.good.unplaced %>
+          稍重 <%= @horse_evaluation.podiums_by_course_condition.good.first_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.good.second_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.good.third_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.good.unplaced %>
         </li>
         <li>
-          重 <%= @horse_evaluation.results_by_course_condition.yielding.first_place %> -
-          <%= @horse_evaluation.results_by_course_condition.yielding.second_place %> -
-          <%= @horse_evaluation.results_by_course_condition.yielding.third_place %> -
-          <%= @horse_evaluation.results_by_course_condition.yielding.unplaced %>
+          重 <%= @horse_evaluation.podiums_by_course_condition.yielding.first_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.yielding.second_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.yielding.third_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.yielding.unplaced %>
         </li>
         <li>
-          不良 <%= @horse_evaluation.results_by_course_condition.soft.first_place %> -
-          <%= @horse_evaluation.results_by_course_condition.soft.second_place %> -
-          <%= @horse_evaluation.results_by_course_condition.soft.third_place %> -
-          <%= @horse_evaluation.results_by_course_condition.soft.unplaced %>
+          不良 <%= @horse_evaluation.podiums_by_course_condition.soft.first_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.soft.second_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.soft.third_place %> -
+          <%= @horse_evaluation.podiums_by_course_condition.soft.unplaced %>
         </li>
       </ul>
     </div>
     <div class="col">
-      <div class="p-3 border bg-light">距離別</div>
+      <div class="p-3 border bg-light">持ちタイム</div>
+        <ul class="horse_stats">
+          <% @horse_evaluation.best_times_by_course.times.each do |best_time| %>
+            <li>
+              <%= "#{I18n.t("enums.race.course_type.#{best_time.course_type}")} #{best_time.distance}m: #{best_time.time.strftime('%-M:%S.%1L')}" %>
+            </li>
+          <% end %>
+        </ul>
     </div>
 </div>
