@@ -52,12 +52,12 @@ feature 'Races' do
         .to have_link('買い',
                       href: race_horse_comments_path(race_id: race.id,
                                                      horse_id: race.horses.first.id,
-                                                     position: :positive))
+                                                     type: :positive))
       expect(page)
         .to have_link('不安',
                       href: race_horse_comments_path(race_id: race.id,
                                                      horse_id: race.horses.first.id,
-                                                     position: :negative))
+                                                     type: :negative))
     end
   end
 end

@@ -3,7 +3,7 @@ module Races
     class CommentsController < ApplicationController
       def index
         # TODO: 処理を実装
-        @position = params[:position]
+        @type = params[:type]
       end
     end
   end
