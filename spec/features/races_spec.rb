@@ -48,6 +48,16 @@ feature 'Races' do
       expect(page).to have_text(race.horse_races.first.gate_number)
       expect(page).to have_text(race.horse_races.first.horse_number)
       expect(page).to have_text(race.horses.first.name)
+      expect(page)
+        .to have_link('買い',
+                      href: race_horse_comments_path(race_id: race.id,
+                                                     horse_id: race.horses.first.id,
+                                                     type: :positive))
+      expect(page)
+        .to have_link('不安',
+                      href: race_horse_comments_path(race_id: race.id,
+                                                     horse_id: race.horses.first.id,
+                                                     type: :negative))
     end
   end
 end
