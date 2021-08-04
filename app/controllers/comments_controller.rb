@@ -1,11 +1,12 @@
 class CommentsController < ApplicationController
+  before_action :set_horse_race, only: [:create]
+
   def index
     @position = params[:position]
     @comment = Comment.new
   end
 
   def create
-    @horse_race = HorseRace.find(params[:horse_race_id])
     @comment = @horse_race.comments.new(comment_params)
     if @comment.save
       flash[:success] = 'コメントを投稿しました'
@@ -20,5 +21,11 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:description, :user_name, :position)
+  end
+
+  def set_horse_race
+    @horse_race = HorseRace.find(params[:horse_race_id])
+  rescue ActiveRecord::RecordNotFound => _e
+    render template: 'errors/error_404', status: 404
   end
 end
