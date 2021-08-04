@@ -6,6 +6,8 @@ class HorseRace < ApplicationRecord
   belongs_to :horse
   belongs_to :race
 
+  has_many :comments, foreign_key: [:horse_id, :race_id]
+
   delegate :distance, :course_type, to: :race
 
   enum reason_of_exclusion: { pull_up: 0, scratch: 1, withdrawn: 2 }

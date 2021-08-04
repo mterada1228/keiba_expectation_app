@@ -1,19 +1,17 @@
 feature 'Races' do
   feature 'Horses' do
     feature 'Comments' do
-      let(:race) { create(:race) }
-      # TODO: 馬表示機能を実装すれば、idの指定は不要
-      let(:horse) { create(:horse, id: 0) }
+      let(:horse_race) { create(:horse_race) }
 
       feature 'index' do
         scenario '買いコメント一覧を表示する' do
-          visit race_horse_comments_path(race_id: race.id, horse_id: horse.id, position: :positive)
+          visit horse_race_comments_path(horse_race, position: :positive)
 
           expect(page).to have_text('買い コメント一覧')
         end
 
         scenario '不安コメント一覧を表示する' do
-          visit race_horse_comments_path(race_id: race.id, horse_id: horse.id, position: :negative)
+          visit horse_race_comments_path(horse_race, position: :negative)
 
           expect(page).to have_text('不安 コメント一覧')
         end
@@ -21,7 +19,7 @@ feature 'Races' do
 
       feature 'create' do
         scenario '必要な項目を埋めて投稿を行う' do
-          visit race_horse_comments_path(race_id: race.id, horse_id: horse.id, position: :positive)
+          visit horse_race_comments_path(horse_race, position: :positive)
 
           fill_in 'comment_user_name', with: 'sample user'
           fill_in 'comment_description', with: 'sample comment'
@@ -31,7 +29,7 @@ feature 'Races' do
         end
 
         scenario 'ニックネームは空白で投稿を行う' do
-          visit race_horse_comments_path(race_id: race.id, horse_id: horse.id, position: :positive)
+          visit horse_race_comments_path(horse_race, position: :positive)
 
           fill_in 'comment_description', with: 'sample comment'
           click_button '投稿する'
@@ -40,7 +38,7 @@ feature 'Races' do
         end
 
         scenario 'コメントを空白で投稿を行う' do
-          visit race_horse_comments_path(race_id: race.id, horse_id: horse.id, position: :positive)
+          visit horse_race_comments_path(horse_race, position: :positive)
 
           fill_in 'comment_user_name', with: 'sample user'
           click_button '投稿する'
@@ -50,7 +48,7 @@ feature 'Races' do
         end
 
         scenario '30文字以上のニックネームを入力して投稿を行う' do
-          visit race_horse_comments_path(race_id: race.id, horse_id: horse.id, position: :positive)
+          visit horse_race_comments_path(horse_race, position: :positive)
 
           fill_in 'comment_user_name', with: 'a' * 30
           fill_in 'comment_description', with: 'sample comment'
@@ -61,7 +59,7 @@ feature 'Races' do
         end
 
         scenario '1000文字以上のコメントを入力して投稿を行う' do
-          visit race_horse_comments_path(race_id: race.id, horse_id: horse.id, position: :positive)
+          visit horse_race_comments_path(horse_race, position: :positive)
 
           fill_in 'comment_user_name', with: 'sample user'
           fill_in 'comment_description', with: 'a' * 1000

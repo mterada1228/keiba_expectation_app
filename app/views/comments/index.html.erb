@@ -26,9 +26,6 @@
           <%= f.text_field :user_name, class: 'form-control', placeholder: 'ニックネームを入力' %>
         </div>
         <div class="form-group comment-header-area">
-          <%= f.select :horse_id, [['ウインエアフォルク', 0], ['アーモンドアイ', 1], ['ゴールドシップ', 2]], {}, { class: 'custom-select' } %>
-        </div>
-        <div class="form-group comment-header-area">
           <%= f.select :position, [['買い', :positive], ['不安', :negative]], {}, { class: 'custom-select' } %>
         </div>
         <div class="form-group">

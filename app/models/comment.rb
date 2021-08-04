@@ -1,6 +1,5 @@
 class Comment < ApplicationRecord
-  belongs_to :horse
-  belongs_to :race
+  belongs_to :horse_race, foreign_key: [:horse_id, :race_id]
 
   enum position: { positive: 0, negative: 1 }
 

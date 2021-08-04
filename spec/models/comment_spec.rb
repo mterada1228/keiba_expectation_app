@@ -2,12 +2,11 @@ require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
   describe 'validation' do
-    let(:horse) { create(:horse) }
-    let(:race) { create(:race) }
+    let(:horse_race) { create(:horse_race) }
 
     describe 'description' do
       context '入力されていない場合' do
-        let(:comment) { build(:comment, horse: horse, race: race, description: nil) }
+        let(:comment) { build(:comment, horse_race: horse_race, description: nil) }
         it '保存に失敗する' do
           expect(comment).to be_invalid
           expect(comment.errors.full_messages).to include('コメントを入力してください')
@@ -16,7 +15,7 @@ RSpec.describe Comment, type: :model do
 
       context '1000文字以上の場合' do
         let(:comment) do
-          build(:comment, horse: horse, race: race, description: Faker::String.random(length: 1000))
+          build(:comment, horse_race: horse_race, description: Faker::String.random(length: 1000))
         end
 
         it '保存に失敗する' do
@@ -29,7 +28,7 @@ RSpec.describe Comment, type: :model do
     describe 'user_name' do
       context '30文字以上の場合' do
         let(:comment) do
-          build(:comment, horse: horse, race: race, user_name: Faker::String.random(length: 30))
+          build(:comment, horse_race: horse_race, user_name: Faker::String.random(length: 30))
         end
 
         it '保存に失敗する' do
