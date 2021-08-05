@@ -1,9 +1,15 @@
-require 'rails_helper'
-
-RSpec.describe Comment, type: :model do
+describe Comment do
   let(:horse_race) { create(:horse_race) }
 
   describe 'validation' do
+    context '正常系' do
+      let(:comment) { create(:comment, horse_race: horse_race) }
+
+      it '保存に成功する' do
+        expect(comment).to be_valid
+      end
+    end
+
     describe 'description' do
       context '入力されていない場合' do
         let(:comment) { build(:comment, horse_race: horse_race, description: nil) }
