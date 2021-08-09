@@ -24,4 +24,4 @@ EXPOSE 4000
 RUN yarn install --check-files
 RUN yarn webpack --config ./config/webpack/development.js
 
-CMD bundle exec puma
+CMD ["rails", "server", "-b", "0.0.0.0"]
