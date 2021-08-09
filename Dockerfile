@@ -22,6 +22,4 @@ EXPOSE 4000
 
 # Configure the main process to run when running the image
 RUN yarn install --check-files
-RUN yarn webpack --config ./config/webpack/development.js
-
 CMD ["rails", "server", "-b", "0.0.0.0"]
