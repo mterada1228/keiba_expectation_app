@@ -5,12 +5,12 @@ services:
     environment:
       TZ: Asia/Tokyo
     env_file: development.env
-    command: bash -c "yarn install --check-files && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "yarn install --check-files && bundle exec rails s -p 4000 -b '0.0.0.0'"
     volumes:
       - .:/keiba_expectation_app
       - dbsocket:/var/run/mysqld
     ports:
-      - "3000:3000"
+      - "4000:4000"
     depends_on:
       - db
   db:
