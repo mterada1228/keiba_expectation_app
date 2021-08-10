@@ -6,10 +6,10 @@ default: &default
 
 development:
   <<: *default
-  database: keiba_expectation_app
-  username: keiba_expectation_app
-  password: <%= Rails.application.credentials.db_development[:password] %>
-  host: localhost
+  database: <%= ENV.fetch('MYSQL_DATABASE') %>
+  username: <%= ENV.fetch('MYSQL_USER') %>
+  password: <%= ENV.fetch('MYSQL_PASSWORD') %>
+  host: db
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -19,7 +19,7 @@ test:
   database: keiba_expectation_app_test
   username: keiba_expectation_app_test
   password: <%= Rails.application.credentials.db_test[:password] %>
-  host: localhost
+  host: db
 
 production:
   <<: *default
