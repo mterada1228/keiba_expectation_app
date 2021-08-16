@@ -1,12 +1,10 @@
 Rails.application.routes.draw do
   root to: 'horses#index'
   resources :horses, only: [:index, :show]
-  resources :races, only: [:index, :show] do
-    resources :horses, only: [:show] do
-      resources :comments, only: [:index], controller: 'races/horses/comments'
-    end
+  resources :races, only: [:index, :show]
+  resources :horse_races, only: [] do
+    resources :comments, only: [:index, :create]
   end
-
   require 'sidekiq/web'
   require 'sidekiq-scheduler/web'
   mount Sidekiq::Web => '/sidekiq'

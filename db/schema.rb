@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_17_083553) do
+ActiveRecord::Schema.define(version: 2021_07_11_045848) do
 
-  create_table "horse_races", primary_key: ["horse_id", "race_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "horse_id", null: false
+    t.string "race_id", null: false
+    t.text "description", null: false
+    t.string "user_name"
+    t.integer "comment_type", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["horse_id"], name: "fk_rails_8e4f45009f"
+    t.index ["race_id"], name: "fk_rails_b15decb6e5"
+  end
+
+  create_table "horse_races", primary_key: ["horse_id", "race_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "horse_id", null: false
     t.string "race_id", null: false
     t.integer "gate_number"
@@ -36,13 +48,13 @@ ActiveRecord::Schema.define(version: 2021_04_17_083553) do
     t.index ["race_id"], name: "index_horse_races_on_race_id"
   end
 
-  create_table "horses", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "horses", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "race_prizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "race_prizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "race_id"
     t.integer "order_of_arrival"
     t.integer "prize"
@@ -51,7 +63,7 @@ ActiveRecord::Schema.define(version: 2021_04_17_083553) do
     t.index ["race_id"], name: "index_race_prizes_on_race_id"
   end
 
-  create_table "race_regulations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "race_regulations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "race_id"
     t.integer "regulation"
     t.datetime "created_at", precision: 6, null: false
@@ -59,7 +71,7 @@ ActiveRecord::Schema.define(version: 2021_04_17_083553) do
     t.index ["race_id"], name: "index_race_regulations_on_race_id"
   end
 
-  create_table "races", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "races", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "start", null: false
     t.integer "course", null: false
     t.integer "round", null: false
@@ -82,5 +94,7 @@ ActiveRecord::Schema.define(version: 2021_04_17_083553) do
     t.integer "horse_all_number"
   end
 
+  add_foreign_key "comments", "horses"
+  add_foreign_key "comments", "races"
   add_foreign_key "horse_races", "horses"
 end

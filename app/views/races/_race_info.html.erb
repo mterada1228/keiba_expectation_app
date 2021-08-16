@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="container course-select-btn-area">
+    <button type="button" class="btn btn-outline-primary course-select-btn">福島</button>
+    <button type="button" class="btn btn-outline-primary course-select-btn">小倉</button>
+    <button type="button" class="btn btn-outline-primary course-select-btn">函館</button>
+  </div>
+  <div class="container round-select-btn-area">
+    <% (1..12).each do |round| %>
+      <button type="button" class="btn btn-outline-primary round-select-btn"><%= "#{round}R" %></button>
+    <% end %>
+  </div>
+  <div class="container race-info-area-container">
+    <div class="race-info-area">
+      <button type="button" class="btn btn-outline-primary selected-round-btn">11R</button>
+    </div>
+    <div class="race-info-area">
+      <div class="race-info-title">
+        <h2>開成山特別</h2>
+      </div>
+      <div class="race-info-description">
+        <p>14:36発走 / 芝2600m (右) / 天候:曇 / 馬場:良</p>
+        <p>1回 福島 1日目 サラ系３歳以上 １勝クラス       (特指) 定量 10頭</p>
+        <p>本賞金:1060,420,270,160,106万円</p>
+      </div>
+    </div>
+  </div>
+</div>
