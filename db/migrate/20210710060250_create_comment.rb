@@ -6,7 +6,7 @@ class CreateComment < ActiveRecord::Migration[6.0]
       t.string :title, null: false
       t.text :description, null: false
       t.string :user_name
-      t.integer :position, null: false, default: 0
+      t.integer :comment_type, null: false, default: 0
 
       t.timestamps
     end

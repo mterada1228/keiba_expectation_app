@@ -51,10 +51,10 @@ feature 'Races' do
       race.horse_races.each do |horse_race|
         expect(page)
           .to have_link('買い',
-                        href: horse_race_comments_path(horse_race, position: :positive))
+                        href: horse_race_comments_path(horse_race, comment_type: :positive))
         expect(page)
           .to have_link('不安',
-                        href: horse_race_comments_path(horse_race, position: :negative))
+                        href: horse_race_comments_path(horse_race, comment_type: :negative))
       end
     end
   end

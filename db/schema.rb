@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2021_07_11_045848) do
     t.string "race_id", null: false
     t.text "description", null: false
     t.string "user_name"
-    t.integer "position", default: 0, null: false
+    t.integer "comment_type", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["horse_id"], name: "fk_rails_8e4f45009f"

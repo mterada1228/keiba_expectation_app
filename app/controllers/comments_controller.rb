@@ -1,15 +1,15 @@
 class CommentsController < ApplicationController
   def index
-    @position = params[:position]
+    @comment_type = params[:comment_type]
     @comment = Comment.new
   end
 
   def create
-    horse_race = HorseRace.find(params[:horse_race_id]) 
+    horse_race = HorseRace.find(params[:horse_race_id])
     @comment = horse_race.comments.new(comment_params)
     if @comment.save
       flash[:success] = 'コメントを投稿しました'
-      redirect_to horse_race_comments_path(horse_race, params[:position])
+      redirect_to horse_race_comments_path(horse_race, params[:comment_type])
     else
       flash[:danger] = 'コメントの投稿に失敗しました。'
       render 'index'
@@ -19,6 +19,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:description, :user_name, :position)
+    params.require(:comment).permit(:description, :user_name, :comment_type)
   end
 end

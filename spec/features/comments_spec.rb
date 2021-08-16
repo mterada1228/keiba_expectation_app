@@ -3,13 +3,13 @@ feature 'Comments' do
 
   feature 'index' do
     scenario '買いコメント一覧を表示する' do
-      visit horse_race_comments_path(horse_race, position: :positive)
+      visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       expect(page).to have_text('買い コメント一覧')
     end
 
     scenario '不安コメント一覧を表示する' do
-      visit horse_race_comments_path(horse_race, position: :negative)
+      visit horse_race_comments_path(horse_race, comment_type: :negative)
 
       expect(page).to have_text('不安 コメント一覧')
     end
@@ -17,7 +17,7 @@ feature 'Comments' do
 
   feature 'create' do
     scenario '必要な項目を埋めて投稿を行う' do
-      visit horse_race_comments_path(horse_race, position: :positive)
+      visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       fill_in 'comment_user_name', with: 'sample user'
       fill_in 'comment_description', with: 'sample comment'
@@ -27,7 +27,7 @@ feature 'Comments' do
     end
 
     scenario 'ニックネームは空白で投稿を行う' do
-      visit horse_race_comments_path(horse_race, position: :positive)
+      visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       fill_in 'comment_description', with: 'sample comment'
       click_button '投稿する'
@@ -36,7 +36,7 @@ feature 'Comments' do
     end
 
     scenario 'コメントを空白で投稿を行う' do
-      visit horse_race_comments_path(horse_race, position: :positive)
+      visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       fill_in 'comment_user_name', with: 'sample user'
       click_button '投稿する'
@@ -46,7 +46,7 @@ feature 'Comments' do
     end
 
     scenario '30文字以上のニックネームを入力して投稿を行う' do
-      visit horse_race_comments_path(horse_race, position: :positive)
+      visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       fill_in 'comment_user_name', with: 'a' * 30
       fill_in 'comment_description', with: 'sample comment'
@@ -57,7 +57,7 @@ feature 'Comments' do
     end
 
     scenario '1000文字以上のコメントを入力して投稿を行う' do
-      visit horse_race_comments_path(horse_race, position: :positive)
+      visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       fill_in 'comment_user_name', with: 'sample user'
       fill_in 'comment_description', with: 'a' * 1000
@@ -68,20 +68,20 @@ feature 'Comments' do
     end
 
     scenario 'ポジションに「買い」を選択して投稿を行う' do
-      visit horse_race_comments_path(horse_race, position: :positive)
+      visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       fill_in 'comment_description', with: 'sample comment'
-      select '買い', from: 'comment_position'
+      select '買い', from: 'comment_comment_type'
       click_button '投稿する'
 
       expect(page).to have_text('コメントを投稿しました')
     end
 
     scenario 'ポジションに「不安」を選択して投稿を行う' do
-      visit horse_race_comments_path(horse_race, position: :positive)
+      visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       fill_in 'comment_description', with: 'sample comment'
-      select '不安', from: 'comment_position'
+      select '不安', from: 'comment_comment_type'
       click_button '投稿する'
 
       expect(page).to have_text('コメントを投稿しました')

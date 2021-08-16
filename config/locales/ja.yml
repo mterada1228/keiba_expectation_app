@@ -66,7 +66,7 @@ ja:
         scratch: 競走除外
         withdrawn: 出走取消
     comment:
-      position:
+      comment_type:
         positive: 買い
         negative: 不安
   activerecord:
