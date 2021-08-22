@@ -5,14 +5,14 @@
       <div class="alert alert-<%= message_type %>">
         <%= message %>
         <ul>
-          <% @comment.errors.full_messages.each do |message| %>
+          <% @new_comment.errors.full_messages.each do |message| %>
             <li><%= message %></li>
           <% end %>
         </ul>
       </div>
     <% end %>
     <div class="container comment-input-area">
-      <%= form_for @comment, url: { action: 'create' } do |f| %>
+      <%= form_for @new_comment, url: { action: 'create' } do |f| %>
         <div class="form-group comment-header-area">
           <%= f.text_field :user_name, class: 'form-control', placeholder: 'ニックネームを入力' %>
         </div>
@@ -31,8 +31,8 @@
       <% end %>
       コメント一覧
     </h2>
-    <div class="comtainer">
-      <%= render partial: 'comment', collection: @comments %>
+    <div class="container">
+      <%= render partial: 'comment', collection: @existing_comments %>
     </div>
   </div>
 </div>

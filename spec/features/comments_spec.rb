@@ -72,5 +72,16 @@ feature 'Comments' do
       expect(page).to have_text('コメントの投稿に失敗しました。')
       expect(page).to have_text('コメントは999文字以内で入力してください')
     end
+
+    scenario 'HTMLタグを含めたコメントを入力して投稿を行う' do
+      visit horse_race_comments_path(horse_race, comment_type: :positive)
+
+      fill_in 'comment_user_name', with: '<h1>sample user</h1>'
+      fill_in 'comment_description', with: '<script>function hoge(){};</script>'
+      click_button '投稿する'
+
+      expect(page).to have_selector '.card-header', text: 'sample user'
+      expect(page).to have_selector '.card-body > p', text: 'function hoge(){};'
+    end
   end
 end
