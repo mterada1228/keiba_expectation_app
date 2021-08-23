@@ -2,9 +2,15 @@ class CommentsController < ApplicationController
   before_action :sanitize_params, only: [:create]
 
   def index
+    @horse_race = HorseRace.find(params[:horse_race_id])
     @comment_type = params[:comment_type]
     @existing_comments = HorseRace.find(params[:horse_race_id])
                                   .comments.where(comment_type: params[:comment_type].to_sym)
+    @new_comment = Comment.new
+  end
+
+  def show
+    @parent_comment = Comment.find(params[:id])
     @new_comment = Comment.new
   end
 

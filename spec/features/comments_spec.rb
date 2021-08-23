@@ -21,6 +21,19 @@ feature 'Comments' do
     end
   end
 
+  feature 'show' do
+    let(:parent_comment) { create(:comment, horse_race: horse_race, description: 'sample comment') }
+
+    scenario 'コメント返信ボタンを押す' do
+      visit horse_race_comment_path(horse_race, parent_comment)
+
+      expect(page).to have_text(parent_comment.user_name)
+      expect(page).to have_text(parent_comment.description)
+      expect(page).to have_selector('#comment_user_name')
+      expect(page).to have_selector('#comment_description')
+    end
+  end
+
   feature 'create' do
     scenario '必要な項目を埋めて投稿を行う' do
       visit horse_race_comments_path(horse_race, comment_type: :positive)
