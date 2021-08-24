@@ -1,3 +1,17 @@
+<div class='container'>
+  <% flash.each do |message_type, message| %>
+    <div class="alert alert-<%= message_type %>">
+      <%= message['comment'] %>
+      <% if message['errors'].present? %>
+        <ul>
+          <% message['errors'].each do |error| %>
+            <li><%= error %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  <% end %>
+</div>
 <div class="container comment-show-area">
   <div class="card">
     <div class="card-header">
@@ -16,6 +30,8 @@
         <div class="form-group">
           <%= f.text_area :description, class: 'form-control' %>
         </div>
+        <%= f.hidden_field :parent_id, value: @parent_comment.id %>
+        <%= f.hidden_field :comment_type, value: @parent_comment.comment_type %>
         <%= f.submit '返信を投稿する', class: 'btn btn-primary mb-2' %>
       <% end %>
     </div>

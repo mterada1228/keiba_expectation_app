@@ -1,4 +1,4 @@
-feature 'Comments' do
+feature 'Comments' do # rubocop:disable Metrics/BlockLength
   let(:horse_race) { create(:horse_race) }
   before do
     create_list(:comment, 5, horse_race: horse_race, comment_type: :positive)
@@ -31,6 +31,28 @@ feature 'Comments' do
       expect(page).to have_text(parent_comment.description)
       expect(page).to have_selector('#comment_user_name')
       expect(page).to have_selector('#comment_description')
+    end
+
+    scenario 'コメントへの返信を投稿する' do
+      visit horse_race_comment_path(horse_race, parent_comment)
+
+      expect do
+        fill_in 'comment_user_name', with: 'sample user'
+        fill_in 'comment_description', with: 'sample comment'
+        click_button '返信を投稿する'
+      end.to change { parent_comment.replies.first }
+        .from(nil)
+        .to(
+          have_attributes(
+            horse_race: parent_comment.horse_race,
+            parent: parent_comment,
+            description: 'sample comment',
+            user_name: 'sample user',
+            comment_type: parent_comment.comment_type
+          )
+        )
+      expect(page).to have_text('コメントを投稿しました')
+      expect(current_path).to eq horse_race_comment_path(horse_race, parent_comment)
     end
   end
 

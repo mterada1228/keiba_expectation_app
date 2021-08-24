@@ -18,18 +18,17 @@ class CommentsController < ApplicationController
     horse_race = HorseRace.find(params[:horse_race_id])
     @new_comment = horse_race.comments.new(comment_params)
     if @new_comment.save
-      flash[:success] = 'コメントを投稿しました'
-      redirect_to horse_race_comments_path(horse_race, comment_type: @new_comment.comment_type)
+      flash[:success] = { comment: 'コメントを投稿しました' }
     else
-      flash[:danger] = 'コメントの投稿に失敗しました。'
-      render 'index'
+      flash[:danger] = { comment: 'コメントの投稿に失敗しました。', errors: @new_comment.errors.full_messages }
     end
+    redirect_back(fallback_location: root_path)
   end
 
   private
 
   def comment_params
-    params.require(:comment).permit(:description, :user_name, :comment_type)
+    params.require(:comment).permit(:parent_id, :description, :user_name, :comment_type)
   end
 
   def sanitize_params
