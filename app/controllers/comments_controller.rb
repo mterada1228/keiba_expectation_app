@@ -1,8 +1,8 @@
 class CommentsController < ApplicationController
+  before_action :validate_comment_type, only: [:index, :create]
   before_action :sanitize_params, only: [:create]
 
   def index
-    @comment_type = params[:comment_type]
     @existing_comments = HorseRace.find(params[:horse_race_id])
                                   .comments.where(comment_type: params[:comment_type].to_sym)
     @new_comment = Comment.new
@@ -23,11 +23,18 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:description, :user_name, :comment_type)
+    params.require(:comment).permit(:description, :user_name)
+          .merge({ comment_type: params[:comment_type] })
   end
 
   def sanitize_params
     params[:comment][:user_name] = helpers.sanitize(params[:comment][:user_name])
     params[:comment][:description] = helpers.sanitize(params[:comment][:description])
+  end
+
+  def validate_comment_type
+    return if (Comment.comment_types.keys).include?(params[:comment_type])
+
+    render template: 'errors/error_400', status: 400
   end
 end

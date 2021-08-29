@@ -19,6 +19,11 @@ feature 'Comments' do
       expect(page).to have_text('不安 コメント一覧')
       expect(page.all('.comment-show-area').count).to eq(5)
     end
+
+    scenario '存在しないコメントタイプを指定する' do
+      visit horse_race_comments_path(horse_race, comment_type: :forbidden)
+      expect(page.status_code).to eq 400
+    end
   end
 
   feature 'create' do
