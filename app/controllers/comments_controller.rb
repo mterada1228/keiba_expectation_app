@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
   before_action :validate_comment_type, only: [:index, :create]
-  before_action :sanitize_params, only: [:create]
 
   def index
     @existing_comments = HorseRace.find(params[:horse_race_id])
@@ -25,11 +24,8 @@ class CommentsController < ApplicationController
   def comment_params
     params.require(:comment).permit(:description, :user_name)
           .merge({ comment_type: params[:comment_type] })
-  end
-
-  def sanitize_params
-    params[:comment][:user_name] = helpers.sanitize(params[:comment][:user_name])
-    params[:comment][:description] = helpers.sanitize(params[:comment][:description])
+          .merge({ description: helpers.strip_tags(params[:comment][:description]),
+                   user_name: helpers.strip_tags(params[:comment][:user_name]) })
   end
 
   def validate_comment_type

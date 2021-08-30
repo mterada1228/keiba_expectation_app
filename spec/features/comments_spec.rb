@@ -82,11 +82,11 @@ feature 'Comments' do
       visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       fill_in 'comment_user_name', with: '<h1>sample user</h1>'
-      fill_in 'comment_description', with: '<script>function hoge(){};</script>'
+      fill_in 'comment_description', with: '<script>function hoge(){};</script>comment'
       click_button '投稿する'
 
       expect(page).to have_selector '.card-header', text: 'sample user'
-      expect(page).to have_selector '.card-body > p', text: 'function hoge(){};'
+      expect(page).to have_selector '.card-body > p', text: 'comment'
     end
   end
 end
