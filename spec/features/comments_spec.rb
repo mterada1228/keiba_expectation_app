@@ -19,6 +19,11 @@ feature 'Comments' do # rubocop:disable Metrics/BlockLength
       expect(page).to have_text('不安 コメント一覧')
       expect(page.all('.comment-show-area').count).to eq(5)
     end
+
+    scenario '存在しないコメントタイプを指定する' do
+      visit horse_race_comments_path(horse_race, comment_type: :forbidden)
+      expect(page.status_code).to eq 400
+    end
   end
 
   feature 'show' do
@@ -34,7 +39,9 @@ feature 'Comments' do # rubocop:disable Metrics/BlockLength
     end
 
     scenario 'コメントへの返信を投稿する' do
-      visit horse_race_comment_path(horse_race, parent_comment)
+      visit horse_race_comment_path(horse_race,
+                                    parent_comment,
+                                    comment_type: parent_comment.comment_type)
 
       expect do
         fill_in 'comment_user_name', with: 'sample user'
@@ -112,11 +119,11 @@ feature 'Comments' do # rubocop:disable Metrics/BlockLength
       visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       fill_in 'comment_user_name', with: '<h1>sample user</h1>'
-      fill_in 'comment_description', with: '<script>function hoge(){};</script>'
+      fill_in 'comment_description', with: '<script>function hoge(){};</script>comment'
       click_button '投稿する'
 
       expect(page).to have_selector '.card-header', text: 'sample user'
-      expect(page).to have_selector '.card-body > p', text: 'function hoge(){};'
+      expect(page).to have_selector '.card-body > p', text: 'comment'
     end
   end
 end

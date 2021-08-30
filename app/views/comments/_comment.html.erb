@@ -5,7 +5,7 @@
     </div>
     <div class="card-body">
       <p><%= comment.description %></p>
-      <%= link_to '返信する', horse_race_comment_path(@horse_race, comment), class: 'btn btn-primary'  %>
+      <%= link_to '返信する', horse_race_comment_path(@horse_race, comment, comment_type: comment.comment_type), class: 'btn btn-primary'  %>
     </div>
   </div>
 </div>

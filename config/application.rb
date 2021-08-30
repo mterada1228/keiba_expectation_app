@@ -33,9 +33,5 @@ module KeibaExpectationApp
 
     # use sidekiq for job executor
     config.active_job.queue_adapter = :sidekiq
-
-    # ユーザー入力を許可する HTML タグを設定
-    config.action_view.sanitized_allowed_tags = []
-    config.action_view.sanitized_allowed_attributes = []
   end
 end
