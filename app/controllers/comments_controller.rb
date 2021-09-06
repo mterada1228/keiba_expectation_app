@@ -1,13 +1,19 @@
 class CommentsController < ApplicationController
-  before_action :validate_comment_type, only: [:index, :create]
-
   def index
+    param! :comment_type, String, in: Comment.comment_types.keys
+
     @existing_comments = HorseRace.find(params[:horse_race_id])
                                   .comments.where(comment_type: params[:comment_type].to_sym)
     @new_comment = Comment.new
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
+    param! :comment_type, String, in: Comment.comment_types.keys
+    param! :comment, Hash do |c|
+      c.param! :description, String, required: true, transform: ->(v) { helpers.strip_tags(v) }
+      c.param! :user_name,   String, required: true, transform: ->(v) { helpers.strip_tags(v) }
+    end
+
     horse_race = HorseRace.find(params[:horse_race_id])
     @new_comment = horse_race.comments.new(comment_params)
     if @new_comment.save
@@ -24,13 +30,5 @@ class CommentsController < ApplicationController
   def comment_params
     params.require(:comment).permit(:description, :user_name)
           .merge({ comment_type: params[:comment_type] })
-          .merge({ description: helpers.strip_tags(params[:comment][:description]),
-                   user_name: helpers.strip_tags(params[:comment][:user_name]) })
-  end
-
-  def validate_comment_type
-    return if (Comment.comment_types.keys).include?(params[:comment_type])
-
-    render template: 'errors/error_400', status: 400
   end
 end
