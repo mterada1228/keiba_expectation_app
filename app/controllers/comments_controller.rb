@@ -1,19 +1,14 @@
 class CommentsController < ApplicationController
-  def index
-    param! :comment_type, String, in: Comment.comment_types.keys
+  before_action :validate_query, only: [:index, :create]
+  before_action :validate_comment_params, only: [:create]
 
+  def index
     @existing_comments = HorseRace.find(params[:horse_race_id])
                                   .comments.where(comment_type: params[:comment_type].to_sym)
     @new_comment = Comment.new
   end
 
-  def create # rubocop:disable Metrics/AbcSize
-    param! :comment, Hash do |c|
-      c.param! :description, String, required: true, transform: ->(v) { helpers.strip_tags(v) }
-      c.param! :user_name,   String, required: true, transform: ->(v) { helpers.strip_tags(v) }
-      c.param! :comment_type, String, in: Comment.comment_types.keys
-    end
-
+  def create
     horse_race = HorseRace.find(params[:horse_race_id])
     @new_comment = horse_race.comments.new(comment_params)
     if @new_comment.save
@@ -29,5 +24,17 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:description, :user_name, :comment_type)
+  end
+
+  def validate_query
+    param! :comment_type, String, in: Comment.comment_types.keys
+  end
+
+  def validate_comment_params
+    param! :comment, Hash do |c|
+      c.param! :description, String, required: true, transform: ->(v) { helpers.strip_tags(v) }
+      c.param! :user_name,   String, required: true, transform: ->(v) { helpers.strip_tags(v) }
+      c.param! :comment_type, String, in: Comment.comment_types.keys
+    end
   end
 end
