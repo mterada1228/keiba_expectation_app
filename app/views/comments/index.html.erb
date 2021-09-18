@@ -19,6 +19,7 @@
         <div class="form-group">
           <%= f.text_area :description, class: 'form-control' %>
         </div>
+        <%= f.hidden_field :comment_type, value: params[:comment_type] %>
         <%= f.submit '投稿する', class: 'btn btn-primary mb-2' %>
       <% end %>
     </div>

@@ -8,10 +8,10 @@ class CommentsController < ApplicationController
   end
 
   def create # rubocop:disable Metrics/AbcSize
-    param! :comment_type, String, in: Comment.comment_types.keys
     param! :comment, Hash do |c|
       c.param! :description, String, required: true, transform: ->(v) { helpers.strip_tags(v) }
       c.param! :user_name,   String, required: true, transform: ->(v) { helpers.strip_tags(v) }
+      c.param! :comment_type, String, in: Comment.comment_types.keys
     end
 
     horse_race = HorseRace.find(params[:horse_race_id])
@@ -28,7 +28,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:description, :user_name)
-          .merge({ comment_type: params[:comment_type] })
+    params.require(:comment).permit(:description, :user_name, :comment_type)
   end
 end
