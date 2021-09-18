@@ -1,10 +1,11 @@
 class CommentsController < ApplicationController
-  before_action :validate_comment_type, only: [:index, :create]
+  before_action :validate_query, only: [:index]
+  before_action :validate_comment_params, only: [:create]
 
   def index
     @horse_race = HorseRace.find(params[:horse_race_id])
     @existing_comments = HorseRace.find(params[:horse_race_id])
-                                  .comments.where(comment_type: params[:comment_type].to_sym)
+                                  .comments.where(comment_type: params[:comment_type])
     @new_comment = Comment.new
   end
 
@@ -27,15 +28,18 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:parent_id, :description, :user_name)
-          .merge({ comment_type: params[:comment_type] })
-          .merge({ description: helpers.strip_tags(params[:comment][:description]),
-                   user_name: helpers.strip_tags(params[:comment][:user_name]) })
+    params.require(:comment).permit(:parent_id, :description, :user_name, :comment_type)
   end
 
-  def validate_comment_type
-    return if (Comment.comment_types.keys).include?(params[:comment_type])
+  def validate_query
+    param! :comment_type, String, in: Comment.comment_types.keys, trandform: ->(v) { v.to_sym }
+  end
 
-    render template: 'errors/error_400', status: 400
+  def validate_comment_params
+    param! :comment, Hash, required: true do |c|
+      c.param! :description,  String, required: true, transform: ->(v) { helpers.strip_tags(v) }
+      c.param! :user_name,    String, required: true, transform: ->(v) { helpers.strip_tags(v) }
+      c.param! :comment_type, String, required: true, in: Comment.comment_types.keys
+    end
   end
 end

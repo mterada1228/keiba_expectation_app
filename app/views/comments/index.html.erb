@@ -14,13 +14,14 @@
       </div>
     <% end %>
     <div class="container comment-input-area">
-      <%= form_for @new_comment, url: { action: 'create', comment_type: params[:comment_type] } do |f| %>
+      <%= form_for @new_comment, url: { action: 'create' } do |f| %>
         <div class="form-group comment-header-area">
           <%= f.text_field :user_name, class: 'form-control', placeholder: 'ニックネームを入力' %>
         </div>
         <div class="form-group">
           <%= f.text_area :description, class: 'form-control' %>
         </div>
+        <%= f.hidden_field :comment_type, value: params[:comment_type] %>
         <%= f.submit '投稿する', class: 'btn btn-primary mb-2' %>
       <% end %>
     </div>
