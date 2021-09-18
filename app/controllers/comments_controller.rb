@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :validate_query, only: [:index, :create]
+  before_action :validate_query, only: [:index]
   before_action :validate_comment_params, only: [:create]
 
   def index

@@ -12,7 +12,7 @@
       </div>
     <% end %>
     <div class="container comment-input-area">
-      <%= form_for @new_comment, url: { action: 'create', comment_type: params[:comment_type] } do |f| %>
+      <%= form_for @new_comment, url: { action: 'create' } do |f| %>
         <div class="form-group comment-header-area">
           <%= f.text_field :user_name, class: 'form-control', placeholder: 'ニックネームを入力' %>
         </div>
