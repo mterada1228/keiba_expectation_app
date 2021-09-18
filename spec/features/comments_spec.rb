@@ -39,9 +39,7 @@ feature 'Comments' do # rubocop:disable Metrics/BlockLength
     end
 
     scenario 'コメントへの返信を投稿する' do
-      visit horse_race_comment_path(horse_race,
-                                    parent_comment,
-                                    comment_type: parent_comment.comment_type)
+      visit horse_race_comment_path(horse_race, parent_comment)
 
       expect do
         fill_in 'comment_user_name', with: 'sample user'
