@@ -1,11 +1,11 @@
 class CommentsController < ApplicationController
+  before_action :validate_url, only: [:show]
   before_action :validate_query, only: [:index]
   before_action :validate_comment_params, only: [:create]
 
   def index
     @horse_race = HorseRace.find(params[:horse_race_id])
-    @existing_comments = HorseRace.find(params[:horse_race_id])
-                                  .comments.where(comment_type: params[:comment_type])
+    @existing_comments = @horse_race.comments.where(comment_type: params[:comment_type])
     @new_comment = Comment.new
   end
 
@@ -29,6 +29,10 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:parent_id, :description, :user_name, :comment_type)
+  end
+
+  def validate_url
+    param! :id, Integer, require: true
   end
 
   def validate_query

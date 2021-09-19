@@ -1,11 +1,12 @@
 feature 'Comments' do # rubocop:disable Metrics/BlockLength
   let(:horse_race) { create(:horse_race) }
-  before do
-    create_list(:comment, 5, horse_race: horse_race, comment_type: :positive)
-    create_list(:comment, 5, horse_race: horse_race, comment_type: :negative)
-  end
 
   feature 'index' do
+    before do
+      create_list(:comment, 5, horse_race: horse_race, comment_type: :positive)
+      create_list(:comment, 5, horse_race: horse_race, comment_type: :negative)
+    end
+
     scenario '買いコメント一覧を表示する' do
       visit horse_race_comments_path(horse_race, comment_type: :positive)
 
@@ -58,6 +59,41 @@ feature 'Comments' do # rubocop:disable Metrics/BlockLength
         )
       expect(page).to have_text('コメントを投稿しました')
       expect(current_path).to eq horse_race_comment_path(horse_race, parent_comment)
+    end
+
+    scenario 'コメントを空白で返信を行う' do
+      visit horse_race_comment_path(horse_race, parent_comment)
+      click_button '返信を投稿する'
+
+      expect(page).to have_text('コメントの投稿に失敗しました。')
+      expect(page).to have_text('コメントを入力してください')
+    end
+
+    scenario '30文字以上のニックネームを入力して返信を行う' do
+      visit horse_race_comment_path(horse_race, parent_comment)
+      fill_in 'comment_user_name', with: 'a' * 30
+      click_button '返信を投稿する'
+
+      expect(page).to have_text('コメントの投稿に失敗しました。')
+      expect(page).to have_text('ニックネームは29文字以内で入力してください')
+    end
+
+    scenario '1000文字以上のコメントを入力して返信を行う' do
+      visit horse_race_comment_path(horse_race, parent_comment)
+      fill_in 'comment_description', with: 'a' * 1000
+      click_button '返信を投稿する'
+
+      expect(page).to have_text('コメントの投稿に失敗しました。')
+      expect(page).to have_text('コメントは999文字以内で入力してください')
+    end
+
+    scenario '存在しないコメントに対して返信を行う' do
+      visit horse_race_comment_path(horse_race, parent_comment)
+      page.find('#comment_parent_id', visible: false).set parent_comment.id + 1
+      click_button '返信を投稿する'
+
+      expect(page).to have_text('コメントの投稿に失敗しました。')
+      expect(page).to have_text('返信元コメントが存在しません')
     end
   end
 
