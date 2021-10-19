@@ -1,38 +1,39 @@
 <%= render partial: 'races/race_info' %>
 <div class="container">
   <div class="comment-index-page-title">
+    <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %>">
+        <%= message %>
+        <ul>
+          <% @new_comment.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="container comment-input-area">
+      <%= form_for @new_comment, url: { action: 'create' } do |f| %>
+        <div class="form-group comment-header-area">
+          <%= f.text_field :user_name, class: 'form-control', placeholder: 'ニックネームを入力' %>
+        </div>
+        <div class="form-group">
+          <%= f.text_area :description, class: 'form-control' %>
+        </div>
+        <%= f.hidden_field :comment_type, value: params[:comment_type] %>
+        <%= f.submit '投稿する', class: 'btn btn-primary mb-2' %>
+      <% end %>
+    </div>
     <h2>
       ウインエアフォルクの
-      <% if @comment_type == 'positive' %>
+      <% if params[:comment_type] == 'positive' %>
         買い
       <% else %>
         不安
       <% end %>
       コメント一覧
     </h2>
-    <% flash.each do |message_type, message| %>
-      <div class="alert alert-<%= message_type %>">
-        <%= message %>
-        <ul>
-          <% @comment.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-    <div class="container comment-input-">
-      <%= form_for @comment, url: { action: 'create' } do |f| %>
-        <div class="form-group comment-header-area">
-          <%= f.text_field :user_name, class: 'form-control', placeholder: 'ニックネームを入力' %>
-        </div>
-        <div class="form-group comment-header-area">
-          <%= f.select :comment_type, [['買い', :positive], ['不安', :negative]], {}, { class: 'custom-select' } %>
-        </div>
-        <div class="form-group">
-          <%= f.text_area :description, class: 'form-control' %>
-        </div>
-        <%= f.submit '投稿する', class: 'btn btn-primary mb-2' %>
-      <% end %>
+    <div class="container">
+      <%= render partial: 'comment', collection: @existing_comments %>
     </div>
   </div>
 </div>

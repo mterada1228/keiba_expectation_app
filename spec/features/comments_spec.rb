@@ -1,17 +1,28 @@
 feature 'Comments' do
   let(:horse_race) { create(:horse_race) }
+  before do
+    create_list(:comment, 5, horse_race: horse_race, comment_type: :positive)
+    create_list(:comment, 5, horse_race: horse_race, comment_type: :negative)
+  end
 
   feature 'index' do
     scenario '買いコメント一覧を表示する' do
       visit horse_race_comments_path(horse_race, comment_type: :positive)
 
       expect(page).to have_text('買い コメント一覧')
+      expect(page.all('.comment-show-area').count).to eq(5)
     end
 
     scenario '不安コメント一覧を表示する' do
       visit horse_race_comments_path(horse_race, comment_type: :negative)
 
       expect(page).to have_text('不安 コメント一覧')
+      expect(page.all('.comment-show-area').count).to eq(5)
+    end
+
+    scenario '存在しないコメントタイプを指定する' do
+      visit horse_race_comments_path(horse_race, comment_type: :forbidden)
+      expect(page.status_code).to eq 400
     end
   end
 
@@ -67,24 +78,15 @@ feature 'Comments' do
       expect(page).to have_text('コメントは999文字以内で入力してください')
     end
 
-    scenario 'ポジションに「買い」を選択して投稿を行う' do
+    scenario 'HTMLタグを含めたコメントを入力して投稿を行う' do
       visit horse_race_comments_path(horse_race, comment_type: :positive)
 
-      fill_in 'comment_description', with: 'sample comment'
-      select '買い', from: 'comment_comment_type'
+      fill_in 'comment_user_name', with: '<h1>sample user</h1>'
+      fill_in 'comment_description', with: '<script>function hoge(){};</script>comment'
       click_button '投稿する'
 
-      expect(page).to have_text('コメントを投稿しました')
-    end
-
-    scenario 'ポジションに「不安」を選択して投稿を行う' do
-      visit horse_race_comments_path(horse_race, comment_type: :positive)
-
-      fill_in 'comment_description', with: 'sample comment'
-      select '不安', from: 'comment_comment_type'
-      click_button '投稿する'
-
-      expect(page).to have_text('コメントを投稿しました')
+      expect(page).to have_selector '.card-header', text: 'sample user'
+      expect(page).to have_selector '.card-body > p', text: 'comment'
     end
   end
 end
