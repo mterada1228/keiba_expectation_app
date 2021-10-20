@@ -10,17 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_11_045848) do
+ActiveRecord::Schema.define(version: 2021_08_22_234823) do
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "horse_id", null: false
     t.string "race_id", null: false
+    t.bigint "parent_id"
     t.text "description", null: false
     t.string "user_name"
     t.integer "comment_type", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["horse_id"], name: "fk_rails_8e4f45009f"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["race_id"], name: "fk_rails_b15decb6e5"
   end
 
@@ -94,6 +96,7 @@ ActiveRecord::Schema.define(version: 2021_07_11_045848) do
     t.integer "horse_all_number"
   end
 
+  add_foreign_key "comments", "comments", column: "parent_id"
   add_foreign_key "comments", "horses"
   add_foreign_key "comments", "races"
   add_foreign_key "horse_races", "horses"

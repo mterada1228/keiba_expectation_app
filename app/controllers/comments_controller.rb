@@ -1,10 +1,16 @@
 class CommentsController < ApplicationController
+  before_action :validate_show_params, only: [:show]
   before_action :validate_index_params, only: [:index]
   before_action :validate_create_params, only: [:create]
 
   def index
-    @existing_comments = HorseRace.find(params[:horse_race_id])
-                                  .comments.where(comment_type: params[:comment_type])
+    @horse_race = HorseRace.find(params[:horse_race_id])
+    @existing_comments = @horse_race.comments.where(comment_type: params[:comment_type])
+    @new_comment = Comment.new
+  end
+
+  def show
+    @parent_comment = Comment.find(params[:id])
     @new_comment = Comment.new
   end
 
@@ -12,22 +18,26 @@ class CommentsController < ApplicationController
     horse_race = HorseRace.find(params[:horse_race_id])
     @new_comment = horse_race.comments.new(comment_params)
     if @new_comment.save
-      flash[:success] = 'コメントを投稿しました'
-      redirect_to horse_race_comments_path(horse_race, comment_type: @new_comment.comment_type)
+      flash[:success] = { comment: 'コメントを投稿しました' }
     else
-      flash[:danger] = 'コメントの投稿に失敗しました。'
-      render 'index'
+      flash[:danger] = { comment: 'コメントの投稿に失敗しました。', errors: @new_comment.errors.full_messages }
     end
+    redirect_back(fallback_location: root_path)
   end
 
   private
 
   def comment_params
     {
+      parent_id: params[:comment][:parent_id],
       description: params[:comment][:description],
       user_name: params[:comment][:user_name],
       comment_type: params[:comment][:comment_type]
     }
+  end
+
+  def validate_show_params
+    param! :id, Integer, require: true
   end
 
   def validate_index_params

@@ -74,5 +74,16 @@ ja:
       comment:
     attributes:
       comment:
+        horse_race: 馬, レース
+        parent: 返信元コメント
         description: コメント
         user_name: ニックネーム
+        parent_id: 投稿元コメントID
+    errors:
+      models:
+        comment:
+          attributes:
+            horse_race:
+              required: が存在しないため、コメントが投稿できません
+            parent_id:
+              parent_comment_not_found: 返信元コメントが存在しません
