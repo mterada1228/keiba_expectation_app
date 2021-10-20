@@ -4,7 +4,7 @@
     <% flash.each do |message_type, message| %>
       <div class="alert alert-<%= message_type %>">
         <%= message['comment'] %>
-        <% if message['errors'].present? %>
+        <% unless message['errors'].to_a.empty? %>
           <ul>
             <% message['errors'].each do |error| %>
               <li><%= error %></li>

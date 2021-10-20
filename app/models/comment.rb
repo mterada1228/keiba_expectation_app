@@ -7,6 +7,7 @@ class Comment < ApplicationRecord
 
   validates :description, presence: true, length: { maximum: 999 }
   validates :user_name, length: { maximum: 29 }
+  validates :parent_id, numericality: { only_integer: true, allow_nil: true}
   validate  :validate_parent_id
 
   before_save :convert_user_name_from_blank_to_nil
@@ -20,6 +21,6 @@ class Comment < ApplicationRecord
   def validate_parent_id
     return if parent_id.nil? || Comment.exists?(parent_id)
 
-    errors.add(:base, '返信元コメントが存在しません')
+    errors.add(:parent_id, :parent_comment_not_found)
   end
 end

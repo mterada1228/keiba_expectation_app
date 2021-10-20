@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
 
   def comment_params
     {
-      parent_id: params[:comment][:parant_id],
+      parent_id: params[:comment][:parent_id],
       description: params[:comment][:description],
       user_name: params[:comment][:user_name],
       comment_type: params[:comment][:comment_type]
